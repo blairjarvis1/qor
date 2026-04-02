@@ -74,6 +74,12 @@ function renderStep(n, animate = true) {
   updateSidebar();
   updateNavButtons(n);
 
+  // Booking nav summary: hide on step 8 (confirmation), show on all others
+  const bookingNav = document.querySelector('.booking-nav');
+  if (bookingNav) {
+    bookingNav.classList.toggle('booking-nav--no-summary', n === 8);
+  }
+
   // Sidebar visibility: hidden on step 1 and step 8
   const sidebar = document.getElementById('booking-sidebar');
   if (sidebar) {
@@ -408,9 +414,12 @@ function initCalCarousel() {
   });
 
   /* ── Drag (live tracking, snap to nearest on release) ── */
-  let isDragging = false;
-  let dragStartX = 0;
-  let dragDelta  = 0;
+  let isDragging  = false;
+  let pointerDown = false;
+  let dragStartX  = 0;
+  let dragDelta   = 0;
+  let capturedId  = null;
+  const DRAG_THRESHOLD = 6; // px before we commit to a drag
 
   function getStep() {
     const cards = getCards();
@@ -418,26 +427,34 @@ function initCalCarousel() {
   }
 
   viewport.addEventListener('pointerdown', e => {
-    isDragging = true;
-    dragStartX = e.clientX;
-    dragDelta  = 0;
+    pointerDown = true;
+    isDragging  = false;
+    dragStartX  = e.clientX;
+    dragDelta   = 0;
+    capturedId  = e.pointerId;
     track.style.transition = 'none';
-    viewport.setPointerCapture(e.pointerId);
-    viewport.style.cursor = 'grabbing';
   });
 
   viewport.addEventListener('pointermove', e => {
-    if (!isDragging) return;
+    if (!pointerDown) return;
     dragDelta = e.clientX - dragStartX;
+    if (!isDragging && Math.abs(dragDelta) > DRAG_THRESHOLD) {
+      // Commit to drag — now capture the pointer so move stays smooth
+      isDragging = true;
+      viewport.setPointerCapture(capturedId);
+      viewport.style.cursor = 'grabbing';
+    }
+    if (!isDragging) return;
     const base = -(offset * getStep());
     track.style.transform = `translateX(${base + dragDelta}px)`;
   });
 
   viewport.addEventListener('pointerup', () => {
-    if (!isDragging) return;
-    isDragging = false;
+    pointerDown = false;
     viewport.style.cursor = '';
     track.style.transition = '';
+    if (!isDragging) return; // was a click — let it through
+    isDragging = false;
 
     const step      = getStep();
     const threshold = step * 0.2;
@@ -451,16 +468,16 @@ function initCalCarousel() {
   });
 
   viewport.addEventListener('pointercancel', () => {
-    if (!isDragging) return;
-    isDragging = false;
+    pointerDown = false;
+    isDragging  = false;
     viewport.style.cursor = '';
     track.style.transition = '';
     applyTransform();
   });
 
-  // Prevent click-through on intentional drags
+  // Prevent click-through only on intentional drags
   viewport.addEventListener('click', e => {
-    if (Math.abs(dragDelta) > 5) e.stopPropagation();
+    if (Math.abs(dragDelta) > DRAG_THRESHOLD) e.stopPropagation();
   }, true);
 
   setWidths();
