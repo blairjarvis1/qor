@@ -456,7 +456,7 @@ h5 { font-size: var(--t-md); }
 }
 .booking-header__logo {
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 26px;
   color: var(--ink);
   text-align: center;
 }
@@ -477,6 +477,9 @@ h5 { font-size: var(--t-md); }
 
 /* --- Progress Bar -------------------------------------------- */
 .progress-bar {
+  position: sticky;
+  top: 60px; /* height of .booking-header */
+  z-index: 99;
   background: var(--white);
   border-bottom: 1px solid var(--border);
   padding: var(--s5) 0;
@@ -490,6 +493,7 @@ h5 { font-size: var(--t-md); }
   display: flex;
   align-items: center;
   gap: 0;
+  width: 100%;
 }
 .progress-step {
   display: flex;
@@ -574,7 +578,7 @@ h5 { font-size: var(--t-md); }
 .step-panel__header { margin-bottom: var(--s8); }
 .step-panel__eyebrow { margin-bottom: var(--s2); }
 .step-panel__title { margin-bottom: var(--s3); }
-.step-panel__desc { font-size: var(--t-md); color: var(--stone); max-width: 540px; line-height: 1.6; }
+.step-panel__desc { font-size: var(--t-md); color: var(--stone); max-width: 760px; line-height: 1.6; }
 
 /* --- Booking Navigation ------------------------------------- */
 .booking-nav {
@@ -583,17 +587,16 @@ h5 { font-size: var(--t-md); }
   position: sticky;
   bottom: 0;
   z-index: 50;
-  padding: var(--s4) 0;
 }
 .booking-nav__inner {
-  max-width: var(--max-booking);
-  margin: 0 auto;
-  padding: 0 var(--s7);
+  padding: 0 48px;
+  min-height: 96px;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
+  gap: var(--s6);
 }
-.booking-nav__left { display: flex; align-items: center; gap: var(--s4); }
+.booking-nav__left { display: flex; align-items: stretch; gap: var(--s4); }
 .booking-nav__right { display: flex; align-items: center; gap: var(--s4); }
 .booking-nav__step-info {
   font-size: var(--t-sm);
@@ -606,10 +609,7 @@ h5 { font-size: var(--t-md); }
   top: calc(60px + 80px + var(--s8));
 }
 .summary-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  overflow: hidden;
+  display: none;
 }
 .summary-card__image {
   width: 100%;
@@ -822,7 +822,7 @@ h5 { font-size: var(--t-md); }
 .room-card {
   background: var(--white);
   border: 1.5px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
