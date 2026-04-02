@@ -33,6 +33,9 @@ const ROOMS = [
 
 /* --- Init ---------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
+  // Clear hash so browser doesn't auto-scroll to step anchor
+  history.replaceState(null, '', window.location.pathname);
+
   // Handle URL hash on load
   const hash = window.location.hash;
   const stepMatch = hash.match(/^#step-(\d)$/);
@@ -74,13 +77,13 @@ function renderStep(n, animate = true) {
   // Sidebar visibility: hidden on step 1 and step 8
   const sidebar = document.getElementById('booking-sidebar');
   if (sidebar) {
-    sidebar.classList.toggle('hidden', n === 1 || n === 8);
+    sidebar.classList.toggle('hidden', n === 8);
   }
 
-  // Layout swap: step 1 and 8 are full-width
+  // Layout swap: only step 8 (confirmation) is full-width
   const layout = document.getElementById('booking-layout');
   if (layout) {
-    if (n === 1 || n === 8) {
+    if (n === 8) {
       layout.classList.remove('booking-layout');
       layout.classList.add('booking-layout--full');
     } else {
@@ -89,8 +92,8 @@ function renderStep(n, animate = true) {
     }
   }
 
-  if (animate) window.scrollTo({ top: 0, behavior: 'smooth' });
-  window.location.hash = `step-${n}`;
+  // Don't scroll to top or alter hash (preserves scroll position on step change)
+  history.replaceState(null, '', `#step-${n}`);
 }
 
 function updateProgressBar(current) {
@@ -113,8 +116,8 @@ function updateNavButtons(n) {
   const continueBtn = document.getElementById('nav-continue');
   const stepInfo = document.getElementById('nav-step-info');
 
-  if (backBtn) backBtn.classList.toggle('hidden', n === 1);
-  if (stepInfo) stepInfo.textContent = `Step ${n} of ${state.totalSteps}`;
+  if (backBtn) backBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
+  if (stepInfo) stepInfo.textContent = `${n} of ${state.totalSteps}`;
 
   if (continueBtn) {
     if (n === 7) {
@@ -355,16 +358,7 @@ function initCalendar() {
   // June 2026: month offset = 0, July: offset = 1
   renderCalendarMonth('cal-june', 2026, 5); // June = month index 5
   renderCalendarMonth('cal-july', 2026, 6);
-
-  document.getElementById('cal-prev')?.addEventListener('click', () => {
-    // For prototype: just toggle months visibility
-    document.getElementById('cal-june')?.classList.remove('hidden');
-    document.getElementById('cal-july')?.classList.add('hidden');
-  });
-  document.getElementById('cal-next')?.addEventListener('click', () => {
-    document.getElementById('cal-june')?.classList.add('hidden');
-    document.getElementById('cal-july')?.classList.remove('hidden');
-  });
+  renderCalendarMonth('cal-aug',  2026, 7); // August = month index 7
 }
 
 function renderCalendarMonth(containerId, year, month) {
@@ -385,6 +379,10 @@ function renderCalendarMonth(containerId, year, month) {
   if (month === 6) { // July
     for (let d = 5; d <= 12; d++)  dayStates[d] = { status: 'soldout',   id: 'd3' };
     for (let d = 19; d <= 26; d++) dayStates[d] = { status: 'available', id: 'd4' };
+  }
+  if (month === 7) { // August
+    for (let d = 2; d <= 9;   d++) dayStates[d] = { status: 'limited',   id: 'd5' };
+    for (let d = 16; d <= 23; d++) dayStates[d] = { status: 'available', id: 'd6' };
   }
 
   const grid = container.querySelector('.calendar__grid');
@@ -420,35 +418,32 @@ function renderCalendarMonth(containerId, year, month) {
 function updateSidebar() {
   // Date line
   const dateVal = document.getElementById('sidebar-date');
-  if (dateVal) {
-    if (state.selectedDate) {
-      dateVal.textContent = state.selectedDate.label;
-      dateVal.classList.remove('placeholder');
-    } else {
-      dateVal.textContent = 'Select dates';
-      dateVal.classList.add('placeholder');
-    }
+  const navDate = document.getElementById('nav-date');
+  if (state.selectedDate) {
+    if (dateVal) { dateVal.textContent = state.selectedDate.label; dateVal.classList.remove('placeholder'); }
+    if (navDate) { navDate.textContent = state.selectedDate.label; navDate.classList.remove('placeholder'); }
+  } else {
+    if (dateVal) { dateVal.textContent = 'Select dates'; dateVal.classList.add('placeholder'); }
+    if (navDate) { navDate.textContent = 'Select dates'; navDate.classList.add('placeholder'); }
   }
 
   // Room line
   const roomVal = document.getElementById('sidebar-room');
-  if (roomVal) {
-    if (state.selectedRoom) {
-      roomVal.textContent = state.selectedRoom.name;
-      roomVal.classList.remove('placeholder');
-    } else {
-      roomVal.textContent = 'Select room';
-      roomVal.classList.add('placeholder');
-    }
+  const navRoom = document.getElementById('nav-room');
+  if (state.selectedRoom) {
+    if (roomVal) { roomVal.textContent = state.selectedRoom.name; roomVal.classList.remove('placeholder'); }
+    if (navRoom) { navRoom.textContent = state.selectedRoom.name; navRoom.classList.remove('placeholder'); }
+  } else {
+    if (roomVal) { roomVal.textContent = 'Select room'; roomVal.classList.add('placeholder'); }
+    if (navRoom) { navRoom.textContent = 'Select room'; navRoom.classList.add('placeholder'); }
   }
 
   // Guests line
   const guestVal = document.getElementById('sidebar-guests');
-  if (guestVal) {
-    const label = state.guestCount === 1 ? '1 guest' : `${state.guestCount} guests`;
-    guestVal.textContent = label;
-    guestVal.classList.remove('placeholder');
-  }
+  const navGuests = document.getElementById('nav-guests');
+  const guestLabel = state.guestCount === 1 ? '1 guest' : `${state.guestCount} guests`;
+  if (guestVal) { guestVal.textContent = guestLabel; guestVal.classList.remove('placeholder'); }
+  if (navGuests) { navGuests.textContent = guestLabel; }
 
   // Price breakdown
   updatePriceBreakdown();
@@ -463,9 +458,11 @@ function updatePriceBreakdown() {
   const deposit = Math.ceil(total * 0.25);
   const balance = total - deposit;
 
-  // Update sidebar total
+  // Update sidebar + nav total
   const totalEl = document.getElementById('sidebar-total');
   if (totalEl) totalEl.textContent = `£${total.toLocaleString()}`;
+  const navTotal = document.getElementById('nav-total');
+  if (navTotal) navTotal.textContent = `£${total.toLocaleString()}`;
 
   const perEl = document.getElementById('sidebar-per');
   if (perEl) perEl.textContent = `per person`;
