@@ -354,11 +354,114 @@ function initViewToggle() {
 
 /* --- Calendar ----------------------------------------------- */
 function initCalendar() {
-  // Simple calendar with retreat blocks
-  // June 2026: month offset = 0, July: offset = 1
-  renderCalendarMonth('cal-june', 2026, 5); // June = month index 5
+  renderCalendarMonth('cal-june', 2026, 5);
   renderCalendarMonth('cal-july', 2026, 6);
-  renderCalendarMonth('cal-aug',  2026, 7); // August = month index 7
+  renderCalendarMonth('cal-aug',  2026, 7);
+  renderCalendarMonth('cal-sep',  2026, 8);
+  renderCalendarMonth('cal-oct',  2026, 9);
+  renderCalendarMonth('cal-nov',  2026, 10);
+  renderCalendarMonth('cal-dec',  2026, 11);
+  renderCalendarMonth('cal-jan27', 2027, 0);
+  renderCalendarMonth('cal-feb27', 2027, 1);
+  initCalCarousel();
+}
+
+function initCalCarousel() {
+  const viewport  = document.querySelector('.cal-months-viewport');
+  const track     = document.querySelector('.cal-months');
+  const prevBtn   = document.getElementById('cal-prev');
+  const nextBtn   = document.getElementById('cal-next');
+  const arrowsEl  = document.getElementById('cal-arrows');
+  if (!viewport || !track || !prevBtn || !nextBtn) return;
+
+  const GAP     = 20; // --s5
+  const VISIBLE = 3;
+  let offset    = 0;
+
+  function getCards() { return Array.from(track.querySelectorAll('.calendar')); }
+
+  function setWidths() {
+    const vpW       = viewport.offsetWidth;
+    const cardWidth = (vpW - (VISIBLE - 1) * GAP) / VISIBLE;
+    getCards().forEach(c => { c.style.width = cardWidth + 'px'; });
+    applyTransform();
+  }
+
+  function applyTransform() {
+    const cards = getCards();
+    if (!cards.length) return;
+    const step = cards[0].offsetWidth + GAP;
+    track.style.transform = `translateX(-${offset * step}px)`;
+    prevBtn.disabled = offset === 0;
+    nextBtn.disabled = offset >= cards.length - VISIBLE;
+    // Hide arrows if all months fit
+    if (arrowsEl) arrowsEl.style.display = cards.length <= VISIBLE ? 'none' : 'flex';
+  }
+
+  prevBtn.addEventListener('click', () => { if (offset > 0) { offset--; applyTransform(); } });
+  nextBtn.addEventListener('click', () => {
+    const cards = getCards();
+    if (offset < cards.length - VISIBLE) { offset++; applyTransform(); }
+  });
+
+  /* ── Drag (live tracking, snap to nearest on release) ── */
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragDelta  = 0;
+
+  function getStep() {
+    const cards = getCards();
+    return cards.length ? cards[0].offsetWidth + GAP : 0;
+  }
+
+  viewport.addEventListener('pointerdown', e => {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragDelta  = 0;
+    track.style.transition = 'none';
+    viewport.setPointerCapture(e.pointerId);
+    viewport.style.cursor = 'grabbing';
+  });
+
+  viewport.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    dragDelta = e.clientX - dragStartX;
+    const base = -(offset * getStep());
+    track.style.transform = `translateX(${base + dragDelta}px)`;
+  });
+
+  viewport.addEventListener('pointerup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    viewport.style.cursor = '';
+    track.style.transition = '';
+
+    const step      = getStep();
+    const threshold = step * 0.2;
+    const cards     = getCards();
+    const maxOffset = cards.length - VISIBLE;
+
+    if (dragDelta < -threshold && offset < maxOffset) offset++;
+    else if (dragDelta > threshold && offset > 0) offset--;
+
+    applyTransform();
+  });
+
+  viewport.addEventListener('pointercancel', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    viewport.style.cursor = '';
+    track.style.transition = '';
+    applyTransform();
+  });
+
+  // Prevent click-through on intentional drags
+  viewport.addEventListener('click', e => {
+    if (Math.abs(dragDelta) > 5) e.stopPropagation();
+  }, true);
+
+  setWidths();
+  window.addEventListener('resize', setWidths);
 }
 
 function renderCalendarMonth(containerId, year, month) {
@@ -383,6 +486,30 @@ function renderCalendarMonth(containerId, year, month) {
   if (month === 7) { // August
     for (let d = 2; d <= 9;   d++) dayStates[d] = { status: 'limited',   id: 'd5' };
     for (let d = 16; d <= 23; d++) dayStates[d] = { status: 'available', id: 'd6' };
+  }
+  if (month === 8) { // September
+    for (let d = 6; d <= 13;  d++) dayStates[d] = { status: 'available', id: 'd7' };
+    for (let d = 20; d <= 27; d++) dayStates[d] = { status: 'limited',   id: 'd8' };
+  }
+  if (month === 9) { // October
+    for (let d = 4; d <= 11;  d++) dayStates[d] = { status: 'available', id: 'd9' };
+    for (let d = 18; d <= 25; d++) dayStates[d] = { status: 'soldout',   id: 'd10' };
+  }
+  if (month === 10) { // November
+    for (let d = 1; d <= 8;   d++) dayStates[d] = { status: 'available', id: 'd11' };
+    for (let d = 15; d <= 22; d++) dayStates[d] = { status: 'limited',   id: 'd12' };
+  }
+  if (month === 11) { // December
+    for (let d = 6; d <= 13;  d++) dayStates[d] = { status: 'available', id: 'd13' };
+    for (let d = 20; d <= 27; d++) dayStates[d] = { status: 'limited',   id: 'd14' };
+  }
+  if (year === 2027 && month === 0) { // January 2027
+    for (let d = 3; d <= 10;  d++) dayStates[d] = { status: 'available', id: 'd15' };
+    for (let d = 17; d <= 24; d++) dayStates[d] = { status: 'available', id: 'd16' };
+  }
+  if (year === 2027 && month === 1) { // February 2027
+    for (let d = 7; d <= 14;  d++) dayStates[d] = { status: 'limited',   id: 'd17' };
+    for (let d = 21; d <= 28; d++) dayStates[d] = { status: 'available', id: 'd18' };
   }
 
   const grid = container.querySelector('.calendar__grid');

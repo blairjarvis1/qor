@@ -105,12 +105,43 @@
     }
 
     /* ── Booking-page overrides ── */
-    .cal-months {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: var(--s5);
-      margin-top: var(--s6);
+    .cal-months-viewport {
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
     }
+    .cal-months-viewport:active {
+      cursor: grabbing;
+    }
+    .cal-months {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: var(--s5);
+      margin-top: 6px;
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .cal-months .calendar {
+      flex: 0 0 auto; /* width set by JS */
+      min-width: 0;
+    }
+    .cal-arrow-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      transition: border-color var(--dur-fast), opacity var(--dur-fast);
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .cal-arrow-btn:hover { border-color: var(--charcoal); }
+    .cal-arrow-btn:disabled { opacity: 0.3; cursor: default; }
     .cal-nav-bar {
       display: flex;
       align-items: center;
@@ -454,10 +485,20 @@
                   <div class="cal-legend__item"><div class="cal-legend__dot cal-legend__dot--soldout"></div> Sold out</div>
                 </div>
               </div>
+              <!-- Calendar carousel arrows -->
+              <div id="cal-arrows" style="display:flex; gap: var(--s2);">
+                <button id="cal-prev" class="cal-arrow-btn" disabled aria-label="Previous months">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button id="cal-next" class="cal-arrow-btn" aria-label="Next months">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
             </div>
 
             <!-- Calendar view -->
             <div id="cal-view">
+              <div class="cal-months-viewport">
               <div class="cal-months">
 
                 <!-- June -->
@@ -499,7 +540,86 @@
                   <div class="calendar__grid" id="cal-aug-grid"></div>
                 </div>
 
-              </div>
+                <!-- September -->
+                <div class="calendar" id="cal-sep">
+                  <div class="cal-nav-bar">
+                    <div style="width:32px"></div>
+                    <h4>September 2026</h4>
+                    <div style="width:32px"></div>
+                  </div>
+                  <div class="calendar__grid-header">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="calendar__grid" id="cal-sep-grid"></div>
+                </div>
+
+                <!-- October -->
+                <div class="calendar" id="cal-oct">
+                  <div class="cal-nav-bar">
+                    <div style="width:32px"></div>
+                    <h4>October 2026</h4>
+                    <div style="width:32px"></div>
+                  </div>
+                  <div class="calendar__grid-header">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="calendar__grid" id="cal-oct-grid"></div>
+                </div>
+
+                <!-- November -->
+                <div class="calendar" id="cal-nov">
+                  <div class="cal-nav-bar">
+                    <div style="width:32px"></div>
+                    <h4>November 2026</h4>
+                    <div style="width:32px"></div>
+                  </div>
+                  <div class="calendar__grid-header">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="calendar__grid" id="cal-nov-grid"></div>
+                </div>
+
+                <!-- December -->
+                <div class="calendar" id="cal-dec">
+                  <div class="cal-nav-bar">
+                    <div style="width:32px"></div>
+                    <h4>December 2026</h4>
+                    <div style="width:32px"></div>
+                  </div>
+                  <div class="calendar__grid-header">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="calendar__grid" id="cal-dec-grid"></div>
+                </div>
+
+                <!-- January 2027 -->
+                <div class="calendar" id="cal-jan27">
+                  <div class="cal-nav-bar">
+                    <div style="width:32px"></div>
+                    <h4>January 2027</h4>
+                    <div style="width:32px"></div>
+                  </div>
+                  <div class="calendar__grid-header">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="calendar__grid" id="cal-jan27-grid"></div>
+                </div>
+
+                <!-- February 2027 -->
+                <div class="calendar" id="cal-feb27">
+                  <div class="cal-nav-bar">
+                    <div style="width:32px"></div>
+                    <h4>February 2027</h4>
+                    <div style="width:32px"></div>
+                  </div>
+                  <div class="calendar__grid-header">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="calendar__grid" id="cal-feb27-grid"></div>
+                </div>
+
+              </div><!-- /.cal-months -->
+              </div><!-- /.cal-months-viewport -->
               <p class="text-small text-muted" style="margin-top: var(--s4);">All 2026 dates shown &nbsp;·&nbsp; Prices from £2,195 pp</p>
 
             </div>
