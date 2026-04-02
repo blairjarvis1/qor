@@ -77,13 +77,13 @@ function renderStep(n, animate = true) {
   // Sidebar visibility: hidden on step 1 and step 8
   const sidebar = document.getElementById('booking-sidebar');
   if (sidebar) {
-    sidebar.classList.toggle('hidden', n === 8);
+    sidebar.classList.toggle('hidden', n === 1 || n === 8);
   }
 
-  // Layout swap: only step 8 (confirmation) is full-width
+  // Layout swap: step 1 and 8 are full-width
   const layout = document.getElementById('booking-layout');
   if (layout) {
-    if (n === 8) {
+    if (n === 1 || n === 8) {
       layout.classList.remove('booking-layout');
       layout.classList.add('booking-layout--full');
     } else {

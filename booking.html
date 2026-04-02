@@ -147,7 +147,7 @@
 
     /* Step 1 date info panel */
     .selected-date-info {
-      margin-top: var(--s5);
+      margin-top: 0;
       padding: var(--s5) var(--s6);
       background: var(--sage-pale);
       border: 1.5px solid var(--sage-light);
@@ -506,86 +506,93 @@
 
             <!-- List view -->
             <div id="list-view" class="hidden">
-              <div class="date-list">
+              <div style="display: grid; grid-template-columns: 1fr var(--sidebar-w); gap: var(--s8); align-items: start;">
 
-                <div class="date-list-item" data-date-id="d1" data-status="limited">
-                  <div>
-                    <div class="date-list-item__dates">7 – 14 June 2026</div>
-                    <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                <!-- Left: date list -->
+                <div class="date-list">
+
+                  <div class="date-list-item" data-date-id="d1" data-status="limited">
+                    <div>
+                      <div class="date-list-item__dates">7 – 14 June 2026</div>
+                      <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                    </div>
+                    <div class="date-list-item__meta">
+                      <span class="badge badge--warning">3 spaces left</span>
+                      <span class="date-list-item__price">From £2,195</span>
+                    </div>
                   </div>
-                  <div class="date-list-item__meta">
-                    <span class="badge badge--warning">3 spaces left</span>
-                    <span class="date-list-item__price">From £2,195</span>
+
+                  <div class="date-list-item" data-date-id="d2" data-status="available">
+                    <div>
+                      <div class="date-list-item__dates">21 – 28 June 2026</div>
+                      <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                    </div>
+                    <div class="date-list-item__meta">
+                      <span class="badge badge--success">8 spaces</span>
+                      <span class="date-list-item__price">From £2,195</span>
+                    </div>
+                  </div>
+
+                  <div class="date-list-item is-soldout" data-date-id="d3" data-status="soldout">
+                    <div>
+                      <div class="date-list-item__dates">5 – 12 July 2026</div>
+                      <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                    </div>
+                    <div class="date-list-item__meta">
+                      <span class="badge badge--stone">Sold out</span>
+                      <span class="date-list-item__price">From £2,195</span>
+                    </div>
+                  </div>
+
+                  <div class="date-list-item" data-date-id="d4" data-status="available">
+                    <div>
+                      <div class="date-list-item__dates">19 – 26 July 2026</div>
+                      <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                    </div>
+                    <div class="date-list-item__meta">
+                      <span class="badge badge--success">6 spaces</span>
+                      <span class="date-list-item__price">From £2,195</span>
+                    </div>
+                  </div>
+
+                  <div class="date-list-item" data-date-id="d5" data-status="limited">
+                    <div>
+                      <div class="date-list-item__dates">2 – 9 August 2026</div>
+                      <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                    </div>
+                    <div class="date-list-item__meta">
+                      <span class="badge badge--warning">2 spaces left</span>
+                      <span class="date-list-item__price">From £2,895</span>
+                    </div>
+                  </div>
+
+                  <div class="date-list-item" data-date-id="d6" data-status="available">
+                    <div>
+                      <div class="date-list-item__dates">16 – 23 August 2026</div>
+                      <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
+                    </div>
+                    <div class="date-list-item__meta">
+                      <span class="badge badge--success">10 spaces</span>
+                      <span class="date-list-item__price">From £2,195</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Right: selected date card -->
+                <div style="align-self: start;">
+                  <div class="selected-date-info is-hidden" id="date-selected-panel">
+                    <div>
+                      <p class="label-caps" style="margin-bottom: var(--s1);">Selected</p>
+                      <p id="date-selected-label" style="font-family: var(--serif); font-size: var(--t-xl); color: var(--ink);"></p>
+                    </div>
+                    <div style="text-align: right;">
+                      <p style="font-size: var(--t-sm); color: var(--stone);">7 nights · From £2,195 pp</p>
+                      <button class="edit-link" style="margin-top: var(--s2);" onclick="document.getElementById('date-selected-panel').classList.add('is-hidden')">Change dates</button>
+                    </div>
                   </div>
                 </div>
 
-                <div class="date-list-item" data-date-id="d2" data-status="available">
-                  <div>
-                    <div class="date-list-item__dates">21 – 28 June 2026</div>
-                    <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
-                  </div>
-                  <div class="date-list-item__meta">
-                    <span class="badge badge--success">8 spaces</span>
-                    <span class="date-list-item__price">From £2,195</span>
-                  </div>
-                </div>
-
-                <div class="date-list-item is-soldout" data-date-id="d3" data-status="soldout">
-                  <div>
-                    <div class="date-list-item__dates">5 – 12 July 2026</div>
-                    <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
-                  </div>
-                  <div class="date-list-item__meta">
-                    <span class="badge badge--stone">Sold out</span>
-                    <span class="date-list-item__price">From £2,195</span>
-                  </div>
-                </div>
-
-                <div class="date-list-item" data-date-id="d4" data-status="available">
-                  <div>
-                    <div class="date-list-item__dates">19 – 26 July 2026</div>
-                    <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
-                  </div>
-                  <div class="date-list-item__meta">
-                    <span class="badge badge--success">6 spaces</span>
-                    <span class="date-list-item__price">From £2,195</span>
-                  </div>
-                </div>
-
-                <div class="date-list-item" data-date-id="d5" data-status="limited">
-                  <div>
-                    <div class="date-list-item__dates">2 – 9 August 2026</div>
-                    <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
-                  </div>
-                  <div class="date-list-item__meta">
-                    <span class="badge badge--warning">2 spaces left</span>
-                    <span class="date-list-item__price">From £2,895</span>
-                  </div>
-                </div>
-
-                <div class="date-list-item" data-date-id="d6" data-status="available">
-                  <div>
-                    <div class="date-list-item__dates">16 – 23 August 2026</div>
-                    <p style="font-size: var(--t-sm); color: var(--stone); margin-top: 3px;">7 nights · Saturday arrival</p>
-                  </div>
-                  <div class="date-list-item__meta">
-                    <span class="badge badge--success">10 spaces</span>
-                    <span class="date-list-item__price">From £2,195</span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Selected date confirmation panel -->
-            <div class="selected-date-info is-hidden" id="date-selected-panel">
-              <div>
-                <p class="label-caps" style="margin-bottom: var(--s1);">Selected</p>
-                <p id="date-selected-label" style="font-family: var(--serif); font-size: var(--t-xl); color: var(--ink);"></p>
-              </div>
-              <div style="text-align: right;">
-                <p style="font-size: var(--t-sm); color: var(--stone);">7 nights · From £2,195 pp</p>
-                <button class="edit-link" style="margin-top: var(--s2);" onclick="document.getElementById('date-selected-panel').classList.add('is-hidden')">Change dates</button>
               </div>
             </div>
 
