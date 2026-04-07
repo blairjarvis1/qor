@@ -496,7 +496,7 @@ h5 { font-size: var(--t-md); }
 .progress-step {
   display: flex;
   align-items: center;
-  flex: 1;
+  flex: 0 0 auto;
   gap: 0;
 }
 .progress-step__dot-wrap {
