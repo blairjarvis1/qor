@@ -16,12 +16,24 @@ const state = {
 };
 
 const RETREAT_DATES = [
-  { id: 'd1', label: '7–14 June 2026',      nights: 7, spaces: 3,  status: 'limited',   priceFrom: 2195 },
-  { id: 'd2', label: '21–28 June 2026',     nights: 7, spaces: 8,  status: 'available', priceFrom: 2195 },
-  { id: 'd3', label: '5–12 July 2026',      nights: 7, spaces: 0,  status: 'soldout',   priceFrom: 2195 },
-  { id: 'd4', label: '19–26 July 2026',     nights: 7, spaces: 6,  status: 'available', priceFrom: 2195 },
-  { id: 'd5', label: '2–9 August 2026',     nights: 7, spaces: 2,  status: 'limited',   priceFrom: 2895 },
-  { id: 'd6', label: '16–23 August 2026',   nights: 7, spaces: 10, status: 'available', priceFrom: 2195 },
+  { id: 'd1',  label: '7–14 June 2026',          nights: 7, spaces: 3,  status: 'limited',   priceFrom: 2195 },
+  { id: 'd2',  label: '21–28 June 2026',          nights: 7, spaces: 8,  status: 'available', priceFrom: 2195 },
+  { id: 'd3',  label: '5–12 July 2026',           nights: 7, spaces: 0,  status: 'soldout',   priceFrom: 2195 },
+  { id: 'd4',  label: '19–26 July 2026',          nights: 7, spaces: 6,  status: 'available', priceFrom: 2195 },
+  { id: 'd5',  label: '2–9 August 2026',          nights: 7, spaces: 2,  status: 'limited',   priceFrom: 2895 },
+  { id: 'd6',  label: '16–23 August 2026',        nights: 7, spaces: 10, status: 'available', priceFrom: 2195 },
+  { id: 'd7',  label: '6–13 September 2026',      nights: 7, spaces: 8,  status: 'available', priceFrom: 2195 },
+  { id: 'd8',  label: '20–27 September 2026',     nights: 7, spaces: 3,  status: 'limited',   priceFrom: 2195 },
+  { id: 'd9',  label: '4–11 October 2026',        nights: 7, spaces: 6,  status: 'available', priceFrom: 2195 },
+  { id: 'd10', label: '18–25 October 2026',       nights: 7, spaces: 0,  status: 'soldout',   priceFrom: 2195 },
+  { id: 'd11', label: '1–8 November 2026',        nights: 7, spaces: 10, status: 'available', priceFrom: 2195 },
+  { id: 'd12', label: '15–22 November 2026',      nights: 7, spaces: 4,  status: 'limited',   priceFrom: 2195 },
+  { id: 'd13', label: '6–13 December 2026',       nights: 7, spaces: 8,  status: 'available', priceFrom: 2195 },
+  { id: 'd14', label: '20–27 December 2026',      nights: 7, spaces: 2,  status: 'limited',   priceFrom: 2195 },
+  { id: 'd15', label: '3–10 January 2027',        nights: 7, spaces: 12, status: 'available', priceFrom: 2195 },
+  { id: 'd16', label: '17–24 January 2027',       nights: 7, spaces: 8,  status: 'available', priceFrom: 2195 },
+  { id: 'd17', label: '7–14 February 2027',       nights: 7, spaces: 3,  status: 'limited',   priceFrom: 2195 },
+  { id: 'd18', label: '21–28 February 2027',      nights: 7, spaces: 10, status: 'available', priceFrom: 2195 },
 ];
 
 const ROOMS = [
@@ -242,6 +254,14 @@ function selectDate(id) {
       restoreCalDay(el);
     }
   });
+
+  // Update selected date card in list view
+  const panel = document.getElementById('date-selected-panel');
+  const label = document.getElementById('date-selected-label');
+  if (panel && label) {
+    label.textContent = date.label;
+    panel.classList.remove('is-hidden');
+  }
 
   updateSidebar();
 }
