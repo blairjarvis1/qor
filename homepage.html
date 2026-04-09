@@ -30,6 +30,10 @@
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center;
+      transition: filter 0.6s ease;
+    }
+    .hp-hero.search-active .hp-hero__video {
+      filter: blur(9px) brightness(0.65);
     }
 
     /* Dark overlay */
@@ -42,17 +46,23 @@
         rgba(10, 12, 10, 0.45) 50%,
         rgba(10, 12, 10, 0.60) 100%
       );
+      transition: background 0.6s ease;
+    }
+    .hp-hero.search-active .hp-hero__overlay {
+      background: rgba(10, 12, 10, 0.68);
     }
 
     /* Hero content */
     .hp-hero__content {
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, calc(-50% - 12px));
       z-index: 2;
       text-align: center;
       padding: 0 var(--s7);
       width: 100%;
-      max-width: 900px;
-      margin-top: -140px;
+      max-width: 100%;
     }
 
     .hp-hero__eyebrow {
@@ -67,7 +77,7 @@
 
     .hp-hero__headline {
       font-family: var(--serif);
-      font-size: clamp(22px, 3.4vw, 52px);
+      font-size: clamp(22px, 3.5vw, 53px);
       font-weight: 400;
       line-height: 1.08;
       letter-spacing: -0.02em;
@@ -137,9 +147,10 @@
       flex-shrink: 0;
       transition: opacity var(--dur-fast);
     }
-    /* Hide dividers adjacent to active section */
+    /* Hide dividers adjacent to active section, or on pill hover */
     .hp-search__section.is-active + .hp-search__divider,
-    .hp-search__divider:has(+ .hp-search__section.is-active) {
+    .hp-search__divider:has(+ .hp-search__section.is-active),
+    .hp-search__bar:hover .hp-search__divider {
       opacity: 0;
     }
 
@@ -201,6 +212,10 @@
     .hp-search__btn svg { flex-shrink: 0; }
 
     /* ── DROPDOWNS ──────────────────────────────────────────────── */
+    @keyframes dd-enter {
+      0%   { opacity: 0; transform: translateY(-10px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0)     scale(1); }
+    }
     .hp-search__dropdown {
       display: none;
       position: absolute;
@@ -212,8 +227,12 @@
       z-index: 200;
       overflow-y: auto;
       text-align: left;
+      height: 400px;
     }
-    .hp-search__dropdown.is-open { display: block; }
+    .hp-search__dropdown.is-open {
+      display: block;
+      animation: dd-enter 0.7s cubic-bezier(0.34, 1.28, 0.64, 1) both;
+    }
 
     /* Interest dropdown */
     #dd-interest {
@@ -253,7 +272,7 @@
     }
     .dd-divider { height: 1px; background: var(--border); margin: 0 var(--s6); }
     .dd-categories {
-      max-height: 148px;
+      max-height: 240px;
       overflow-y: auto;
       padding: var(--s1) 0 var(--s2);
     }
@@ -291,8 +310,6 @@
     /* Destination dropdown */
     #dd-destination {
       width: 560px;
-      left: 50%;
-      transform: translateX(-50%);
     }
     .dd-dest-top {
       padding: var(--s3) var(--s6);
@@ -318,6 +335,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
+      padding-bottom: 20px;
     }
     .dd-cols-left { border-right: 1px solid var(--border); }
     .dd-place {
@@ -343,8 +361,6 @@
     /* Dates dropdown */
     #dd-dates {
       width: 480px;
-      right: 76px;
-      left: auto;
     }
     .dd-dates-header {
       display: flex;
@@ -392,7 +408,7 @@
     .hp-hero__explore {
       position: relative;
       z-index: 2;
-      margin-top: var(--s4);
+      margin-top: 80px;
     }
     .hp-hero__explore-btn {
       display: inline-flex;
@@ -497,7 +513,7 @@
       <p class="hp-hero__eyebrow">Expertly vetted · Personally selected</p>
 
       <h1 class="hp-hero__headline">
-        Retreats that transform how you live
+        Retreats that transform how you live your life
       </h1>
 
       <!-- ── SEARCH BAR ─────────────────────────────────────────── -->
@@ -780,7 +796,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
           </svg>
-          Wondering where to start?
+          I don't know where to start
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
@@ -812,6 +828,7 @@
     const backdrop    = document.getElementById('hp-backdrop');
     const sections    = document.querySelectorAll('.hp-search__section');
     const dropdowns   = document.querySelectorAll('.hp-search__dropdown');
+    const hero        = document.querySelector('.hp-hero');
 
     // State
     const state = { activeSection: null };
@@ -829,12 +846,22 @@
       dd.classList.add('is-open');
       searchBar.classList.add('has-active');
       backdrop.classList.add('is-open');
+      hero.classList.add('search-active');
       state.activeSection = sectionId;
 
-      // Constrain dropdown height to viewport with 32px bottom gap
-      const ddTop = dd.getBoundingClientRect().top;
-      const maxH  = window.innerHeight - ddTop - 32;
-      dd.style.maxHeight = Math.max(maxH, 200) + 'px';
+      // Centre dropdown under its section
+      const searchContainer = document.querySelector('.hp-search');
+      const containerRect   = searchContainer.getBoundingClientRect();
+      const secRect         = sec.getBoundingClientRect();
+      const secCentre       = secRect.left + secRect.width / 2 - containerRect.left;
+      const ddWidth         = dd.offsetWidth;
+      let   ddLeft          = secCentre - ddWidth / 2;
+      // Clamp so it doesn't bleed off the search container
+      ddLeft = Math.max(0, Math.min(ddLeft, containerRect.width - ddWidth));
+      dd.style.left      = ddLeft + 'px';
+      dd.style.transform = 'none';
+
+      // Height is fixed via CSS (400px)
 
       // Focus input if present
       const inp = sec.querySelector('input');
@@ -846,6 +873,7 @@
       dropdowns.forEach(d => d.classList.remove('is-open'));
       searchBar.classList.remove('has-active');
       backdrop.classList.remove('is-open');
+      hero.classList.remove('search-active');
       state.activeSection = null;
     }
 
@@ -954,7 +982,7 @@
 
     /* ── "Wondering where to start?" ────────────────────────────── */
     document.getElementById('btn-explore').addEventListener('click', () => {
-      openSection('interest');
+      // dummy link — no action
     });
 
   </script>
