@@ -134,7 +134,8 @@
       min-width: 0;
       overflow: hidden;
     }
-    #sec-want::after {
+    #sec-want::after,
+    #sec-dates::after {
       content: '';
       position: absolute;
       right: 0;
@@ -495,6 +496,93 @@
     }
     .dd-date-mode:hover { background: var(--cloud); color: var(--ink); }
     .dd-date-mode.is-active { background: var(--ink); color: var(--white); }
+
+    /* Flexible dates panel */
+    #dd-dates-flexible {
+      padding: 36px 20px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .dd-flex-label {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .dd-flex-durations {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .dd-flex-duration {
+      font-size: var(--t-sm);
+      color: var(--charcoal);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--r-pill);
+      padding: 8px 22px;
+      cursor: pointer;
+      transition: all var(--dur-fast);
+      white-space: nowrap;
+    }
+    .dd-flex-duration:hover { border-color: var(--ink); color: var(--ink); }
+    .dd-flex-duration.is-selected { border-color: var(--ink); background: var(--ink); color: var(--white); }
+    .dd-flex-months-outer {
+      position: relative;
+      width: 100%;
+    }
+    .dd-flex-months-outer::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 52px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.95));
+      pointer-events: none;
+      z-index: 1;
+    }
+    .dd-flex-months-wrap {
+      overflow-x: auto;
+      scrollbar-width: none;
+      width: 100%;
+    }
+    .dd-flex-months-wrap::-webkit-scrollbar { display: none; }
+    .dd-flex-months {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+      padding: 0 52px 4px 0;
+    }
+    .dd-flex-month {
+      flex-shrink: 0;
+      width: 88px;
+      height: 88px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      cursor: pointer;
+      transition: all var(--dur-fast);
+      box-sizing: border-box;
+    }
+    .dd-flex-month:hover { border-color: var(--ink); }
+    .dd-flex-month.is-selected { border-color: var(--ink); background: var(--ink); color: var(--white); }
+    .dd-flex-month__name { font-weight: 600; font-size: var(--t-sm); color: inherit; line-height: 1.3; }
+    .dd-flex-month__year { font-size: 11px; color: var(--stone); margin-top: 2px; }
+    .dd-flex-month.is-selected .dd-flex-month__year { color: rgba(255,255,255,0.65); }
+
     /* Year nav */
     .dd-year-nav {
       display: flex;
@@ -1566,6 +1654,35 @@
             <div class="dd-date-mode" data-mode="fixed">Specific month</div>
           </div>
 
+          <!-- Flexible dates panel -->
+          <div id="dd-dates-flexible" style="display:none">
+            <div class="dd-flex-label">How long would you like to stay?</div>
+            <div class="dd-flex-durations">
+              <div class="dd-flex-duration" data-duration="weekend">Weekend</div>
+              <div class="dd-flex-duration" data-duration="week">Week</div>
+              <div class="dd-flex-duration" data-duration="month">Month</div>
+            </div>
+            <div class="dd-flex-label">When do you want to go?</div>
+            <div class="dd-flex-months-outer">
+            <div class="dd-flex-months-wrap">
+              <div class="dd-flex-months" id="dd-flex-months-scroll">
+                <div class="dd-flex-month" data-value="May 2026"><div class="dd-flex-month__name">May</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="June 2026"><div class="dd-flex-month__name">June</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="July 2026"><div class="dd-flex-month__name">July</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="August 2026"><div class="dd-flex-month__name">August</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="September 2026"><div class="dd-flex-month__name">Sept</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="October 2026"><div class="dd-flex-month__name">Oct</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="November 2026"><div class="dd-flex-month__name">Nov</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="December 2026"><div class="dd-flex-month__name">Dec</div><div class="dd-flex-month__year">2026</div></div>
+                <div class="dd-flex-month" data-value="January 2027"><div class="dd-flex-month__name">Jan</div><div class="dd-flex-month__year">2027</div></div>
+                <div class="dd-flex-month" data-value="February 2027"><div class="dd-flex-month__name">Feb</div><div class="dd-flex-month__year">2027</div></div>
+                <div class="dd-flex-month" data-value="March 2027"><div class="dd-flex-month__name">March</div><div class="dd-flex-month__year">2027</div></div>
+                <div class="dd-flex-month" data-value="April 2027"><div class="dd-flex-month__name">April</div><div class="dd-flex-month__year">2027</div></div>
+              </div>
+            </div>
+            </div><!-- /.dd-flex-months-outer -->
+          </div>
+
           <!-- Specific month panel -->
           <div id="dd-dates-months" style="display:none">
             <div class="dd-year-nav" id="dd-year-nav">
@@ -1880,11 +1997,50 @@
         document.querySelectorAll('.dd-date-mode').forEach(m => m.classList.remove('is-active'));
         mode.classList.add('is-active');
         const m = mode.dataset.mode;
-        document.getElementById('dd-dates-months').style.display = m === 'range' ? 'none' : 'block';
-        document.getElementById('dd-cal').style.display           = m === 'range' ? 'flex' : 'none';
+        document.getElementById('dd-cal').style.display              = m === 'range'    ? 'flex'  : 'none';
+        document.getElementById('dd-dates-flexible').style.display   = m === 'flexible' ? 'flex'  : 'none';
+        document.getElementById('dd-dates-months').style.display     = m === 'fixed'    ? 'block' : 'none';
+        if (m === 'flexible') { const w = document.querySelector('.dd-flex-months-wrap'); if (w) w.scrollLeft = 0; }
         if (m === 'range') renderCalendars();
       });
     });
+
+    /* ── Flexible dates interactions ─────────────────────────────── */
+    const flexSelMonths = new Set();
+
+    document.querySelectorAll('.dd-flex-duration').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const already = btn.classList.contains('is-selected');
+        document.querySelectorAll('.dd-flex-duration').forEach(b => b.classList.remove('is-selected'));
+        if (!already) btn.classList.add('is-selected');
+        updateFlexDisplay();
+      });
+    });
+
+    document.querySelectorAll('.dd-flex-month').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const v = tile.dataset.value;
+        if (flexSelMonths.has(v)) { flexSelMonths.delete(v); tile.classList.remove('is-selected'); }
+        else                       { flexSelMonths.add(v);    tile.classList.add('is-selected'); }
+        updateFlexDisplay();
+      });
+    });
+
+    function updateFlexDisplay() {
+      const durEl = document.querySelector('.dd-flex-duration.is-selected');
+      const dur   = durEl ? durEl.dataset.duration : null;
+      const months = [...flexSelMonths];
+      if (!dur && months.length === 0) {
+        document.getElementById('val-dates').textContent = 'Any time';
+        document.getElementById('val-dates').classList.remove('has-value');
+        return;
+      }
+      const durLabel = dur ? dur.charAt(0).toUpperCase() + dur.slice(1) : '';
+      const monthStr = months.length > 0 ? months.map(v => v.split(' ')[0]).join(', ') : '';
+      const parts = [durLabel, monthStr].filter(Boolean);
+      document.getElementById('val-dates').textContent = parts.join(' · ');
+      document.getElementById('val-dates').classList.add('has-value');
+    }
 
     /* ── Dates: specific month tab ───────────────────────────────── */
     const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
