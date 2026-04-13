@@ -476,8 +476,25 @@
       grid-template-columns: 220px 1fr;
       transition: border-color var(--dur-fast);
     }
+    .rdp-room-card { cursor: pointer; }
     .rdp-room-card:hover { border-color: var(--charcoal); }
-    .rdp-room-card--popular { border-color: var(--sage); }
+    .rdp-room-card.is-selected { border-color: var(--sage) !important; background: #f3f7f4; }
+    .rdp-room-card--popular { border-color: var(--border); }
+    .rdp-room-select-btn {
+      display: inline-flex; align-items: center; gap: var(--s2);
+      font-size: var(--t-sm); font-weight: 600; font-family: var(--sans);
+      padding: var(--s2) var(--s4); border-radius: var(--r-md);
+      border: 1.5px solid var(--charcoal); background: transparent; color: var(--ink);
+      cursor: pointer; transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
+      white-space: nowrap;
+    }
+    .rdp-room-select-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .rdp-room-select-btn.is-primary { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .rdp-room-select-btn.is-primary:hover { background: var(--charcoal); border-color: var(--charcoal); }
+    .rdp-room-card.is-selected .rdp-room-select-btn,
+    .rdp-room-card.is-selected .rdp-room-select-btn.is-primary {
+      background: var(--sage); color: var(--white); border-color: var(--sage);
+    }
     .rdp-room-card__img { width: 100%; height: 100%; object-fit: cover; min-height: 200px; display: block; }
     .rdp-room-card__body { padding: var(--s6); display: flex; flex-direction: column; }
     .rdp-room-card__badge {
@@ -704,9 +721,26 @@
     .rdp-widget__body { padding: var(--s5) var(--s6); }
     .rdp-widget__field-label { font-size: var(--t-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--stone); font-weight: 600; margin-bottom: var(--s2); margin-top: var(--s5); }
     .rdp-widget__field-label:first-child { margin-top: 0; }
-    .rdp-widget__dates { display: flex; gap: var(--s2); overflow-x: auto; padding-bottom: var(--s1); scrollbar-width: none; }
-    .rdp-widget__dates::-webkit-scrollbar { display: none; }
+    .rdp-widget__placeholder {
+      display: flex; align-items: center; gap: var(--s2);
+      padding: var(--s3) var(--s4);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--r-md);
+      font-size: var(--t-sm); color: var(--stone);
+    }
+    .rdp-widget__placeholder svg { color: var(--stone); flex-shrink: 0; opacity: 0.5; }
     .rdp-widget__avail { font-size: var(--t-xs); color: var(--warning); font-weight: 500; margin-top: var(--s2); }
+    .rdp-widget__date-selected {
+      display: flex; align-items: center; gap: var(--s2);
+      margin-top: var(--s3);
+      padding: var(--s3) var(--s4);
+      background: #f3f7f4;
+      border-radius: var(--r-md);
+      border: 1px solid var(--sage-light, #b4cebc);
+      font-size: var(--t-sm); color: var(--ink); font-weight: 500;
+    }
+    .rdp-widget__date-selected svg { color: var(--sage); flex-shrink: 0; }
+    .rdp-widget__date-nights { color: var(--stone); font-weight: 400; }
     .rdp-widget__guests-row { display: flex; align-items: center; justify-content: space-between; }
     .rdp-widget__price-calc {
       background: var(--parchment);
@@ -1090,7 +1124,7 @@
             </div>
           </div>
 
-          <div class="rdp-date-card" data-date="d1" data-price="2195">
+          <div class="rdp-date-card" data-date="d1" data-price="2195" data-label="7–14 Jun 2026" data-pill="7–14 Jun">
             <div>
               <div class="rdp-date-card__label">
                 7–14 June 2026
@@ -1107,7 +1141,7 @@
             </div>
           </div>
 
-          <div class="rdp-date-card" data-date="d2" data-price="2195">
+          <div class="rdp-date-card" data-date="d2" data-price="2195" data-label="21–28 Jun 2026" data-pill="21–28 Jun">
             <div>
               <div class="rdp-date-card__label">21–28 June 2026</div>
               <div class="rdp-date-card__meta">
@@ -1121,7 +1155,7 @@
             </div>
           </div>
 
-          <div class="rdp-date-card" data-date="d3" data-price="2895">
+          <div class="rdp-date-card" data-date="d3" data-price="2895" data-label="2–9 Aug 2026" data-pill="2–9 Aug">
             <div>
               <div class="rdp-date-card__label">
                 2–9 August 2026
@@ -1138,7 +1172,7 @@
             </div>
           </div>
 
-          <div class="rdp-date-card" data-date="d4" data-price="2195">
+          <div class="rdp-date-card" data-date="d4" data-price="2195" data-label="16–23 Aug 2026" data-pill="16–23 Aug">
             <div>
               <div class="rdp-date-card__label">16–23 August 2026</div>
               <div class="rdp-date-card__meta">
@@ -1152,7 +1186,7 @@
             </div>
           </div>
 
-          <div class="rdp-date-card" data-date="d5" data-price="2195">
+          <div class="rdp-date-card" data-date="d5" data-price="2195" data-label="6–13 Sep 2026" data-pill="6–13 Sep">
             <div>
               <div class="rdp-date-card__label">6–13 September 2026</div>
               <div class="rdp-date-card__meta">
@@ -1178,7 +1212,7 @@
 
         <div class="rdp-room-cards">
 
-          <div class="rdp-room-card">
+          <div class="rdp-room-card" data-price="2195" data-room="2195">
             <img src="images/header_mellulah-yoga-retreats_20240514092216.jpg"
                  alt="Shared Garden Room" class="rdp-room-card__img">
             <div class="rdp-room-card__body">
@@ -1194,12 +1228,12 @@
                   <div class="rdp-room-card__price">£2,195</div>
                   <div class="rdp-room-card__price-label">per person</div>
                 </div>
-                <a href="booking.html" class="btn btn--outline btn--sm">Select room</a>
+                <button class="rdp-room-select-btn" type="button">Select room</button>
               </div>
             </div>
           </div>
 
-          <div class="rdp-room-card rdp-room-card--popular">
+          <div class="rdp-room-card rdp-room-card--popular" data-price="2895" data-room="2895">
             <img src="images/header_casa-ana_20230628180415.jpg"
                  alt="Private Valley Room" class="rdp-room-card__img">
             <div class="rdp-room-card__body">
@@ -1216,12 +1250,12 @@
                   <div class="rdp-room-card__price">£2,895</div>
                   <div class="rdp-room-card__price-label">per person</div>
                 </div>
-                <a href="booking.html" class="btn btn--primary btn--sm">Select room</a>
+                <button class="rdp-room-select-btn" type="button">Select room</button>
               </div>
             </div>
           </div>
 
-          <div class="rdp-room-card">
+          <div class="rdp-room-card" data-price="3750" data-room="3750">
             <img src="images/header_les-marguerites.jpg"
                  alt="Quinta Suite" class="rdp-room-card__img">
             <div class="rdp-room-card__body">
@@ -1238,7 +1272,7 @@
                   <div class="rdp-room-card__price">£3,750</div>
                   <div class="rdp-room-card__price-label">per person</div>
                 </div>
-                <a href="booking.html" class="btn btn--outline btn--sm">Select room</a>
+                <button class="rdp-room-select-btn" type="button">Select room</button>
               </div>
             </div>
           </div>
@@ -1664,7 +1698,7 @@
     <!-- ─────────────────────────────────────────────
          STICKY BOOKING SIDEBAR
     ───────────────────────────────────────────── -->
-    <aside class="rdp-sidebar">
+    <aside class="rdp-sidebar" id="rdp-sidebar">
       <div class="rdp-widget">
 
         <div class="rdp-widget__header">
@@ -1682,16 +1716,17 @@
         <div class="rdp-widget__body">
 
           <!-- Dates -->
-          <div class="rdp-widget__field-label">Select dates</div>
-          <div class="rdp-widget__dates" id="widget-dates">
-            <div class="widget-date-pill is-limited" data-price="2195">7–14 Jun <span style="font-size:10px;">· 3 left</span></div>
-            <div class="widget-date-pill" data-price="2195">21–28 Jun</div>
-            <div class="widget-date-pill is-soldout" data-price="2195">5–12 Jul</div>
-            <div class="widget-date-pill" data-price="2895">2–9 Aug</div>
-            <div class="widget-date-pill" data-price="2195">16–23 Aug</div>
-            <div class="widget-date-pill" data-price="2195">6–13 Sep</div>
+          <div class="rdp-widget__field-label">Dates</div>
+          <div class="rdp-widget__placeholder" id="widget-date-placeholder">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            No date selected yet
           </div>
           <div class="rdp-widget__avail" id="widget-avail" style="display:none;"></div>
+          <div class="rdp-widget__date-selected" id="widget-date-selected" style="display:none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="widget-date-label">—</span>
+            <span class="rdp-widget__date-nights">· 7 nights</span>
+          </div>
 
           <!-- Guests -->
           <div class="rdp-widget__field-label">Guests</div>
@@ -1708,14 +1743,19 @@
           <div class="rdp-widget__field-label">Room type</div>
           <div class="select-wrap">
             <select class="form-select" id="widget-room">
+              <option value="" disabled selected>Select room</option>
               <option value="2195">Shared Garden Room — £2,195 pp</option>
-              <option value="2895" selected>Private Valley Room — £2,895 pp</option>
+              <option value="2895">Private Valley Room — £2,895 pp</option>
               <option value="3750">Quinta Suite — £3,750 pp</option>
             </select>
           </div>
 
           <!-- Price calc -->
           <div class="rdp-widget__price-calc" id="widget-calc" style="display:none;">
+            <div class="rdp-widget__calc-row">
+              <span style="color: var(--stone);">Dates</span>
+              <span id="calc-date-label" style="font-weight: 500;">—</span>
+            </div>
             <div class="rdp-widget__calc-row">
               <span id="calc-room-label">Room rate</span>
               <span id="calc-room-price">—</span>
@@ -1830,43 +1870,65 @@
       });
     });
 
-    /* ── Date card selection (main content) ──────── */
+    /* ── Date card selection (main content → widget sync) ── */
     document.querySelectorAll('.rdp-date-card:not(.rdp-date-card--soldout)').forEach(card => {
       card.addEventListener('click', () => {
+        // Mark selected in main content
         document.querySelectorAll('.rdp-date-card').forEach(c => c.classList.remove('is-selected'));
         card.classList.add('is-selected');
-      });
-    });
 
-    /* ── Booking widget ──────────────────────────── */
-    const widgetState = {
-      price: 2895, // room price per person
-      guests: 1,
-      dateSelected: false,
-    };
+        const label    = card.dataset.label || '';
+        const pillText = card.dataset.pill  || '';
 
-    // Date pills
-    document.querySelectorAll('#widget-dates .widget-date-pill:not(.is-soldout)').forEach(pill => {
-      pill.addEventListener('click', () => {
-        document.querySelectorAll('#widget-dates .widget-date-pill').forEach(p => p.classList.remove('is-active'));
-        pill.classList.add('is-active');
+        // Sync widget state
         widgetState.dateSelected = true;
+        widgetState.dateLabel    = label;
 
+        // Hide placeholder, show date confirmation banner
+        const placeholderEl  = document.getElementById('widget-date-placeholder');
+        const dateSelectedEl = document.getElementById('widget-date-selected');
+        const dateLabelEl    = document.getElementById('widget-date-label');
+        if (placeholderEl)  placeholderEl.style.display = 'none';
+        if (dateSelectedEl && dateLabelEl) {
+          dateLabelEl.textContent = label;
+          dateSelectedEl.style.display = 'flex';
+        }
+
+        // Handle availability notice
         const avail = document.getElementById('widget-avail');
-        if (pill.classList.contains('is-limited')) {
+        if (card.querySelector('.rdp-date-card__status--limited')) {
           avail.style.display = 'block';
           avail.textContent = 'Only a few spaces left on this date.';
         } else {
           avail.style.display = 'none';
         }
+
+        // Recalculate price in widget
         updateWidgetPrice();
+
+        // Smooth scroll to sidebar on desktop so user sees the update
+        if (window.innerWidth > 960) {
+          document.getElementById('rdp-sidebar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       });
     });
 
-    // Room select
+    /* ── Booking widget ──────────────────────────── */
+    const widgetState = {
+      price: 0,
+      guests: 1,
+      dateSelected: false,
+      dateLabel: '',
+      roomSelected: false,
+    };
+
+    // Room select (dropdown)
     document.getElementById('widget-room').addEventListener('change', function() {
-      widgetState.price = parseInt(this.value);
-      updateWidgetPrice();
+      if (this.value) {
+        widgetState.price = parseInt(this.value);
+        widgetState.roomSelected = true;
+        updateWidgetPrice();
+      }
     });
 
     // Guest stepper
@@ -1888,20 +1950,62 @@
     });
 
     function updateWidgetPrice() {
-      const total = widgetState.price * widgetState.guests;
       const priceEl = document.getElementById('widget-price');
       const calcEl  = document.getElementById('widget-calc');
 
-      priceEl.textContent = `£${widgetState.price.toLocaleString()}`;
+      // Update header price only when a room is selected
+      if (widgetState.roomSelected) {
+        priceEl.textContent = `£${widgetState.price.toLocaleString()}`;
+      }
 
-      if (widgetState.dateSelected) {
+      // Show full calc breakdown only when both date and room are selected
+      if (widgetState.dateSelected && widgetState.roomSelected) {
+        const total = widgetState.price * widgetState.guests;
         calcEl.style.display = 'block';
+        document.getElementById('calc-date-label').textContent = widgetState.dateLabel || '—';
         document.getElementById('calc-room-label').textContent =
           `£${widgetState.price.toLocaleString()} × ${widgetState.guests} guest${widgetState.guests > 1 ? 's' : ''}`;
         document.getElementById('calc-room-price').textContent = `£${total.toLocaleString()}`;
         document.getElementById('calc-total').textContent = `£${total.toLocaleString()}`;
       }
     }
+
+    /* ── Room card selection ─────────────────────────── */
+    document.querySelectorAll('.rdp-room-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const price = parseInt(this.dataset.price);
+        const roomValue = this.dataset.room;
+
+        // Deselect all cards and reset buttons
+        document.querySelectorAll('.rdp-room-card').forEach(c => {
+          c.classList.remove('is-selected');
+          const btn = c.querySelector('.rdp-room-select-btn');
+          if (btn) btn.textContent = 'Select room';
+        });
+
+        // Select this card
+        this.classList.add('is-selected');
+        const btn = this.querySelector('.rdp-room-select-btn');
+        if (btn) btn.textContent = '✓ Selected';
+
+        // Sync the widget room dropdown
+        const roomSelect = document.getElementById('widget-room');
+        if (roomSelect) {
+          roomSelect.value = roomValue;
+        }
+
+        // Update widget state and price
+        widgetState.price = price;
+        widgetState.roomSelected = true;
+        updateWidgetPrice();
+
+        // Scroll to widget if on mobile (single-column layout)
+        if (window.innerWidth <= 960) {
+          const widget = document.getElementById('rdp-sidebar');
+          if (widget) widget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
 
     /* ── Subnav scroll spy ───────────────────────── */
     const sections = document.querySelectorAll('.rdp-section[id]');
