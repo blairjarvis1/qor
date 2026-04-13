@@ -9,6 +9,17 @@
 
     body { padding-top: 60px; }
 
+    /* ── White header for this page (no hero image) ─── */
+    .site-header {
+      background: var(--white) !important;
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .site-header .site-header__logo { color: var(--ink); }
+    .site-header .site-header__nav a { color: var(--stone); }
+    .site-header .site-header__nav a:hover { color: var(--ink); }
+    .site-header .site-header__actions .btn--ghost { color: var(--charcoal); }
+    .site-header .site-header__actions .btn--ghost:hover { color: var(--ink); }
+
     /* ── Breadcrumb ──────────────────────────────────── */
     .rdp-breadcrumb {
       max-width: var(--max-content);
@@ -197,6 +208,32 @@
     }
     .rdp-main { min-width: 0; }
     .rdp-sidebar { position: sticky; top: 124px; }
+
+    @media (max-width: 960px) {
+      .rdp-layout {
+        grid-template-columns: 1fr;
+      }
+      .rdp-sidebar {
+        position: static;
+        order: -1;
+      }
+      .rdp-gallery__grid {
+        grid-template-columns: 1fr 1fr;
+        height: 320px;
+      }
+      .rdp-gallery__main { grid-row: 1 / 3; }
+      .rdp-glance { grid-template-columns: repeat(2, 1fr); }
+      .rdp-editorial__cols { grid-template-columns: 1fr; gap: var(--s5); }
+      .rdp-host-cards { grid-template-columns: 1fr; }
+      .rdp-food-grid { grid-template-columns: 1fr; }
+      .rdp-reviews-grid { grid-template-columns: 1fr; }
+      .rdp-trust-grid { grid-template-columns: 1fr; }
+      .rdp-related-grid { grid-template-columns: 1fr 1fr; }
+      .rdp-neighbourhood-grid { grid-template-columns: 1fr 1fr; }
+      .rdp-room-card { grid-template-columns: 1fr; }
+      .rdp-room-card__img { height: 200px; width: 100%; }
+      .rdp-facilities { grid-template-columns: 1fr; }
+    }
 
     /* ── Sections ────────────────────────────────────── */
     .rdp-section {
@@ -648,7 +685,7 @@
   <!-- ═══════════════════════════════════════════════
        SITE HEADER
   ═══════════════════════════════════════════════ -->
-  <header class="site-header is-scrolled">
+  <header class="site-header">
     <div class="site-header__inner">
       <nav class="site-header__nav">
         <a href="#">Retreats</a>
@@ -1804,11 +1841,7 @@
       });
     });
 
-    /* ── Header scroll ───────────────────────────── */
-    const header = document.querySelector('.site-header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('is-scrolled', window.scrollY > 0);
-    }, { passive: true });
+    /* Header is always dark on this page — no scroll handler needed */
 
   </script>
 
