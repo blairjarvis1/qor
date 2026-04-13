@@ -268,6 +268,64 @@
       line-height: 1.6;
     }
 
+    /* ── Timeline ───────────────────────────────────── */
+    .rdp-timeline { display: flex; flex-direction: column; }
+    .rdp-timeline__item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: var(--s5);
+    }
+    .rdp-timeline__spine {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 3px;
+    }
+    .rdp-timeline__node {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2.5px solid var(--sage);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .rdp-timeline__line {
+      width: 2px;
+      flex: 1;
+      background: var(--sage-light);
+      margin-top: var(--s2);
+      margin-bottom: 0;
+      min-height: var(--s7);
+    }
+    .rdp-timeline__content {
+      padding-bottom: var(--s7);
+    }
+    .rdp-timeline__item--last .rdp-timeline__content {
+      padding-bottom: 0;
+    }
+    .rdp-timeline__time {
+      font-size: var(--t-xs);
+      font-weight: 700;
+      color: var(--sage);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--s2);
+      line-height: 1;
+    }
+    .rdp-timeline__title {
+      font-size: var(--t-base);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--s2);
+    }
+    .rdp-timeline__desc {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.7;
+    }
+
     /* ── At a glance ─────────────────────────────────── */
     .rdp-glance {
       display: grid;
@@ -282,6 +340,7 @@
       padding: var(--s5);
       background: var(--parchment);
       border-radius: var(--r-lg);
+      border: 1px solid var(--border);
     }
     .rdp-glance__icon {
       color: var(--sage);
@@ -897,42 +956,70 @@
           </div>
         </div>
 
-        <!-- Typical schedule -->
-        <p class="label-caps" style="margin-bottom: var(--s5); margin-top: var(--s7);">Typical daily rhythm</p>
-        <div class="programme-day">
-          <div class="programme-day__label">6:30am</div>
-          <div class="programme-day__content">
-            <div class="programme-day__title">Morning movement</div>
-            <div class="programme-day__desc">Vinyasa or restorative yoga in the open-air shala, overlooking the rice paddies.</div>
+        <!-- Typical schedule — vertical timeline -->
+        <p class="label-caps" style="margin-bottom: var(--s6); margin-top: var(--s7);">Typical daily rhythm</p>
+
+        <div class="rdp-timeline">
+
+          <div class="rdp-timeline__item">
+            <div class="rdp-timeline__spine">
+              <div class="rdp-timeline__node"></div>
+              <div class="rdp-timeline__line"></div>
+            </div>
+            <div class="rdp-timeline__content">
+              <div class="rdp-timeline__time">6:30am</div>
+              <div class="rdp-timeline__title">Morning movement</div>
+              <div class="rdp-timeline__desc">Vinyasa or restorative yoga in the open-air shala, overlooking the rice paddies.</div>
+            </div>
           </div>
-        </div>
-        <div class="programme-day">
-          <div class="programme-day__label">8:30am</div>
-          <div class="programme-day__content">
-            <div class="programme-day__title">Breakfast</div>
-            <div class="programme-day__desc">Communal breakfast — Balinese-inspired, plant-forward, seasonally led.</div>
+
+          <div class="rdp-timeline__item">
+            <div class="rdp-timeline__spine">
+              <div class="rdp-timeline__node"></div>
+              <div class="rdp-timeline__line"></div>
+            </div>
+            <div class="rdp-timeline__content">
+              <div class="rdp-timeline__time">8:30am</div>
+              <div class="rdp-timeline__title">Breakfast</div>
+              <div class="rdp-timeline__desc">Communal breakfast — Balinese-inspired, plant-forward, seasonally led.</div>
+            </div>
           </div>
-        </div>
-        <div class="programme-day">
-          <div class="programme-day__label">10:00am</div>
-          <div class="programme-day__content">
-            <div class="programme-day__title">Workshop or free time</div>
-            <div class="programme-day__desc">Guided workshops on breathwork, somatic awareness, or nature therapy. Afternoons are yours — pool, trails, reading, 1:1 sessions.</div>
+
+          <div class="rdp-timeline__item">
+            <div class="rdp-timeline__spine">
+              <div class="rdp-timeline__node"></div>
+              <div class="rdp-timeline__line"></div>
+            </div>
+            <div class="rdp-timeline__content">
+              <div class="rdp-timeline__time">10:00am</div>
+              <div class="rdp-timeline__title">Workshop or free time</div>
+              <div class="rdp-timeline__desc">Guided workshops on breathwork, somatic awareness, or nature therapy. Afternoons are yours — pool, trails, reading, 1:1 sessions.</div>
+            </div>
           </div>
-        </div>
-        <div class="programme-day">
-          <div class="programme-day__label">4:00pm</div>
-          <div class="programme-day__content">
-            <div class="programme-day__title">Afternoon session</div>
-            <div class="programme-day__desc">Guided meditation, yin yoga, or forest bathing depending on the day.</div>
+
+          <div class="rdp-timeline__item">
+            <div class="rdp-timeline__spine">
+              <div class="rdp-timeline__node"></div>
+              <div class="rdp-timeline__line"></div>
+            </div>
+            <div class="rdp-timeline__content">
+              <div class="rdp-timeline__time">4:00pm</div>
+              <div class="rdp-timeline__title">Afternoon session</div>
+              <div class="rdp-timeline__desc">Guided meditation, yin yoga, or forest bathing depending on the day.</div>
+            </div>
           </div>
-        </div>
-        <div class="programme-day">
-          <div class="programme-day__label">7:00pm</div>
-          <div class="programme-day__content">
-            <div class="programme-day__title">Dinner &amp; evening</div>
-            <div class="programme-day__desc">Long communal dinners, sharing circles, cacao ceremonies, or simply stargazing in the gardens.</div>
+
+          <div class="rdp-timeline__item rdp-timeline__item--last">
+            <div class="rdp-timeline__spine">
+              <div class="rdp-timeline__node"></div>
+            </div>
+            <div class="rdp-timeline__content">
+              <div class="rdp-timeline__time">7:00pm</div>
+              <div class="rdp-timeline__title">Dinner &amp; evening</div>
+              <div class="rdp-timeline__desc">Long communal dinners, sharing circles, cacao ceremonies, or simply stargazing in the gardens.</div>
+            </div>
           </div>
+
         </div>
       </section>
 
