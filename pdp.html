@@ -2139,6 +2139,25 @@
       window.addEventListener('scroll', updateBarVisibility, { passive: true });
       updateBarVisibility();
 
+      // Bottom bar "Book This Retreat" — save selections to sessionStorage so
+      // booking.html can pre-populate and jump straight to Step 3
+      const bookBtn = document.getElementById('pdp-bar-book');
+      if (bookBtn) {
+        bookBtn.addEventListener('click', function(e) {
+          // Only preselect if user has chosen a room; otherwise normal Step 1 flow
+          if (widgetState.roomSelected) {
+            const preselect = {
+              dateId:    widgetState.dateId,
+              dateLabel: widgetState.dateLabel,
+              roomPrice: widgetState.price,
+              guests:    widgetState.guests,
+            };
+            sessionStorage.setItem('qor_preselect', JSON.stringify(preselect));
+          }
+          // Navigation continues naturally via the href
+        });
+      }
+
       // Guest stepper
       let barGuests = 1;
       document.getElementById('pdp-bar-minus').addEventListener('click', () => {
@@ -2170,6 +2189,33 @@
           updateWidgetPrice();
           syncBottomBar();
         }
+      });
+
+      // Date dropdown → sync widgetState + in-page date cards
+      document.getElementById('pdp-bar-date').addEventListener('change', function() {
+        if (!this.value) return;
+        const dateId = this.value;
+        const card = document.querySelector(`.rdp-date-card[data-date="${dateId}"]`);
+        if (!card) return;
+        const label = card.dataset.label || '';
+        // Update widget state
+        widgetState.dateSelected = true;
+        widgetState.dateId       = dateId;
+        widgetState.dateLabel    = label;
+        // Highlight date card in main content
+        document.querySelectorAll('.rdp-date-card').forEach(c => c.classList.remove('is-selected'));
+        card.classList.add('is-selected');
+        // Sync sidebar widget date display
+        const placeholderEl  = document.getElementById('widget-date-placeholder');
+        const dateSelectedEl = document.getElementById('widget-date-selected');
+        const dateLabelEl    = document.getElementById('widget-date-label');
+        if (placeholderEl)  placeholderEl.style.display = 'none';
+        if (dateSelectedEl && dateLabelEl) {
+          dateLabelEl.textContent = label;
+          dateSelectedEl.style.display = 'flex';
+        }
+        updateWidgetPrice();
+        syncBottomBar();
       });
 
       // Room dropdown → sync widgetState
@@ -2217,16 +2263,10 @@
 
     /* ── Bottom bar sync helper ──────────────────── */
     function syncBottomBar() {
-      // Date
-      const dateEl = document.getElementById('pdp-bar-date');
-      if (dateEl) {
-        if (widgetState.dateLabel) {
-          dateEl.textContent = widgetState.dateLabel;
-          dateEl.classList.remove('pdp-bar__value--placeholder');
-        } else {
-          dateEl.textContent = 'No date selected yet';
-          dateEl.classList.add('pdp-bar__value--placeholder');
-        }
+      // Date dropdown
+      const dateSel = document.getElementById('pdp-bar-date');
+      if (dateSel && widgetState.dateId) {
+        dateSel.value = widgetState.dateId;
       }
       // Room dropdown
       const roomSel = document.getElementById('pdp-bar-room');
@@ -2260,6 +2300,7 @@
         // Sync widget state
         widgetState.dateSelected = true;
         widgetState.dateLabel    = label;
+        widgetState.dateId       = card.dataset.date || '';
 
         // Hide placeholder, show date confirmation banner
         const placeholderEl  = document.getElementById('widget-date-placeholder');
@@ -2294,6 +2335,7 @@
       guests: 1,
       dateSelected: false,
       dateLabel: '',
+      dateId: '',
       roomSelected: false,
     };
 
@@ -2426,7 +2468,14 @@
       <!-- Dates -->
       <div class="pdp-bar__field">
         <div class="pdp-bar__label">Dates</div>
-        <div class="pdp-bar__value pdp-bar__value--placeholder" id="pdp-bar-date">No date selected yet</div>
+        <select class="pdp-bar__select" id="pdp-bar-date">
+          <option value="" disabled selected>Select dates</option>
+          <option value="d1">7–14 Jun 2026</option>
+          <option value="d2">21–28 Jun 2026</option>
+          <option value="d3">2–9 Aug 2026</option>
+          <option value="d4">16–23 Aug 2026</option>
+          <option value="d5">6–13 Sep 2026</option>
+        </select>
       </div>
 
       <div class="pdp-bar__divider"></div>
@@ -2462,7 +2511,7 @@
       <div class="pdp-bar__ctas">
         <a href="enquiry.html" class="btn btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: inline-flex; align-items: center; border: 1.5px solid var(--border); color: var(--ink); background: transparent;">Enquire</a>
         <div class="pdp-bar__cta-wrap">
-          <a href="booking.html" class="btn btn--primary btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: inline-flex; align-items: center; font-size: 90%;">Book This Retreat</a>
+          <a href="booking.html" id="pdp-bar-book" class="btn btn--primary btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: inline-flex; align-items: center; font-size: 90%;">Book This Retreat</a>
           <div class="pdp-bar__note">No payment today · 25% deposit to secure your place</div>
         </div>
       </div>

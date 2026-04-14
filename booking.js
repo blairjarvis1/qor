@@ -5,6 +5,10 @@
 
 'use strict';
 
+/* --- Module-level carousel handles -------------------------- */
+let calScrollTo = null; // set by initCalCarousel; call calScrollTo(index) to jump
+let calResize   = null; // set by initCalCarousel; call calResize() to recalculate card widths
+
 /* --- State --------------------------------------------------- */
 const state = {
   currentStep: 1,
@@ -50,15 +54,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // Clear hash so browser doesn't auto-scroll to step anchor
   history.replaceState(null, '', window.location.pathname);
 
-  // Handle URL hash on load
-  const hash = window.location.hash;
-  const stepMatch = hash.match(/^#step-(\d)$/);
-  if (stepMatch) {
-    const n = parseInt(stepMatch[1]);
-    if (n >= 1 && n <= 8) renderStep(n, false);
-  } else {
-    renderStep(1, false);
+  // ── PDP preselect: check if user arrived via the bottom bar "Book" CTA ──
+  let startStep = 1;
+  const preselectRaw = sessionStorage.getItem('qor_preselect');
+  if (preselectRaw) {
+    sessionStorage.removeItem('qor_preselect');
+    try {
+      const ps = JSON.parse(preselectRaw);
+      // Map date ID → full date object
+      const date = ps.dateId ? RETREAT_DATES.find(d => d.id === ps.dateId) : null;
+      // Map room price → full room object
+      const room = ps.roomPrice ? ROOMS.find(r => r.price === ps.roomPrice) : null;
+      if (date) state.selectedDate = date;
+      if (room) state.selectedRoom = room;
+      if (ps.guests && ps.guests >= 1) state.guestCount = ps.guests;
+      if (room) startStep = 3; // only jump ahead if a room was actually selected
+    } catch (e) {
+      // Malformed data — fall back to step 1
+    }
   }
+
+  // Handle URL hash on load (only used when no preselect)
+  if (startStep === 1) {
+    const hash = window.location.hash;
+    const stepMatch = hash.match(/^#step-(\d)$/);
+    if (stepMatch) {
+      const n = parseInt(stepMatch[1]);
+      if (n >= 1 && n <= 8) startStep = n;
+    }
+  }
+
+  renderStep(startStep, false);
 
   initNavButtons();
   initDateSelection();
@@ -67,13 +93,45 @@ document.addEventListener('DOMContentLoaded', () => {
   initGuestType();
   initPaymentToggle();
   initViewToggle();
-  initCalendar();
+  initCalendar();   // ← calendar DOM cells are created here
   initAccordions();
   initTabs();
   initConditionalFields();
   initCardFormatting();
   initPromoCode();
+
+  // Apply preselect UI *after* all inits so calendar cells and room cards exist
+  if (startStep === 3) {
+    if (state.selectedDate) {
+      selectDate(state.selectedDate.id);
+      // Scroll the calendar carousel — two rAF frames: first resize, then scroll
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (calScrollTo) {
+          const dayEl   = document.querySelector(`.cal-day[data-date-id="${state.selectedDate.id}"]`);
+          const calCard = dayEl && dayEl.closest('.calendar');
+          if (calCard) {
+            const allCards = Array.from(document.querySelectorAll('.cal-months .calendar'));
+            const idx = allCards.indexOf(calCard);
+            if (idx >= 0) calScrollTo(idx);
+          }
+        }
+      }));
+    }
+    if (state.selectedRoom) selectRoom(state.selectedRoom.id);
+    applyStep3Fields();
+  }
 });
+
+/* --- Populate Step 3 summary fields (also used after preselect) ---------- */
+function applyStep3Fields() {
+  const s = state;
+  const d3dates  = document.getElementById('step3-dates');
+  const d3room   = document.getElementById('step3-room');
+  const d3guests = document.getElementById('step3-guests');
+  if (d3dates)  d3dates.textContent  = s.selectedDate ? s.selectedDate.label : 'Dates not yet selected';
+  if (d3room)   d3room.textContent   = s.selectedRoom  ? s.selectedRoom.name  : 'No room selected';
+  if (d3guests) d3guests.textContent = s.guestCount === 1 ? '1 guest' : `${s.guestCount} guests`;
+}
 
 /* --- Step Navigation ----------------------------------------- */
 function renderStep(n, animate = true) {
@@ -89,6 +147,12 @@ function renderStep(n, animate = true) {
   updateProgressBar(n);
   updateSidebar();
   updateNavButtons(n);
+
+  // Recalculate calendar widths when step 1 becomes visible —
+  // needed when navigating back from a later step where step 1 was hidden (offsetWidth=0)
+  if (n === 1 && calResize) {
+    requestAnimationFrame(calResize);
+  }
 
   // Booking nav summary: hide on step 8 (confirmation), show on all others
   const bookingNav = document.querySelector('.booking-nav');
@@ -299,14 +363,22 @@ function restoreCalDay(el) {
 function initRoomSelection() {
   document.querySelectorAll('.room-card[data-room-id]').forEach(card => {
     card.addEventListener('click', () => {
-      const id = card.dataset.roomId;
-      state.selectedRoom = ROOMS.find(r => r.id === id) || null;
-      document.querySelectorAll('.room-card[data-room-id]').forEach(c => {
-        c.classList.toggle('is-selected', c.dataset.roomId === id);
-      });
-      updateSidebar();
+      selectRoom(card.dataset.roomId);
     });
   });
+}
+
+function selectRoom(id) {
+  const room = ROOMS.find(r => r.id === id);
+  if (!room) return;
+
+  state.selectedRoom = room;
+
+  document.querySelectorAll('.room-card[data-room-id]').forEach(c => {
+    c.classList.toggle('is-selected', c.dataset.roomId === id);
+  });
+
+  updateSidebar();
 }
 
 /* --- Guest Stepper ------------------------------------------ */
@@ -316,6 +388,10 @@ function initGuestStepper() {
   const val   = document.getElementById('guest-count');
 
   if (!minus || !plus || !val) return;
+
+  // Reflect any preselected guest count in the stepper UI
+  val.textContent = state.guestCount;
+  minus.disabled = state.guestCount <= 1;
 
   minus.addEventListener('click', () => {
     if (state.guestCount > 1) {
@@ -524,8 +600,18 @@ function initCalCarousel() {
     if (Math.abs(dragDelta) > DRAG_THRESHOLD) e.stopPropagation();
   }, true);
 
-  setWidths();
+  // Defer first width calculation until after layout is settled
+  requestAnimationFrame(setWidths);
   window.addEventListener('resize', setWidths);
+
+  // Expose handles so renderStep can resize/scroll when step 1 becomes visible
+  calResize   = setWidths;
+  calScrollTo = function(index) {
+    const cards = getCards();
+    const max   = Math.max(0, cards.length - VISIBLE);
+    offset = Math.min(Math.max(0, index), max);
+    applyTransform();
+  };
 }
 
 function renderCalendarMonth(containerId, year, month) {

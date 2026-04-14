@@ -1918,20 +1918,12 @@
     // Expose app for inline onclick
     window.bookingApp = { renderStep };
 
-    // Update step 3 summary fields when entering step 3
-    const origRenderStep = renderStep;
-
     // Patch: update review fields on step 3 & 4
     document.getElementById('nav-continue').addEventListener('click', function() {
       setTimeout(() => {
         const s = state;
-        // Step 3 summary
-        const d3dates = document.getElementById('step3-dates');
-        if (d3dates && s.selectedDate) d3dates.textContent = s.selectedDate.label;
-        const d3room = document.getElementById('step3-room');
-        if (d3room && s.selectedRoom) d3room.textContent = s.selectedRoom.name;
-        const d3guests = document.getElementById('step3-guests');
-        if (d3guests) d3guests.textContent = s.guestCount === 1 ? '1 guest' : `${s.guestCount} guests`;
+        // Step 3 summary (delegate to shared helper in booking.js)
+        applyStep3Fields();
 
         // Step 4 review fields
         const rDates = document.getElementById('review-dates');
