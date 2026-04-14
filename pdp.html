@@ -381,8 +381,8 @@
       .rdp-trust-grid { grid-template-columns: 1fr; }
       .rdp-related-grid { grid-template-columns: 1fr 1fr; }
       .rdp-neighbourhood-grid { grid-template-columns: 1fr 1fr; }
-      .rdp-room-card { grid-template-columns: 1fr; }
-      .rdp-room-card__img { height: 200px; width: 100%; }
+      .rdp-room-cards { grid-template-columns: 1fr; }
+      .rdp-room-carousel { aspect-ratio: 1 / 1; }
       .rdp-facilities { grid-template-columns: 1fr; }
     }
 
@@ -618,13 +618,18 @@
     .rdp-date-card__per { font-size: var(--t-xs); color: var(--stone); }
 
     /* ── Room cards ──────────────────────────────────── */
-    .rdp-room-cards { display: flex; flex-direction: column; gap: var(--s5); }
+    .rdp-room-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s5);
+      align-items: start;
+    }
     .rdp-room-card {
       border: 1.5px solid var(--border);
       border-radius: var(--r-lg);
       overflow: hidden;
-      display: grid;
-      grid-template-columns: 220px 1fr;
+      display: flex;
+      flex-direction: column;
       transition: border-color var(--dur-fast);
     }
     .rdp-room-card { cursor: pointer; }
@@ -646,8 +651,64 @@
     .rdp-room-card.is-selected .rdp-room-select-btn.is-primary {
       background: var(--sage); color: var(--white); border-color: var(--sage);
     }
-    .rdp-room-card__img { width: 100%; height: 100%; object-fit: cover; min-height: 200px; display: block; }
-    .rdp-room-card__body { padding: var(--s6); display: flex; flex-direction: column; }
+    /* Room image carousel — 1:1 */
+    .rdp-room-carousel {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: var(--sand-mid);
+      flex-shrink: 0;
+    }
+    .rdp-room-carousel__track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.4s ease;
+    }
+    .rdp-room-carousel__slide {
+      min-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .rdp-room-carousel__btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.60);
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      color: var(--ink);
+      transition: background 0.2s;
+    }
+    .rdp-room-carousel__btn:hover { background: var(--white); }
+    .rdp-room-carousel__btn--prev { left: 8px; }
+    .rdp-room-carousel__btn--next { right: 8px; }
+    .rdp-room-carousel__dots {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 5px;
+      z-index: 2;
+    }
+    .rdp-room-carousel__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .rdp-room-carousel__dot.is-active { background: var(--white); }
+    .rdp-room-card__body { padding: var(--s5); display: flex; flex-direction: column; }
     .rdp-room-card__badge {
       display: inline-block;
       font-size: var(--t-xs);
@@ -1414,9 +1475,22 @@
         <div class="rdp-room-cards">
 
           <div class="rdp-room-card" data-price="2195" data-room="2195">
-            <img src="images/header_mellulah-yoga-retreats_20240514092216.jpg"
-                 alt="Shared Garden Room" class="rdp-room-card__img">
+            <div class="rdp-room-carousel" data-carousel>
+              <div class="rdp-room-carousel__track">
+                <img src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Shared Garden Room" class="rdp-room-carousel__slide">
+                <img src="images/header_vale-de-moses.jpg" alt="Shared Garden Room" class="rdp-room-carousel__slide">
+                <img src="images/header_casa-ana_20230628180415.jpg" alt="Shared Garden Room" class="rdp-room-carousel__slide">
+              </div>
+              <button class="rdp-room-carousel__btn rdp-room-carousel__btn--prev" aria-label="Previous"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+              <button class="rdp-room-carousel__btn rdp-room-carousel__btn--next" aria-label="Next"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+              <div class="rdp-room-carousel__dots">
+                <span class="rdp-room-carousel__dot is-active"></span>
+                <span class="rdp-room-carousel__dot"></span>
+                <span class="rdp-room-carousel__dot"></span>
+              </div>
+            </div>
             <div class="rdp-room-card__body">
+              <div class="rdp-room-card__badge" style="visibility: hidden;">–</div>
               <div class="rdp-room-card__name">Shared Garden Room</div>
               <div class="rdp-room-card__type">Twin share · Garden view · En-suite</div>
               <div class="rdp-room-card__includes">
@@ -1435,8 +1509,20 @@
           </div>
 
           <div class="rdp-room-card rdp-room-card--popular" data-price="2895" data-room="2895">
-            <img src="images/header_casa-ana_20230628180415.jpg"
-                 alt="Private Valley Room" class="rdp-room-card__img">
+            <div class="rdp-room-carousel" data-carousel>
+              <div class="rdp-room-carousel__track">
+                <img src="images/header_casa-ana_20230628180415.jpg" alt="Private Valley Room" class="rdp-room-carousel__slide">
+                <img src="images/header_vale-de-moses.jpg" alt="Private Valley Room" class="rdp-room-carousel__slide">
+                <img src="images/header_les-marguerites.jpg" alt="Private Valley Room" class="rdp-room-carousel__slide">
+              </div>
+              <button class="rdp-room-carousel__btn rdp-room-carousel__btn--prev" aria-label="Previous"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+              <button class="rdp-room-carousel__btn rdp-room-carousel__btn--next" aria-label="Next"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+              <div class="rdp-room-carousel__dots">
+                <span class="rdp-room-carousel__dot is-active"></span>
+                <span class="rdp-room-carousel__dot"></span>
+                <span class="rdp-room-carousel__dot"></span>
+              </div>
+            </div>
             <div class="rdp-room-card__body">
               <div class="rdp-room-card__badge">Most popular</div>
               <div class="rdp-room-card__name">Private Valley Room</div>
@@ -1457,8 +1543,20 @@
           </div>
 
           <div class="rdp-room-card" data-price="3750" data-room="3750">
-            <img src="images/header_les-marguerites.jpg"
-                 alt="Quinta Suite" class="rdp-room-card__img">
+            <div class="rdp-room-carousel" data-carousel>
+              <div class="rdp-room-carousel__track">
+                <img src="images/header_les-marguerites.jpg" alt="Quinta Suite" class="rdp-room-carousel__slide">
+                <img src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Quinta Suite" class="rdp-room-carousel__slide">
+                <img src="images/header_vale-de-moses.jpg" alt="Quinta Suite" class="rdp-room-carousel__slide">
+              </div>
+              <button class="rdp-room-carousel__btn rdp-room-carousel__btn--prev" aria-label="Previous"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+              <button class="rdp-room-carousel__btn rdp-room-carousel__btn--next" aria-label="Next"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+              <div class="rdp-room-carousel__dots">
+                <span class="rdp-room-carousel__dot is-active"></span>
+                <span class="rdp-room-carousel__dot"></span>
+                <span class="rdp-room-carousel__dot"></span>
+              </div>
+            </div>
             <div class="rdp-room-card__body">
               <div class="rdp-room-card__badge" style="background: var(--warning-bg); color: var(--warning);">Premium</div>
               <div class="rdp-room-card__name">Quinta Suite</div>
@@ -2424,6 +2522,26 @@
     });
 
     /* Header is always dark on this page — no scroll handler needed */
+
+    // Room image carousels
+    document.querySelectorAll('[data-carousel]').forEach(carousel => {
+      const track  = carousel.querySelector('.rdp-room-carousel__track');
+      const slides = carousel.querySelectorAll('.rdp-room-carousel__slide');
+      const dots   = carousel.querySelectorAll('.rdp-room-carousel__dot');
+      const prev   = carousel.querySelector('.rdp-room-carousel__btn--prev');
+      const next   = carousel.querySelector('.rdp-room-carousel__btn--next');
+      let current  = 0;
+
+      function goTo(n) {
+        current = (n + slides.length) % slides.length;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+      }
+
+      prev.addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
+      next.addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); });
+      dots.forEach((dot, i) => dot.addEventListener('click', e => { e.stopPropagation(); goTo(i); }));
+    });
 
   </script>
 
