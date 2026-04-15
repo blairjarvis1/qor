@@ -14,13 +14,13 @@
     #site-header .site-header__logo,
     #site-header .site-header__nav a,
     #site-header .btn--ghost { color: var(--ink) !important; }
-    #site-header { background: var(--parchment) !important; }
+    #site-header { background: #87B5C2 !important; }
     #site-header.is-scrolled { background: var(--white) !important; box-shadow: 0 1px 0 var(--border); }
 
     /* ── CONTEXT LAYER ──────────────────────────────────────────────── */
     .ctx {
-      background: var(--parchment);
-      padding: 140px 48px 32px;
+      background: #87B5C2;
+      padding: 140px 48px 16px;
     }
     .ctx__label {
       font-family: var(--ui, var(--sans));
@@ -28,12 +28,12 @@
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--stone);
+      color: var(--ink);
       margin-bottom: 10px;
     }
     .ctx__h1 {
       font-family: var(--serif);
-      font-size: clamp(26px, 3vw, 42px);
+      font-size: clamp(40px, 5.5vw, 80px);
       font-weight: 400;
       color: var(--ink);
       line-height: 1.1;
@@ -41,7 +41,7 @@
     }
     .ctx__sub {
       font-size: 14px;
-      color: var(--stone);
+      color: var(--ink);
       margin-bottom: 20px;
     }
     .ctx__chips {
@@ -49,6 +49,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 8px;
+      padding-top: 32px;
     }
     .ctx__chip {
       display: inline-flex;
@@ -92,7 +93,7 @@
 
     /* ── STICKY SEARCH WRAP ─────────────────────────────────────────── */
     .lr-search-wrap {
-      background: var(--parchment);
+      background: #87B5C2;
       padding: 0 48px 20px;
       position: sticky;
       top: 60px;
@@ -457,7 +458,7 @@
       overflow: hidden;
       background: var(--white);
       border: none;
-      margin: 48px;
+      margin: 0 48px 48px;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
@@ -953,6 +954,11 @@
           <div class="mega-menu">
             <div class="mega-menu__inner">
 
+              <!-- View all -->
+              <div class="mega-menu__footer" style="margin-top:0; margin-bottom:24px; padding-top:0; padding-bottom:20px; border-top:none; border-bottom:1px solid var(--border);">
+                <a href="listings.html" class="mega-menu__footer-link">View all retreats →</a>
+              </div>
+
               <!-- Rail 1: By Category -->
               <div class="mega-menu__rail">
                 <div class="mega-menu__rail-label">Browse by category</div>
@@ -962,7 +968,7 @@
                     <div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Yoga &amp; Meditation</span></div>
                   </a>
                   <a href="#" class="mega-cat-card">
-                    <img src="images/header_casa-ana_20230628180415.jpg" alt="Detox & Cleanse">
+                    <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+Crystal+Reiki.webp" alt="Detox & Cleanse">
                     <div class="mega-cat-card__overlay"><span class="mega-cat-card__name">Detox &amp; Cleanse</span></div>
                   </a>
                   <a href="#" class="mega-cat-card">
@@ -1019,9 +1025,6 @@
                     <div class="mega-intent-card__desc">Therapy, journalling, and deep self-enquiry</div>
                   </a>
                 </div>
-              </div>              <!-- Footer -->
-              <div class="mega-menu__footer">
-                <a href="listings.html" class="mega-menu__footer-link">View all retreats →</a>
               </div>
 
             </div>
@@ -1051,12 +1054,6 @@
     <p class="ctx__label">QoR Vetted</p>
     <h1 class="ctx__h1">All retreats · May 2026</h1>
     <p class="ctx__sub">100 retreats curated by Queen of Retreats</p>
-    <div class="ctx__chips">
-      <span class="ctx__chip">Yoga &amp; Meditation <button class="ctx__chip-x" aria-label="Remove filter">×</button></span>
-      <span class="ctx__chip">Bali <button class="ctx__chip-x" aria-label="Remove filter">×</button></span>
-      <span class="ctx__chip">May 2026 <button class="ctx__chip-x" aria-label="Remove filter">×</button></span>
-      <button class="ctx__clear">Clear all</button>
-    </div>
   </section>
 
   <!-- ── 3. STICKY SEARCH BAR ───────────────────────────────────────── -->
@@ -1084,6 +1081,15 @@
       <button class="lr-search__btn" aria-label="Search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
+    </div>
+  </div>
+
+  <div style="background: var(--parchment); padding: 24px 48px 0; display: none;">
+    <div class="ctx__chips" style="padding-top: 0;">
+      <span class="ctx__chip">Yoga &amp; Meditation <button class="ctx__chip-x" aria-label="Remove filter">×</button></span>
+      <span class="ctx__chip">Bali <button class="ctx__chip-x" aria-label="Remove filter">×</button></span>
+      <span class="ctx__chip">May 2026 <button class="ctx__chip-x" aria-label="Remove filter">×</button></span>
+      <button class="ctx__clear">Clear all</button>
     </div>
   </div>
 
@@ -1161,10 +1167,44 @@
           <div class="intent-card__desc">Therapy, journalling, and deep self-enquiry</div>
         </div>
       </div>
-    </div>  <!-- ── 6. RESULTS ─────────────────────────────────────────────────── -->
+    </div>
+
+    <!-- Rail 3: By Destination -->
+    <div class="discovery__rail">
+      <div class="discovery__rail-label">Browse by destination</div>
+      <div class="discovery__scroll">
+        <div class="cat-card">
+          <img src="images/header_vale-de-moses.jpg" alt="Portugal">
+          <div class="cat-card__overlay"><span class="cat-card__name">Portugal</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Bali">
+          <div class="cat-card__overlay"><span class="cat-card__name">Bali</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="images/retreats/ananda/ANANDA+hot+oil+2.webp" alt="India">
+          <div class="cat-card__overlay"><span class="cat-card__name">India</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="images/header_casa-ana_20230628180415.jpg" alt="Spain">
+          <div class="cat-card__overlay"><span class="cat-card__name">Spain</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="images/header_les-marguerites.jpg" alt="France">
+          <div class="cat-card__overlay"><span class="cat-card__name">France</span></div>
+        </div>
+        <div class="cat-card">
+          <img src="images/header_vale-de-moses.webp" alt="Greece">
+          <div class="cat-card__overlay"><span class="cat-card__name">Greece</span></div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ── 6. RESULTS ─────────────────────────────────────────────────── -->
   <main class="results">
 
     <!-- Featured Card -->
+    <p style="font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); margin: 48px 48px 24px; line-height: 1.1;">Featured Retreat</p>
     <a href="pdp.html" class="lr-featured">
       <div class="lr-featured__image-wrap">
         <img src="images/header_vale-de-moses.jpg" alt="Vale de Moses — Editor's Pick">
@@ -1222,6 +1262,9 @@
       </div>
     </a>
 
+    <!-- Grid title -->
+    <p style="font-family: var(--serif); font-size: 28px; font-weight: 400; color: var(--ink); margin: 24px 48px 32px; line-height: 1.1;">Our recommended retreats</p>
+
     <!-- Grid: Row 1 (cards 1–3) -->
     <div class="lr-grid">
 
@@ -1277,9 +1320,9 @@
       </a>
 
       <!-- Card 2 -->
-      <a href="#casa-ana-wellness" class="lr-card">
+      <a href="pdp-flexible.html" class="lr-card">
         <div class="lr-card__image">
-          <img src="images/header_casa-ana_20230628180415.jpg" alt="Casa Ana">
+          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Casa Ana">
           <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -1287,12 +1330,12 @@
         </div>
         <div class="lr-card__body">
           <div class="lr-card__type">Detox</div>
-          <div class="lr-card__title">Casa Ana Wellness &amp; Detox</div>
+          <div class="lr-card__title">Four Seasons Bali at Sayan</div>
           <div class="lr-card__location">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Sintra, Lisbon Coast
+            Near Ubud, Bali
           </div>
-          <div class="lr-card__info">7 nights · Beginner-friendly · Max 10</div>
+          <div class="lr-card__info">Flexible stays · Beginner-friendly · Max 10</div>
           <div class="lr-card__tags">
             <span class="lr-card__tag">Detox</span>
             <span class="lr-card__tag">Spa</span>
@@ -1826,5 +1869,6 @@
     });
   </script>
 
+  <script src="mega-menu.js"></script>
 </body>
 </html>

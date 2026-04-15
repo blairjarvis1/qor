@@ -12,7 +12,7 @@
     /* ── HERO / SEARCH BAR ───────────────────────────────────────── */
     .lr-hero {
       position: relative;
-      background: var(--parchment);
+      background: #F6D087;
       display: flex;
       align-items: flex-end;
       overflow: hidden;
@@ -23,7 +23,7 @@
       position: relative;
       z-index: 2;
       width: 100%;
-      padding: 150px 48px 9px;
+      padding: 150px 48px 32px;
     }
     .lr-hero__row {
       display: flex;
@@ -32,18 +32,22 @@
       gap: 40px;
     }
     .lr-hero__title-block { flex-shrink: 0; }
+    .lr-search-wrap {
+      background: #F6D087;
+      padding: 0 48px 20px;
+    }
     .lr-hero__label {
       font-family: var(--ui, var(--sans));
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--stone);
+      color: var(--ink);
       margin-bottom: 10px;
     }
     .lr-hero__query {
       font-family: var(--serif);
-      font-size: clamp(22px, 2.8vw, 38px);
+      font-size: clamp(40px, 5.5vw, 80px);
       font-weight: 400;
       color: var(--ink);
       line-height: 1.1;
@@ -55,7 +59,7 @@
     #site-header .btn--ghost {
       color: var(--ink) !important;
     }
-    #site-header { background: var(--parchment) !important; }
+    #site-header { background: #F6D087 !important; }
     #site-header.is-scrolled { background: var(--white) !important; }
 
     /* ── SEARCH PILL (compact) ───────────────────────────────────── */
@@ -422,6 +426,11 @@
           <div class="mega-menu">
             <div class="mega-menu__inner">
 
+              <!-- View all -->
+              <div class="mega-menu__footer" style="margin-top:0; margin-bottom:24px; padding-top:0; padding-bottom:20px; border-top:none; border-bottom:1px solid var(--border);">
+                <a href="listings.html" class="mega-menu__footer-link">View all retreats →</a>
+              </div>
+
               <!-- Rail 1: By Category -->
               <div class="mega-menu__rail">
                 <div class="mega-menu__rail-label">Browse by category</div>
@@ -488,9 +497,6 @@
                     <div class="mega-intent-card__desc">Therapy, journalling, and deep self-enquiry</div>
                   </a>
                 </div>
-              </div>              <!-- Footer -->
-              <div class="mega-menu__footer">
-                <a href="listings.html" class="mega-menu__footer-link">View all retreats →</a>
               </div>
 
             </div>
@@ -525,34 +531,37 @@
           <p class="lr-hero__label">Search results</p>
           <h1 class="lr-hero__query">Yoga &amp; Meditation · Bali · May 2026</h1>
         </div>
-        <!-- Compact search bar -->
-        <div class="lr-search-bar">
-          <div class="lr-search__section">
-            <div class="lr-search__label">Type</div>
-            <div class="lr-search__value">Yoga &amp; Meditation</div>
-          </div>
-          <div class="lr-search__div"></div>
-          <div class="lr-search__section">
-            <div class="lr-search__label">Destination</div>
-            <div class="lr-search__value">Bali</div>
-          </div>
-          <div class="lr-search__div"></div>
-          <div class="lr-search__section">
-            <div class="lr-search__label">When</div>
-            <div class="lr-search__value">May 2026</div>
-          </div>
-          <div class="lr-search__div"></div>
-          <div class="lr-search__section">
-            <div class="lr-search__label">Guests</div>
-            <div class="lr-search__value">Just me</div>
-          </div>
-          <button class="lr-search__btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </button>
-        </div>
-      </a>
+      </div>
     </div>
   </section>
+
+  <!-- ── SEARCH BAR ──────────────────────────────────────────────────── -->
+  <div class="lr-search-wrap">
+    <div class="lr-search-bar">
+      <div class="lr-search__section">
+        <div class="lr-search__label">Type</div>
+        <div class="lr-search__value">Yoga &amp; Meditation</div>
+      </div>
+      <div class="lr-search__div"></div>
+      <div class="lr-search__section">
+        <div class="lr-search__label">Destination</div>
+        <div class="lr-search__value">Bali</div>
+      </div>
+      <div class="lr-search__div"></div>
+      <div class="lr-search__section">
+        <div class="lr-search__label">When</div>
+        <div class="lr-search__value">May 2026</div>
+      </div>
+      <div class="lr-search__div"></div>
+      <div class="lr-search__section">
+        <div class="lr-search__label">Guests</div>
+        <div class="lr-search__value">Just me</div>
+      </div>
+      <button class="lr-search__btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+    </div>
+  </div>
 
   <!-- ── MAIN ─────────────────────────────────────────────────────── -->
   <main class="lr-main">
@@ -652,19 +661,19 @@
       </a>
 
       <!-- Card 2 -->
-      <a href="#casa-ana-wellness" class="lr-card" style="text-decoration:none;color:inherit;">
+      <a href="pdp-flexible.html" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_casa-ana_20230628180415.jpg" alt="Casa Ana">
+          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Casa Ana">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
         </div>
         <div class="lr-card__body">
           <div class="lr-card__type">Detox · Wellness</div>
-          <div class="lr-card__title">Casa Ana Wellness &amp; Detox Retreat</div>
+          <div class="lr-card__title">Four Seasons Bali at Sayan</div>
           <div class="lr-card__location">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Sintra, Lisbon Coast
+            Near Ubud, Bali
           </div>
           <div class="lr-card__tags">
             <span class="lr-tag">Detox</span>
@@ -689,7 +698,7 @@
       <!-- Card 3 -->
       <a href="#les-marguerites" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_les-marguerites.jpg" alt="Les Marguerites">
+          <img src="images/general/13.jpg" alt="Les Marguerites">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -724,7 +733,7 @@
       <!-- Card 4 -->
       <a href="#quinta-do-reguengo" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_vale-de-moses.jpg" alt="Retreat">
+          <img src="images/retreats/ananda/ANANDA+yoga+2.webp" alt="Retreat">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -759,7 +768,7 @@
       <!-- Card 5 -->
       <a href="#estalagem-do-vale" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_casa-ana_20230628180415.jpg" alt="Retreat">
+          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+Crystal+Reiki.webp" alt="Retreat">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -794,7 +803,7 @@
       <!-- Card 6 -->
       <a href="#surf-and-soul-ericeira" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Retreat">
+          <img src="images/general/03.jpg" alt="Retreat">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -829,7 +838,7 @@
       <!-- Card 7 -->
       <a href="#monte-velho-energy" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_les-marguerites.jpg" alt="Retreat">
+          <img src="images/general/09.jpg" alt="Retreat">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -864,7 +873,7 @@
       <!-- Card 8 -->
       <a href="#herdade-dos-grous" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
-          <img src="images/header_vale-de-moses.webp" alt="Retreat">
+          <img src="images/general/14.jpg" alt="Retreat">
           <button class="lr-card__save" aria-label="Save">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -981,5 +990,6 @@
     }, { passive: true });
   </script>
 
+  <script src="mega-menu.js"></script>
 </body>
 </html>
