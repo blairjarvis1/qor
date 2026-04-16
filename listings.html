@@ -586,13 +586,29 @@
     .avail-dot--green { background: var(--success); }
     .avail-dot--amber { background: var(--warning); }
     .lr-featured__footer {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
       border-top: 1px solid var(--border);
       padding-top: 18px;
       margin-top: auto;
       margin-bottom: 16px;
+    }
+    .lr-featured__footer .lr-featured__rating {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      align-self: end;
+    }
+    .lr-featured__footer .lr-featured__price {
+      grid-column: 2;
+      grid-row: 1;
+      text-align: right;
+    }
+    .lr-featured__footer .card-pgm-tip {
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: end;
+      margin-top: 6px;
     }
     .lr-featured__rating {
       display: flex;
@@ -806,7 +822,7 @@
     }
     .lr-card__stars { color: #C9A84C; font-size: 11px; }
     .lr-card__score { font-size: 12px; font-weight: 600; color: var(--ink); }
-    .lr-card__right { display: flex; align-items: center; gap: 10px; }
+    .lr-card__right { display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 6px; }
     .lr-card__price-wrap { text-align: right; }
     .lr-card__from { font-size: 10px; color: var(--stone); display: block; line-height: 1; }
     .lr-card__price {
@@ -939,6 +955,32 @@
       justify-content: center;
       padding: 48px 0 64px;
     }
+
+    /* ── CARD PRICE GUARANTEE TOOLTIP ───────────────────────────────── */
+    .card-pgm-tip { position: relative; display: inline-flex; align-self: flex-end; }
+    .card-pgm-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--stone); white-space: nowrap; cursor: default; line-height: 1; }
+    .card-pgm-box {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      right: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      width: 240px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s, transform 0.18s;
+      transform: translateY(4px);
+      z-index: 100;
+      text-align: left;
+    }
+    .card-pgm-tip:hover .card-pgm-box { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .card-pgm-box::after { content: ''; position: absolute; top: 100%; right: 10px; border: 6px solid transparent; border-top-color: var(--white); }
+    .card-pgm-box::before { content: ''; position: absolute; top: 100%; right: 9px; border: 7px solid transparent; border-top-color: var(--border); margin-top: 1px; }
+    .card-pgm-title { font-family: var(--serif); font-size: 14px; color: var(--ink); margin-bottom: 7px; line-height: 1.3; }
+    .card-pgm-body { font-size: 11px; line-height: 1.6; color: var(--stone); }
 
   </style>
 </head>
@@ -1255,10 +1297,20 @@
             <span class="lr-price-from">From</span>
             <span class="lr-price-amount">£1,850<span class="lr-price-per">/person</span></span>
           </div>
+          <div class="card-pgm-tip">
+            <span class="card-pgm-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Our price guarantee
+            </span>
+            <div class="card-pgm-box">
+              <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+              <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+            </div>
+          </div>
         </div>
         <div class="lr-featured__ctas">
           <button class="lr-featured__cta-primary">View Retreat →</button>
-          <button class="lr-featured__cta-secondary" onclick="window.location.href='enquiry.html'">Enquire</button>
+          <button class="lr-featured__cta-secondary" onclick="window.location.href='enquiry.html'" style="display:none">Enquire</button>
         </div>
       </div>
     </a>
@@ -1307,6 +1359,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£1,290</span>
@@ -1357,6 +1419,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£1,650</span>
@@ -1408,6 +1480,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£980</span>
@@ -1463,6 +1545,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£1,120</span>
@@ -1514,6 +1606,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£2,100</span>
@@ -1564,6 +1666,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£890</span>
@@ -1650,6 +1762,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£1,450</span>
@@ -1700,6 +1822,16 @@
               </div>
             </div>
             <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£1,780</span>

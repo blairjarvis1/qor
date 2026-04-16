@@ -894,7 +894,7 @@
     }
 
     /* ── Trust ───────────────────────────────────────── */
-    .rdp-trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s5); }
+    .rdp-trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s5); }
     .rdp-trust-item {
       text-align: center;
       padding: var(--s6) var(--s5);
@@ -1052,8 +1052,18 @@
     .pdp-bar__guests-row .stepper { height: 36px; }
 
     .pdp-bar__ctas { display: flex; gap: var(--s3); margin-left: auto; flex-shrink: 0; align-items: flex-end; align-self: flex-end; }
-    .pdp-bar__cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .pdp-bar__cta-wrap { display: flex; flex-direction: row; align-items: center; gap: 12px; }
     .pdp-bar__note { display: none; }
+
+    /* ── PRICE GUARANTEE MODAL ──────────────────────────────────────── */
+    #price-guarantee-modal { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgba(28,28,26,0.55); backdrop-filter: blur(4px); }
+    #price-guarantee-modal.is-hidden { display: none !important; }
+    .pgm-card { background: var(--white); border-radius: 20px; padding: 40px 36px 36px; max-width: 420px; width: 90%; position: relative; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
+    .pgm-close { position: absolute; top: 16px; right: 18px; background: none; border: none; cursor: pointer; color: var(--stone); font-size: 20px; line-height: 1; padding: 4px; }
+    .pgm-close:hover { color: var(--ink); }
+    .pgm-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(135,181,194,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+    .pgm-title { font-family: var(--serif); font-size: clamp(20px, 2.5vw, 24px); font-weight: 400; color: var(--ink); line-height: 1.25; margin-bottom: 16px; }
+    .pgm-body { font-size: 14px; line-height: 1.75; color: var(--stone); }
 
   </style>
 </head>
@@ -1210,7 +1220,10 @@
 
       <div class="booking-bar__cta">
         <a href="booking.html" class="btn btn--primary btn--lg">Book This Retreat</a>
-        <p class="booking-bar__note">No payment today · 25% deposit to secure</p>
+        <button onclick="document.getElementById('price-guarantee-modal').classList.remove('is-hidden')" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.75); white-space: nowrap; background: none; border: none; padding: 5px 0; cursor: pointer; transition: color 0.18s;" onmouseover="this.style.color='rgba(255,255,255,1)'" onmouseout="this.style.color='rgba(255,255,255,0.75)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Our price guarantee
+        </button>
       </div>
     </div>
 
@@ -2030,6 +2043,13 @@
         <div class="rdp-trust-grid">
           <div class="rdp-trust-item">
             <div class="rdp-trust-item__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </div>
+            <div class="rdp-trust-item__title">Fair Pricing, Thoughtfully Matched</div>
+            <p class="rdp-trust-item__desc">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</p>
+          </div>
+          <div class="rdp-trust-item">
+            <div class="rdp-trust-item__icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             </div>
             <div class="rdp-trust-item__title">QoR Reviewed</div>
@@ -2694,6 +2714,10 @@
       <div class="pdp-bar__ctas">
         <a href="enquiry.html" class="btn btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: none; align-items: center; border: 1.5px solid var(--border); color: var(--ink); background: transparent;">Enquire</a>
         <div class="pdp-bar__cta-wrap">
+          <button onclick="document.getElementById('price-guarantee-modal').classList.remove('is-hidden')" style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--stone); white-space: nowrap; line-height: 1; border: 1px solid var(--border); border-radius: 20px; padding: 6px 10px; background: transparent; cursor: pointer; transition: background 0.2s;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span style="vertical-align: middle;">Our price guarantee</span>
+          </button>
           <a href="booking.html" id="pdp-bar-book" class="btn btn--primary btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: inline-flex; align-items: center; font-size: 90%;">Book This Retreat</a>
           <div class="pdp-bar__note">No payment today · 25% deposit to secure your place</div>
         </div>
@@ -2703,5 +2727,20 @@
   </div>
 
   <script src="mega-menu.js"></script>
+
+  <!-- ── Price Guarantee Modal ── -->
+  <div id="price-guarantee-modal" class="is-hidden" onclick="if(event.target===this)this.classList.add('is-hidden')">
+    <div class="pgm-card">
+      <button class="pgm-close" onclick="document.getElementById('price-guarantee-modal').classList.add('is-hidden')" aria-label="Close">&#x2715;</button>
+      <div class="pgm-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#87B5C2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
+      <h3 class="pgm-title">Fair Pricing, Thoughtfully Matched</h3>
+      <p class="pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</p>
+    </div>
+  </div>
 </body>
 </html>
