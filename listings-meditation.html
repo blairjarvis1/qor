@@ -487,6 +487,46 @@
     /* ── RESULTS SECTION ────────────────────────────────────────────── */
     .results { background: var(--parchment); }
 
+    /* ── RESULTS HEADING ───────────────────────────────────────────── */
+    .results-heading {
+      padding: 40px 48px 0;
+    }
+    .results-heading__title {
+      font-family: var(--serif);
+      font-size: 35px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 12px;
+    }
+    .results-heading__link {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.18s, border-color 0.18s;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+    }
+    .results-heading__link:hover {
+      color: var(--stone);
+      border-bottom-color: var(--stone);
+    }
+    .results-heading__sep {
+      color: var(--stone);
+      margin: 0 2px;
+    }
+    .results-heading__count {
+      font-size: 20px;
+      color: var(--stone);
+      font-family: var(--sans);
+      margin-left: 4px;
+    }
+    .results-heading__sub {
+      font-size: 16.1px;
+      color: var(--stone);
+      margin-top: 0;
+    }
+
     /* ── FEATURED CARD ──────────────────────────────────────────────── */
     .lr-featured {
       display: grid;
@@ -1159,7 +1199,7 @@
         <div class="lr-search__label">Guests</div>
         <div class="lr-search__value">Just me</div>
       </div>
-      <button class="lr-search__btn" aria-label="Search" onclick="window.location.href='listings-meditation.html'">
+      <button class="lr-search__btn" aria-label="Search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
     </div>
@@ -1175,7 +1215,7 @@
   </div>
 
   <!-- ── 4. DISCOVERY RAILS ─────────────────────────────────────────── -->
-  <section class="discovery">
+  <section class="discovery" style="display:none">
     <div class="discovery__inner">
 
       <div class="discovery__header">
@@ -1300,146 +1340,21 @@
   <!-- ── 6. RESULTS ─────────────────────────────────────────────────── -->
   <main class="results">
 
-    <!-- Featured Card -->
-    <p style="font-family: var(--serif); font-size: 32px; font-weight: 400; color: var(--ink); margin: 48px 48px 24px; line-height: 1.1;">Featured Retreat</p>
-    <a href="pdp.html" class="lr-featured">
-      <div class="lr-featured__image-wrap">
-        <img src="images/header_vale-de-moses.jpg" alt="Vale de Moses — Editor's Pick">
-        <div class="lr-featured__badge">✦ &nbsp;Editor's Pick</div>
-      </div>
-      <div class="lr-featured__details">
-        <div class="lr-featured__vetted">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          QoR Vetted
-        </div>
-        <div class="lr-featured__type">Yoga &amp; Meditation Retreat</div>
-        <h2 class="lr-featured__title">Elevation Barn — A Yoga Retreat in the wilderness of Gianyar, Bali</h2>
-        <div class="lr-featured__location">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Gianyar, Bali
-        </div>
-        <p class="lr-featured__desc">
-          Based at a tropical oasis at Gianyar, near Ubud, these hand-held transformative retreats transformative retreats, for individuals, families and corporates, will help you smash through limiting boundaries, identify your ambition and harness your power.
-        </p>
-        <div class="lr-featured__info">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          7 nights
-          <span class="lr-featured__info-sep">·</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          All levels
-          <span class="lr-featured__info-sep">·</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Max 12 guests
-        </div>
-        <div class="lr-featured__tags">
-          <span class="lr-tag">Yoga</span>
-          <span class="lr-tag">Meditation</span>
-          <span class="lr-tag">Organic food</span>
-          <span class="lr-tag">River swimming</span>
-        </div>
-        <div class="lr-featured__avail">
-          <span class="avail-dot avail-dot--green"></span>
-          Next available: 21 May 2026 · <strong>3 spots remaining</strong>
-        </div>
-        <div class="lr-featured__footer">
-          <div class="lr-featured__rating">
-            <span class="lr-stars">★★★★★</span>
-            <span class="lr-rating-score">9.8</span>
-            <span class="lr-rating-count">(214 reviews)</span>
-          </div>
-          <div class="lr-featured__price">
-            <span class="lr-price-from">From</span>
-            <span class="lr-price-amount">£1,850<span class="lr-price-per">/person</span></span>
-          </div>
-          <div class="card-pgm-tip">
-            <span class="card-pgm-badge">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Our price guarantee
-            </span>
-            <div class="card-pgm-box">
-              <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
-              <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
-            </div>
-          </div>
-        </div>
-        <div class="lr-featured__ctas">
-          <button class="lr-featured__cta-primary">View Retreat →</button>
-          <button class="lr-featured__cta-secondary" onclick="window.location.href='enquiry.html'" style="display:none">Enquire</button>
-        </div>
-      </div>
-    </a>
+    <!-- Results heading -->
+    <div class="results-heading">
+      <h2 class="results-heading__title">
+        <a href="#" class="results-heading__link">Health and Healing</a><span class="results-heading__sep"> · </span><a href="#" class="results-heading__link">Worldwide</a><span class="results-heading__sep"> · </span><a href="#" class="results-heading__link">June 2026</a><span class="results-heading__sep"> · </span><a href="#" class="results-heading__link">1 Guest</a><span class="results-heading__count"> (16)</span>
+      </h2>
+      <p class="results-heading__sub">Here are our favourite retreats based on your choices.</p>
+    </div>
 
-    <!-- Grid title -->
-    <p style="font-family: var(--serif); font-size: 28px; font-weight: 400; color: var(--ink); margin: 24px 48px 32px; line-height: 1.1;">Our recommended retreats</p>
+    <!-- Grid: Row 1 -->
+    <div class="lr-grid" style="padding-top: 32px;">
 
-    <!-- Grid: Row 1 (cards 1–3) -->
-    <div class="lr-grid">
-
-      <!-- Card 1 -->
-      <a href="pdp-enquire.html" class="lr-card">
-        <div class="lr-card__image">
-          <img src="images/retreats/ananda/ANANDA+hot+oil+2.webp" alt="Mellulah Yoga Retreat">
-          <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </button>
-          <div class="lr-card__badge">Featured</div>
-          <div class="lr-card__gallery">1 / 5</div>
-        </div>
-        <div class="lr-card__body">
-          <div class="lr-card__type">Yoga</div>
-          <div class="lr-card__title">Ananda in the Himalayas, India</div>
-          <div class="lr-card__location">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Uttarakhand, India
-          </div>
-          <div class="lr-card__info">5 nights · All levels · Max 8</div>
-          <div class="lr-card__tags">
-            <span class="lr-card__tag">Yoga</span>
-            <span class="lr-card__tag">Beach</span>
-            <span class="lr-card__tag">Vegan food</span>
-          </div>
-          <div class="lr-card__avail">
-            <span class="avail-dot avail-dot--amber"></span>
-            Next: 14 May · <strong>2 spots</strong>
-          </div>
-          <div class="lr-card__footer">
-            <div class="lr-card__left">
-              <div class="lr-card__vetted">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div class="lr-card__rating">
-                <span class="lr-card__stars">★</span>
-                <span class="lr-card__score">9.6</span>
-              </div>
-            </div>
-            <div class="lr-card__right">
-              <div class="card-pgm-tip">
-                <span class="card-pgm-badge">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  Our price guarantee
-                </span>
-                <div class="card-pgm-box">
-                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
-                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
-                </div>
-              </div>
-              <div class="lr-card__price-wrap">
-                <span class="lr-card__from">From</span>
-                <span class="lr-card__price">£1,290</span>
-              </div>
-            </div>
-          </div>
-          <div class="lr-card__ctas">
-            <button class="lr-card__view" onclick="event.preventDefault()">View</button>
-            <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 2 -->
+      <!-- Card 1: Four Seasons Bali -->
       <a href="pdp-flexible.html" class="lr-card">
         <div class="lr-card__image">
-          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Casa Ana">
+          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Four Seasons Bali">
           <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -1496,10 +1411,10 @@
         </div>
       </a>
 
-      <!-- Card 3 -->
+      <!-- Card 2: London Meditation Centre -->
       <a href="pdp-venue.html" class="lr-card">
         <div class="lr-card__image">
-          <img src="images/general/13.jpg" alt="Les Marguerites">
+          <img src="images/general/13.jpg" alt="London Meditation Centre">
           <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
@@ -1557,12 +1472,195 @@
         </div>
       </a>
 
+      <!-- Card 3: Elevation Barn -->
+      <a href="pdp.html" class="lr-card">
+        <div class="lr-card__image">
+          <img src="images/retreats/elevation-barn/Elevation+Barn+Bali+Jungle+Villa.webp" alt="Elevation Barn">
+          <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="lr-card__badge">✦ Editor's Pick</div>
+          <div class="lr-card__gallery">1 / 6</div>
+        </div>
+        <div class="lr-card__body">
+          <div class="lr-card__type">Yoga &amp; Meditation</div>
+          <div class="lr-card__title">Elevation Barn</div>
+          <div class="lr-card__location">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Gianyar, Bali
+          </div>
+          <div class="lr-card__info">7 nights · All levels · Max 12</div>
+          <div class="lr-card__tags">
+            <span class="lr-card__tag">Yoga</span>
+            <span class="lr-card__tag">Meditation</span>
+            <span class="lr-card__tag">Organic food</span>
+            <span class="lr-card__tag">River swimming</span>
+          </div>
+          <div class="lr-card__avail">
+            <span class="avail-dot avail-dot--green"></span>
+            Next: 21 May · <strong>3 spots</strong>
+          </div>
+          <div class="lr-card__footer">
+            <div class="lr-card__left">
+              <div class="lr-card__vetted">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="lr-card__rating">
+                <span class="lr-card__stars">★</span>
+                <span class="lr-card__score">9.8</span>
+              </div>
+            </div>
+            <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
+              <div class="lr-card__price-wrap">
+                <span class="lr-card__from">From</span>
+                <span class="lr-card__price">£1,850</span>
+              </div>
+            </div>
+          </div>
+          <div class="lr-card__ctas">
+            <button class="lr-card__view" onclick="event.preventDefault()">View</button>
+            <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3: Ananda in the Himalayas -->
+      <a href="pdp-enquire.html" class="lr-card">
+        <div class="lr-card__image">
+          <img src="images/retreats/ananda/ANANDA+hot+oil+2.webp" alt="Ananda in the Himalayas">
+          <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="lr-card__badge">Featured</div>
+          <div class="lr-card__gallery">1 / 5</div>
+        </div>
+        <div class="lr-card__body">
+          <div class="lr-card__type">Yoga</div>
+          <div class="lr-card__title">Ananda in the Himalayas, India</div>
+          <div class="lr-card__location">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Uttarakhand, India
+          </div>
+          <div class="lr-card__info">5 nights · All levels · Max 8</div>
+          <div class="lr-card__tags">
+            <span class="lr-card__tag">Yoga</span>
+            <span class="lr-card__tag">Beach</span>
+            <span class="lr-card__tag">Vegan food</span>
+          </div>
+          <div class="lr-card__avail">
+            <span class="avail-dot avail-dot--amber"></span>
+            Next: 14 May · <strong>2 spots</strong>
+          </div>
+          <div class="lr-card__footer">
+            <div class="lr-card__left">
+              <div class="lr-card__vetted">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="lr-card__rating">
+                <span class="lr-card__stars">★</span>
+                <span class="lr-card__score">9.6</span>
+              </div>
+            </div>
+            <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
+              <div class="lr-card__price-wrap">
+                <span class="lr-card__from">From</span>
+                <span class="lr-card__price">£1,290</span>
+              </div>
+            </div>
+          </div>
+          <div class="lr-card__ctas">
+            <button class="lr-card__view" onclick="event.preventDefault()">View</button>
+            <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
+          </div>
+        </div>
+      </a>
+
     </div><!-- /.lr-grid row 1 -->
 
     <!-- Grid: Row 2 (cards 4–6) -->
     <div class="lr-grid">
 
-      <!-- Card 4 -->
+      <!-- Card 4: Four Seasons Bali -->
+      <a href="pdp-flexible.html" class="lr-card">
+        <div class="lr-card__image">
+          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Four Seasons Bali">
+          <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="lr-card__gallery">1 / 6</div>
+        </div>
+        <div class="lr-card__body">
+          <div class="lr-card__type">Detox</div>
+          <div class="lr-card__title">Four Seasons Bali at Sayan</div>
+          <div class="lr-card__location">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Near Ubud, Bali
+          </div>
+          <div class="lr-card__info">Flexible stays · Beginner-friendly · Max 10</div>
+          <div class="lr-card__tags">
+            <span class="lr-card__tag">Detox</span>
+            <span class="lr-card__tag">Spa</span>
+            <span class="lr-card__tag">Nutrition</span>
+          </div>
+          <div class="lr-card__avail">
+            <span class="avail-dot avail-dot--green"></span>
+            Next: 21 May · <strong>5 spots</strong>
+          </div>
+          <div class="lr-card__footer">
+            <div class="lr-card__left">
+              <div class="lr-card__vetted">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="lr-card__rating">
+                <span class="lr-card__stars">★</span>
+                <span class="lr-card__score">9.4</span>
+              </div>
+            </div>
+            <div class="lr-card__right">
+              <div class="card-pgm-tip">
+                <span class="card-pgm-badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  Our price guarantee
+                </span>
+                <div class="card-pgm-box">
+                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+                </div>
+              </div>
+              <div class="lr-card__price-wrap">
+                <span class="lr-card__from">From</span>
+                <span class="lr-card__price">£1,650</span>
+              </div>
+            </div>
+          </div>
+          <div class="lr-card__ctas">
+            <button class="lr-card__view" onclick="event.preventDefault()">View</button>
+            <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5: Quinta do Reguengo -->
       <a href="#quinta-do-reguengo" class="lr-card">
         <div class="lr-card__image">
           <img src="images/retreats/ananda/ANANDA+yoga+2.webp" alt="Quinta do Reguengo">
@@ -1622,7 +1720,7 @@
         </div>
       </a>
 
-      <!-- Card 5 -->
+      <!-- Card 6: Estalagem do Vale -->
       <a href="#estalagem-do-vale" class="lr-card">
         <div class="lr-card__image">
           <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+Crystal+Reiki.webp" alt="Estalagem do Vale">
@@ -1683,7 +1781,43 @@
         </div>
       </a>
 
-      <!-- Card 6 -->
+    </div><!-- /.lr-grid row 2 -->
+
+    <!-- Editorial In-Feed Block -->
+    <div class="editorial-feed">
+      <div class="editorial-feed__left">
+        <p class="editorial-feed__label">Editor's note</p>
+        <h3 class="editorial-feed__title">Not sure which retreat is right for you?</h3>
+        <p class="editorial-feed__body">Our team has personally visited every retreat on this page. Use our quiz to find your perfect match, or speak to an advisor — we're here to help you book with confidence.</p>
+        <div class="editorial-feed__ctas">
+          <a href="#" class="btn btn--primary">Take the quiz →</a>
+          <a href="#" class="editorial-feed__link">Speak to an advisor</a>
+        </div>
+      </div>
+      <div class="editorial-feed__cards">
+        <a href="#" class="ed-mini">
+          <img class="ed-mini__img" src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Best retreats for beginners">
+          <div class="ed-mini__body">
+            <div class="ed-mini__title">Best retreats for beginners</div>
+            <div style="font-size: 12px; color: var(--stone);">Our editors' top picks for first-timers</div>
+          </div>
+          <span class="ed-mini__arrow">→</span>
+        </a>
+        <a href="#" class="ed-mini">
+          <img class="ed-mini__img" src="images/header_les-marguerites.jpg" alt="Hidden gems under £1,000">
+          <div class="ed-mini__body">
+            <div class="ed-mini__title">Hidden gems under £1,000</div>
+            <div style="font-size: 12px; color: var(--stone);">Exceptional value from our vetted collection</div>
+          </div>
+          <span class="ed-mini__arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Grid: Row 3 (cards 7–8) -->
+    <div class="lr-grid">
+
+      <!-- Card 7: Surf & Soul Ericeira -->
       <a href="#surf-and-soul-ericeira" class="lr-card">
         <div class="lr-card__image">
           <img src="images/general/03.jpg" alt="Surf & Soul Ericeira">
@@ -1743,43 +1877,8 @@
         </div>
       </a>
 
-    </div><!-- /.lr-grid row 2 -->
 
-    <!-- Editorial In-Feed Block -->
-    <div class="editorial-feed">
-      <div class="editorial-feed__left">
-        <p class="editorial-feed__label">Editor's note</p>
-        <h3 class="editorial-feed__title">Not sure which retreat is right for you?</h3>
-        <p class="editorial-feed__body">Our team has personally visited every retreat on this page. Use our quiz to find your perfect match, or speak to an advisor — we're here to help you book with confidence.</p>
-        <div class="editorial-feed__ctas">
-          <a href="#" class="btn btn--primary">Take the quiz →</a>
-          <a href="#" class="editorial-feed__link">Speak to an advisor</a>
-        </div>
-      </div>
-      <div class="editorial-feed__cards">
-        <a href="#" class="ed-mini">
-          <img class="ed-mini__img" src="images/header_mellulah-yoga-retreats_20240514092216.jpg" alt="Best retreats for beginners">
-          <div class="ed-mini__body">
-            <div class="ed-mini__title">Best retreats for beginners</div>
-            <div style="font-size: 12px; color: var(--stone);">Our editors' top picks for first-timers</div>
-          </div>
-          <span class="ed-mini__arrow">→</span>
-        </a>
-        <a href="#" class="ed-mini">
-          <img class="ed-mini__img" src="images/header_les-marguerites.jpg" alt="Hidden gems under £1,000">
-          <div class="ed-mini__body">
-            <div class="ed-mini__title">Hidden gems under £1,000</div>
-            <div style="font-size: 12px; color: var(--stone);">Exceptional value from our vetted collection</div>
-          </div>
-          <span class="ed-mini__arrow">→</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Grid: Row 3 (cards 7–8) -->
-    <div class="lr-grid">
-
-      <!-- Card 7 -->
+      <!-- Card 8: Monte Velho -->
       <a href="#monte-velho-energy" class="lr-card">
         <div class="lr-card__image">
           <img src="images/general/09.jpg" alt="Monte Velho">
