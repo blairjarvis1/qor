@@ -1055,15 +1055,19 @@
     .pdp-bar__cta-wrap { display: flex; flex-direction: row; align-items: center; gap: 12px; }
     .pdp-bar__note { display: none; }
 
-    /* ── PRICE GUARANTEE MODAL ──────────────────────────────────────── */
-    #price-guarantee-modal { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgba(28,28,26,0.55); backdrop-filter: blur(4px); }
-    #price-guarantee-modal.is-hidden { display: none !important; }
-    .pgm-card { background: var(--white); border-radius: 20px; padding: 40px 36px 36px; max-width: 420px; width: 90%; position: relative; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
-    .pgm-close { position: absolute; top: 16px; right: 18px; background: none; border: none; cursor: pointer; color: var(--stone); font-size: 20px; line-height: 1; padding: 4px; }
-    .pgm-close:hover { color: var(--ink); }
-    .pgm-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(135,181,194,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
-    .pgm-title { font-family: var(--serif); font-size: clamp(20px, 2.5vw, 24px); font-weight: 400; color: var(--ink); line-height: 1.25; margin-bottom: 16px; }
-    .pgm-body { font-size: 14px; line-height: 1.75; color: var(--stone); }
+    /* ── PRICE GUARANTEE TOOLTIP ──────────────────────────────────────── */
+    .card-pgm-tip { position: relative; display: inline-flex; align-self: flex-end; }
+    .card-pgm-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--stone); white-space: nowrap; cursor: default; line-height: 1; }
+    .card-pgm-box { position: absolute; bottom: calc(100% + 10px); right: 0; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; width: 240px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); pointer-events: none; opacity: 0; transition: opacity 0.18s, transform 0.18s; transform: translateY(4px); z-index: 100; text-align: left; }
+    .card-pgm-tip:hover .card-pgm-box { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .card-pgm-box::after { content: ''; position: absolute; top: 100%; right: 10px; border: 6px solid transparent; border-top-color: var(--white); }
+    .card-pgm-box::before { content: ''; position: absolute; top: 100%; right: 9px; border: 7px solid transparent; border-top-color: var(--border); margin-top: 1px; }
+    .card-pgm-title { font-family: var(--serif); font-size: 14px; color: var(--ink); margin-bottom: 7px; line-height: 1.3; }
+    .card-pgm-body { font-size: 11px; line-height: 1.6; color: var(--stone); }
+    .card-pgm-tip--center .card-pgm-box { right: auto; left: 50%; transform: translateX(-50%) translateY(4px); }
+    .card-pgm-tip--center:hover .card-pgm-box { transform: translateX(-50%) translateY(0); }
+    .card-pgm-tip--center .card-pgm-box::after { right: auto; left: 50%; transform: translateX(-50%); }
+    .card-pgm-tip--center .card-pgm-box::before { right: auto; left: 50%; transform: translateX(-50%); }
 
   </style>
 </head>
@@ -1220,10 +1224,16 @@
 
       <div class="booking-bar__cta">
         <a href="booking.html" class="btn btn--primary btn--lg">Book This Retreat</a>
-        <button onclick="document.getElementById('price-guarantee-modal').classList.remove('is-hidden')" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.75); white-space: nowrap; background: none; border: none; padding: 5px 0; cursor: pointer; transition: color 0.18s;" onmouseover="this.style.color='rgba(255,255,255,1)'" onmouseout="this.style.color='rgba(255,255,255,0.75)'">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Our price guarantee
-        </button>
+        <div class="card-pgm-tip card-pgm-tip--center" style="align-self: center;">
+          <span class="card-pgm-badge" style="font-size: 12px; color: rgba(255,255,255,0.75); padding: 5px 0; transition: color 0.18s;" onmouseover="this.style.color='rgba(255,255,255,1)'" onmouseout="this.style.color='rgba(255,255,255,0.75)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Our price guarantee
+          </span>
+          <div class="card-pgm-box">
+            <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+            <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2714,10 +2724,16 @@
       <div class="pdp-bar__ctas">
         <a href="enquiry.html" class="btn btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: none; align-items: center; border: 1.5px solid var(--border); color: var(--ink); background: transparent;">Enquire</a>
         <div class="pdp-bar__cta-wrap">
-          <button onclick="document.getElementById('price-guarantee-modal').classList.remove('is-hidden')" style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--stone); white-space: nowrap; line-height: 1; border: 1px solid var(--border); border-radius: 20px; padding: 6px 10px; background: transparent; cursor: pointer; transition: background 0.2s;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span style="vertical-align: middle;">Our price guarantee</span>
-          </button>
+          <div class="card-pgm-tip">
+            <span class="card-pgm-badge" style="font-size: 12px; border: 1px solid var(--border); border-radius: 20px; padding: 6px 10px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span style="vertical-align: middle;">Our price guarantee</span>
+            </span>
+            <div class="card-pgm-box">
+              <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
+              <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
+            </div>
+          </div>
           <a href="booking.html" id="pdp-bar-book" class="btn btn--primary btn--lg" style="height: 36px; padding-top: 0; padding-bottom: 0; display: inline-flex; align-items: center; font-size: 90%;">Book This Retreat</a>
           <div class="pdp-bar__note">No payment today · 25% deposit to secure your place</div>
         </div>
@@ -2728,19 +2744,5 @@
 
   <script src="mega-menu.js"></script>
 
-  <!-- ── Price Guarantee Modal ── -->
-  <div id="price-guarantee-modal" class="is-hidden" onclick="if(event.target===this)this.classList.add('is-hidden')">
-    <div class="pgm-card">
-      <button class="pgm-close" onclick="document.getElementById('price-guarantee-modal').classList.add('is-hidden')" aria-label="Close">&#x2715;</button>
-      <div class="pgm-icon">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#87B5C2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <polyline points="9 12 11 14 15 10"/>
-        </svg>
-      </div>
-      <h3 class="pgm-title">Fair Pricing, Thoughtfully Matched</h3>
-      <p class="pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</p>
-    </div>
-  </div>
 </body>
 </html>
