@@ -102,7 +102,21 @@
       position: sticky;
       top: 60px;
       z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
+    .lr-search-wrap__clear {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      opacity: 0.7;
+      transition: opacity 0.15s;
+    }
+    .lr-search-wrap__clear:hover { opacity: 1; }
 
     /* ── SEARCH BAR ─────────────────────────────────────────────────── */
     .lr-search-bar {
@@ -231,6 +245,67 @@
     .discovery__tab:hover:not(.is-active) { color: var(--ink); }
     .discovery__panel { display: none; }
     .discovery__panel.is-active { display: block; }
+
+    /* ── DISCOVERY TOGGLE ───────────────────────────────────────────── */
+    .discovery__toggle {
+      margin-left: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0 10px;
+      margin-bottom: -1px;
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+    .discovery__toggle:hover { color: var(--ink); }
+    .discovery__toggle svg { transition: transform 0.25s ease; }
+
+    /* Collapsed state */
+    .discovery.is-collapsed { padding: 12px 0; }
+    .discovery.is-collapsed .discovery__inner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .discovery.is-collapsed .discovery__header {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      padding-top: 0;
+      width: 240px;
+    }
+    .discovery.is-collapsed .discovery__inner {
+      gap: 0 56px;
+    }
+    .discovery.is-collapsed .discovery__label { margin-bottom: 0; }
+    .discovery.is-collapsed .discovery__title,
+    .discovery.is-collapsed .discovery__intro { display: none; }
+    .discovery.is-collapsed .discovery__toggle {
+      padding: 0;
+      margin-bottom: 0;
+    }
+    .discovery.is-collapsed .discovery__toggle svg { transform: rotate(180deg); }
+    .discovery.is-collapsed .discovery__tabs-wrap {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      flex: 1;
+    }
+    .discovery.is-collapsed .discovery__tabs {
+      border-bottom: none;
+      margin-bottom: 0;
+      flex: 1;
+    }
+    .discovery.is-collapsed .discovery__tab.is-active {
+      color: var(--stone);
+      border-bottom-color: transparent;
+    }
+    .discovery.is-collapsed .discovery__tab:hover { color: var(--ink); cursor: pointer; }
+    .discovery.is-collapsed .discovery__panel,
+    .discovery.is-collapsed .discovery__panel.is-active { display: none !important; }
     .discovery__scroll {
       display: flex;
       gap: 12px;
@@ -1203,6 +1278,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
     </div>
+    <a href="listings.html" class="lr-search-wrap__clear">Clear all</a>
   </div>
 
   <div style="background: var(--parchment); padding: 24px 48px 0; display: none;">
@@ -1215,7 +1291,7 @@
   </div>
 
   <!-- ── 4. DISCOVERY RAILS ─────────────────────────────────────────── -->
-  <section class="discovery" style="display:none">
+  <section class="discovery is-collapsed">
     <div class="discovery__inner">
 
       <div class="discovery__header">
@@ -1229,6 +1305,9 @@
           <button class="discovery__tab is-active" data-tab="category">What kind of retreat are you looking for?</button>
           <button class="discovery__tab" data-tab="intent">What do you want from the retreat?</button>
           <button class="discovery__tab" data-tab="destination">Where do you feel like going?</button>
+          <button class="discovery__toggle" id="discovery-toggle" aria-label="Expand discovery">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
         </div>
 
         <!-- Panel 1: By Category -->
@@ -1535,7 +1614,12 @@
         </div>
       </a>
 
-      <!-- Card 3: Ananda in the Himalayas -->
+    </div><!-- /.lr-grid row 1 -->
+
+    <!-- Grid: Row 2 (cards 4–6) -->
+    <div class="lr-grid">
+
+      <!-- Card 4: Ananda in the Himalayas -->
       <a href="pdp-enquire.html" class="lr-card">
         <div class="lr-card__image">
           <img src="images/retreats/ananda/ANANDA+hot+oil+2.webp" alt="Ananda in the Himalayas">
@@ -1586,71 +1670,6 @@
               <div class="lr-card__price-wrap">
                 <span class="lr-card__from">From</span>
                 <span class="lr-card__price">£1,290</span>
-              </div>
-            </div>
-          </div>
-          <div class="lr-card__ctas">
-            <button class="lr-card__view" onclick="event.preventDefault()">View</button>
-            <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
-          </div>
-        </div>
-      </a>
-
-    </div><!-- /.lr-grid row 1 -->
-
-    <!-- Grid: Row 2 (cards 4–6) -->
-    <div class="lr-grid">
-
-      <!-- Card 4: Four Seasons Bali -->
-      <a href="pdp-flexible.html" class="lr-card">
-        <div class="lr-card__image">
-          <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Four Seasons Bali">
-          <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </button>
-          <div class="lr-card__gallery">1 / 6</div>
-        </div>
-        <div class="lr-card__body">
-          <div class="lr-card__type">Detox</div>
-          <div class="lr-card__title">Four Seasons Bali at Sayan</div>
-          <div class="lr-card__location">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Near Ubud, Bali
-          </div>
-          <div class="lr-card__info">Flexible stays · Beginner-friendly · Max 10</div>
-          <div class="lr-card__tags">
-            <span class="lr-card__tag">Detox</span>
-            <span class="lr-card__tag">Spa</span>
-            <span class="lr-card__tag">Nutrition</span>
-          </div>
-          <div class="lr-card__avail">
-            <span class="avail-dot avail-dot--green"></span>
-            Next: 21 May · <strong>5 spots</strong>
-          </div>
-          <div class="lr-card__footer">
-            <div class="lr-card__left">
-              <div class="lr-card__vetted">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div class="lr-card__rating">
-                <span class="lr-card__stars">★</span>
-                <span class="lr-card__score">9.4</span>
-              </div>
-            </div>
-            <div class="lr-card__right">
-              <div class="card-pgm-tip">
-                <span class="card-pgm-badge">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  Our price guarantee
-                </span>
-                <div class="card-pgm-box">
-                  <div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div>
-                  <div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div>
-                </div>
-              </div>
-              <div class="lr-card__price-wrap">
-                <span class="lr-card__from">From</span>
-                <span class="lr-card__price">£1,650</span>
               </div>
             </div>
           </div>
@@ -2157,9 +2176,23 @@
   </script>
 
   <script>
-    // Discovery tabs
-    document.querySelectorAll('.discovery__tab').forEach(function(tab) {
+    // Discovery toggle (open / collapsed)
+    var discoveryToggle = document.getElementById('discovery-toggle');
+    var discoverySection = document.querySelector('.discovery');
+    discoveryToggle.addEventListener('click', function() {
+      var isCollapsed = discoverySection.classList.toggle('is-collapsed');
+      discoveryToggle.setAttribute('aria-label', isCollapsed ? 'Expand discovery' : 'Collapse discovery');
+    });
+
+    // Discovery tabs — clicking a tab expands the section and activates that panel
+    document.querySelectorAll('.discovery__tab[data-tab]').forEach(function(tab) {
       tab.addEventListener('click', function() {
+        // Expand if collapsed
+        if (discoverySection.classList.contains('is-collapsed')) {
+          discoverySection.classList.remove('is-collapsed');
+          discoveryToggle.setAttribute('aria-label', 'Collapse discovery');
+        }
+        // Activate tab and panel
         document.querySelectorAll('.discovery__tab').forEach(function(t) { t.classList.remove('is-active'); });
         document.querySelectorAll('.discovery__panel').forEach(function(p) { p.classList.remove('is-active'); });
         this.classList.add('is-active');

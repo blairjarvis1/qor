@@ -229,6 +229,40 @@
       border-bottom-color: var(--ink);
     }
     .discovery__tab:hover:not(.is-active) { color: var(--ink); }
+
+    /* ── DISCOVERY TOGGLE ───────────────────────────────────────────── */
+    .discovery__toggle {
+      margin-left: auto;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0 10px;
+      margin-bottom: -1px;
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+    .discovery__toggle:hover { color: var(--ink); }
+    .discovery__toggle svg { transition: transform 0.25s ease; }
+    .discovery.is-collapsed { padding: 12px 0; }
+    .discovery.is-collapsed .discovery__inner { display: flex; align-items: center; gap: 0 56px; }
+    .discovery.is-collapsed .discovery__header { display: flex; align-items: center; flex-shrink: 0; padding-top: 0; width: 240px; }
+    .discovery.is-collapsed .discovery__label { margin-bottom: 0; }
+    .discovery.is-collapsed .discovery__title,
+    .discovery.is-collapsed .discovery__intro { display: none; }
+    .discovery.is-collapsed .discovery__toggle { padding: 0; margin-bottom: 0; }
+    .discovery.is-collapsed .discovery__toggle svg { transform: rotate(180deg); }
+    .discovery.is-collapsed .discovery__tabs-wrap { display: flex; align-items: center; min-width: 0; flex: 1; }
+    .discovery.is-collapsed .discovery__tabs { border-bottom: none; margin-bottom: 0; flex: 1; }
+    .discovery.is-collapsed .discovery__tab.is-active { color: var(--stone); border-bottom-color: transparent; }
+    .discovery.is-collapsed .discovery__tab:hover { color: var(--ink); }
+    .discovery.is-collapsed .discovery__panel,
+    .discovery.is-collapsed .discovery__panel.is-active { display: none !important; }
+    .discovery__tab--clear { margin-left: auto; color: var(--stone); font-size: 13px; text-decoration: none; border-bottom-color: transparent !important; }
+    .discovery__tab--clear:hover { color: var(--ink); }
+    a.cat-card { text-decoration: none; display: block; }
     .discovery__panel { display: none; }
     .discovery__panel.is-active { display: block; }
     .discovery__scroll {
@@ -1189,35 +1223,39 @@
           <button class="discovery__tab is-active" data-tab="category">What kind of retreat are you looking for?</button>
           <button class="discovery__tab" data-tab="intent">What do you want from the retreat?</button>
           <button class="discovery__tab" data-tab="destination">Where do you feel like going?</button>
+          <a href="listings.html" class="discovery__tab discovery__tab--clear" style="display:none">Clear all</a>
+          <button class="discovery__toggle" id="discovery-toggle" aria-label="Collapse discovery">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
         </div>
 
         <!-- Panel 1: By Category -->
         <div class="discovery__panel is-active" id="disc-panel-category">
           <div class="discovery__scroll">
-            <div class="cat-card">
+            <a href="listings-filtered.html?cat=yoga-meditation" class="cat-card">
               <img src="images/general/05.jpg" alt="Yoga & Meditation">
               <div class="cat-card__overlay"><span class="cat-card__name">Yoga &amp; Meditation</span></div>
-            </div>
-            <div class="cat-card">
+            </a>
+            <a href="listings-filtered.html?cat=detox-cleanse" class="cat-card">
               <img src="images/general/19.jpg" alt="Detox & Cleanse">
               <div class="cat-card__overlay"><span class="cat-card__name">Detox &amp; Cleanse</span></div>
-            </div>
-            <div class="cat-card">
+            </a>
+            <a href="listings-filtered.html?cat=fitness-adventure" class="cat-card">
               <img src="images/general/17.jpg" alt="Fitness & Adventure">
               <div class="cat-card__overlay"><span class="cat-card__name">Fitness &amp; Adventure</span></div>
-            </div>
-            <div class="cat-card">
+            </a>
+            <a href="listings-filtered.html?cat=meditation-mindfulness" class="cat-card">
               <img src="images/general/01.jpg" alt="Meditation & Mindfulness">
               <div class="cat-card__overlay"><span class="cat-card__name">Meditation &amp; Mindfulness</span></div>
-            </div>
-            <div class="cat-card">
+            </a>
+            <a href="listings-filtered.html?cat=health-healing" class="cat-card">
               <img src="images/general/13.jpg" alt="Health & Healing">
               <div class="cat-card__overlay"><span class="cat-card__name">Health &amp; Healing</span></div>
-            </div>
-            <div class="cat-card">
+            </a>
+            <a href="listings-filtered.html?cat=personal-growth" class="cat-card">
               <img src="images/general/04.jpg" alt="Personal Growth">
               <div class="cat-card__overlay"><span class="cat-card__name">Personal Growth</span></div>
-            </div>
+            </a>
           </div>
         </div>
 
@@ -2057,9 +2095,18 @@
   </script>
 
   <script>
-    // Discovery tabs
-    document.querySelectorAll('.discovery__tab').forEach(function(tab) {
+    var discoveryToggle = document.getElementById('discovery-toggle');
+    var discoverySection = document.querySelector('.discovery');
+    discoveryToggle.addEventListener('click', function() {
+      var isCollapsed = discoverySection.classList.toggle('is-collapsed');
+      discoveryToggle.setAttribute('aria-label', isCollapsed ? 'Expand discovery' : 'Collapse discovery');
+    });
+    document.querySelectorAll('.discovery__tab[data-tab]').forEach(function(tab) {
       tab.addEventListener('click', function() {
+        if (discoverySection.classList.contains('is-collapsed')) {
+          discoverySection.classList.remove('is-collapsed');
+          discoveryToggle.setAttribute('aria-label', 'Collapse discovery');
+        }
         document.querySelectorAll('.discovery__tab').forEach(function(t) { t.classList.remove('is-active'); });
         document.querySelectorAll('.discovery__panel').forEach(function(p) { p.classList.remove('is-active'); });
         this.classList.add('is-active');

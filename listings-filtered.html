@@ -229,13 +229,47 @@
       border-bottom-color: var(--ink);
     }
     .discovery__tab:hover:not(.is-active) { color: var(--ink); }
+    .discovery__tab--clear { margin-left: auto; color: var(--stone); font-size: 13px; text-decoration: none; border-bottom-color: transparent !important; }
+    .discovery__tab--clear:hover { color: var(--ink); }
+    a.cat-card { text-decoration: none; display: block; }
+
+    /* ── DISCOVERY TOGGLE ───────────────────────────────────────────── */
+    .discovery__toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0 10px;
+      margin-bottom: -1px;
+      margin-left: 12px;
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+    .discovery__toggle:hover { color: var(--ink); }
+    .discovery__toggle svg { transition: transform 0.25s ease; }
+    .discovery.is-collapsed { padding: 12px 0; }
+    .discovery.is-collapsed .discovery__inner { display: flex; align-items: center; gap: 0 56px; }
+    .discovery.is-collapsed .discovery__header { display: flex; align-items: center; flex-shrink: 0; padding-top: 0; width: 240px; }
+    .discovery.is-collapsed .discovery__label { margin-bottom: 0; }
+    .discovery.is-collapsed .discovery__title,
+    .discovery.is-collapsed .discovery__intro { display: none; }
+    .discovery.is-collapsed .discovery__toggle { padding: 0; margin-bottom: 0; }
+    .discovery.is-collapsed .discovery__toggle svg { transform: rotate(180deg); }
+    .discovery.is-collapsed .discovery__tabs-wrap { display: flex; align-items: center; min-width: 0; flex: 1; }
+    .discovery.is-collapsed .discovery__tabs { border-bottom: none; margin-bottom: 0; flex: 1; }
+    .discovery.is-collapsed .discovery__tab.is-active { color: var(--stone); border-bottom-color: transparent; }
+    .discovery.is-collapsed .discovery__tab:hover { color: var(--ink); }
+    .discovery.is-collapsed .discovery__panel,
+    .discovery.is-collapsed .discovery__panel.is-active { display: none !important; }
     .discovery__panel { display: none; }
     .discovery__panel.is-active { display: block; }
     .discovery__scroll {
       display: flex;
       gap: 12px;
       overflow-x: auto;
-      padding: 4px 0 16px;
+      padding: 4px 4px 16px 4px;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
@@ -499,7 +533,7 @@
       font-weight: 400;
       color: var(--ink);
       line-height: 1.2;
-      padding-top: 24px;
+      padding-top: 0;
       padding-bottom: 12px;
     }
     .results-heading__link {
@@ -1201,7 +1235,7 @@
         <div class="lr-search__label">Guests</div>
         <div class="lr-search__value">Just me</div>
       </div>
-      <button class="lr-search__btn" aria-label="Search">
+      <button class="lr-search__btn" aria-label="Search" onclick="window.location.href='listings-meditation.html'">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
     </div>
@@ -1231,6 +1265,10 @@
           <button class="discovery__tab is-active" data-tab="category">What kind of retreat are you looking for?</button>
           <button class="discovery__tab" data-tab="intent">What do you want from the retreat?</button>
           <button class="discovery__tab" data-tab="destination">Where do you feel like going?</button>
+          <a href="listings.html" class="discovery__tab discovery__tab--clear">Clear all</a>
+          <button class="discovery__toggle" id="discovery-toggle" aria-label="Collapse discovery">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
         </div>
 
         <!-- Panel 1: By Category -->
@@ -2098,9 +2136,18 @@
   </script>
 
   <script>
-    // Discovery tabs
-    document.querySelectorAll('.discovery__tab').forEach(function(tab) {
+    var discoveryToggle = document.getElementById('discovery-toggle');
+    var discoverySection = document.querySelector('.discovery');
+    discoveryToggle.addEventListener('click', function() {
+      var isCollapsed = discoverySection.classList.toggle('is-collapsed');
+      discoveryToggle.setAttribute('aria-label', isCollapsed ? 'Expand discovery' : 'Collapse discovery');
+    });
+    document.querySelectorAll('.discovery__tab[data-tab]').forEach(function(tab) {
       tab.addEventListener('click', function() {
+        if (discoverySection.classList.contains('is-collapsed')) {
+          discoverySection.classList.remove('is-collapsed');
+          discoveryToggle.setAttribute('aria-label', 'Collapse discovery');
+        }
         document.querySelectorAll('.discovery__tab').forEach(function(t) { t.classList.remove('is-active'); });
         document.querySelectorAll('.discovery__panel').forEach(function(p) { p.classList.remove('is-active'); });
         this.classList.add('is-active');
@@ -2110,5 +2157,53 @@
   </script>
 
   <script src="mega-menu.js"></script>
+  <script>
+    // Shared label → count map (used by both URL param init and card clicks)
+    var labelCountMap = {
+      'Yoga & Meditation':        24,
+      'Detox & Cleanse':          17,
+      'Fitness & Adventure':      21,
+      'Meditation & Mindfulness': 13,
+      'Health & Healing':         28,
+      'Personal Growth':          19
+    };
+
+    function applyCategory(label) {
+      var count = labelCountMap[label];
+      if (!label) return;
+      var headingLink = document.querySelector('.results-heading__link');
+      if (headingLink) headingLink.textContent = label;
+      var countEl = document.querySelector('.results-heading__count');
+      if (countEl && count) countEl.textContent = ' (' + count + ')';
+      document.querySelectorAll('.cat-card').forEach(function(card) {
+        card.classList.remove('is-active');
+        var img = card.querySelector('img');
+        if (img && img.alt === label) card.classList.add('is-active');
+      });
+    }
+
+    // Apply on load from URL param (?cat=yoga-meditation etc.)
+    (function() {
+      var catMap = {
+        'yoga-meditation':        'Yoga & Meditation',
+        'detox-cleanse':          'Detox & Cleanse',
+        'fitness-adventure':      'Fitness & Adventure',
+        'meditation-mindfulness': 'Meditation & Mindfulness',
+        'health-healing':         'Health & Healing',
+        'personal-growth':        'Personal Growth'
+      };
+      var cat = new URLSearchParams(window.location.search).get('cat');
+      if (cat && catMap[cat]) applyCategory(catMap[cat]);
+    })();
+
+    // Apply on cat-card click (in-page, no navigation)
+    document.querySelectorAll('.cat-card').forEach(function(card) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        var img = this.querySelector('img');
+        if (img) applyCategory(img.alt);
+      });
+    });
+  </script>
 </body>
 </html>
