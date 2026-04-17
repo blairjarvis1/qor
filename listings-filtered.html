@@ -1455,7 +1455,7 @@
       </a></div>
 
       <!-- Card 2: Four Seasons Bali -->
-      <a href="pdp-flexible.html" class="lr-card">
+      <div id="rotating-card-2"><a href="pdp-flexible.html" class="lr-card">
         <div class="lr-card__image">
           <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Four Seasons Bali">
           <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
@@ -1512,10 +1512,10 @@
             <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
           </div>
         </div>
-      </a>
+      </a></div>
 
       <!-- Card 3: Elevation Barn -->
-      <a href="pdp.html" class="lr-card">
+      <div id="rotating-card-3"><a href="pdp.html" class="lr-card">
         <div class="lr-card__image">
           <img src="images/retreats/elevation-barn/Elevation+Barn+Bali+Jungle+Villa.webp" alt="Elevation Barn">
           <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
@@ -1574,7 +1574,7 @@
             <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
           </div>
         </div>
-      </a>
+      </a></div>
 
     </div><!-- /.lr-grid row 1 -->
 
@@ -1582,7 +1582,7 @@
     <div class="lr-grid">
 
       <!-- Card 4: Ananda in the Himalayas -->
-      <a href="pdp-enquire.html" class="lr-card">
+      <div id="rotating-card-4"><a href="pdp-enquire.html" class="lr-card">
         <div class="lr-card__image">
           <img src="images/retreats/ananda/ANANDA+hot+oil+2.webp" alt="Ananda in the Himalayas">
           <button class="lr-card__save" aria-label="Save" onclick="event.preventDefault()">
@@ -1640,7 +1640,7 @@
             <button class="lr-card__book" onclick="event.preventDefault()">Book now</button>
           </div>
         </div>
-      </a>
+      </a></div>
 
       <!-- Card 5: Quinta do Reguengo -->
       <a href="#quinta-do-reguengo" class="lr-card">
@@ -2200,18 +2200,18 @@
         avail: 'green', availText: 'Next: 21 May · <strong>5 spots</strong>', score: '9.4', price: '£1,650'
       },
       {
-        href: 'pdp-enquire.html', img: 'images/retreats/ananda/ANANDA+hot+oil+2.webp',
-        alt: 'Ananda in the Himalayas', gallery: '1 / 5', badge: 'Featured',
-        type: 'Yoga', title: 'Ananda in the Himalayas, India', location: 'Uttarakhand, India',
-        info: '5 nights · All levels · Max 8', tags: ['Yoga', 'Ayurveda', 'Vegan food'],
-        avail: 'amber', availText: 'Next: 14 May · <strong>2 spots</strong>', score: '9.6', price: '£2,100'
-      },
-      {
         href: 'pdp.html', img: 'images/retreats/elevation-barn/Elevation+Barn+Bali+Jungle+Villa.webp',
         alt: 'Elevation Barn', gallery: '1 / 6', badge: "✦ Editor's Pick",
         type: 'Yoga &amp; Meditation', title: 'Elevation Barn', location: 'Gianyar, Bali',
         info: '7 nights · All levels · Max 12', tags: ['Yoga', 'Meditation', 'Organic food'],
         avail: 'green', availText: 'Next: 21 May · <strong>3 spots</strong>', score: '9.8', price: '£1,850'
+      },
+      {
+        href: 'pdp-enquire.html', img: 'images/retreats/ananda/ANANDA+hot+oil+2.webp',
+        alt: 'Ananda in the Himalayas', gallery: '1 / 5', badge: 'Featured',
+        type: 'Yoga', title: 'Ananda in the Himalayas, India', location: 'Uttarakhand, India',
+        info: '5 nights · All levels · Max 8', tags: ['Yoga', 'Ayurveda', 'Vegan food'],
+        avail: 'amber', availText: 'Next: 14 May · <strong>2 spots</strong>', score: '9.6', price: '£2,100'
       }
     ];
 
@@ -2264,7 +2264,11 @@
         if (name && name.textContent.trim() === label) card.classList.add('is-active');
       });
       cardStateIndex = (cardStateIndex + 1) % cardData.length;
+      var others = [0, 1, 2, 3].filter(function(i) { return i !== cardStateIndex; });
       document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+      document.getElementById('rotating-card-2').innerHTML = renderCard(cardData[others[0]]);
+      document.getElementById('rotating-card-3').innerHTML = renderCard(cardData[others[1]]);
+      document.getElementById('rotating-card-4').innerHTML = renderCard(cardData[others[2]]);
     }
 
     // Activate tab from ?tab= param on load
