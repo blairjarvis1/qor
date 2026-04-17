@@ -325,6 +325,8 @@
       justify-content: flex-end;
     }
     .intent-card:hover { border-color: var(--sage); box-shadow: var(--shadow-sm); }
+    .intent-card.is-active { border-color: var(--ink); background: rgba(0,0,0,0.03); }
+    a.intent-card { display: flex; text-decoration: none; color: inherit; }
     .intent-card__icon {
       font-size: 24px;
       margin-bottom: 10px;
@@ -2165,7 +2167,19 @@
       'Fitness & Adventure':      21,
       'Meditation & Mindfulness': 13,
       'Health & Healing':         28,
-      'Personal Growth':          19
+      'Personal Growth':          19,
+      'Relaxation':               31,
+      'Transformation':           22,
+      'Active & Fitness':         18,
+      'Digital Detox':            14,
+      'Reconnect':                26,
+      'Inner Work':               20,
+      'Portugal':                 29,
+      'Bali':                     34,
+      'India':                    27,
+      'Spain':                    23,
+      'France':                   19,
+      'Greece':                   16
     };
 
     // Card rotation
@@ -2235,14 +2249,36 @@
       if (headingLink) headingLink.textContent = label;
       var countEl = document.querySelector('.results-heading__count');
       if (countEl && count) countEl.textContent = ' (' + count + ')';
-      document.querySelectorAll('.cat-card').forEach(function(card) {
+      // Clear all card active states
+      document.querySelectorAll('.cat-card, .intent-card').forEach(function(card) {
         card.classList.remove('is-active');
+      });
+      // Activate matching cat-card (by img alt)
+      document.querySelectorAll('.cat-card').forEach(function(card) {
         var img = card.querySelector('img');
         if (img && img.alt === label) card.classList.add('is-active');
+      });
+      // Activate matching intent-card (by name text)
+      document.querySelectorAll('.intent-card').forEach(function(card) {
+        var name = card.querySelector('.intent-card__name');
+        if (name && name.textContent.trim() === label) card.classList.add('is-active');
       });
       cardStateIndex = (cardStateIndex + 1) % cardData.length;
       document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
     }
+
+    // Activate tab from ?tab= param on load
+    (function() {
+      var tabParam = new URLSearchParams(window.location.search).get('tab');
+      if (tabParam) {
+        document.querySelectorAll('.discovery__tab[data-tab]').forEach(function(t) { t.classList.remove('is-active'); });
+        document.querySelectorAll('.discovery__panel').forEach(function(p) { p.classList.remove('is-active'); });
+        var tabBtn = document.querySelector('.discovery__tab[data-tab="' + tabParam + '"]');
+        var tabPanel = document.getElementById('disc-panel-' + tabParam);
+        if (tabBtn) tabBtn.classList.add('is-active');
+        if (tabPanel) tabPanel.classList.add('is-active');
+      }
+    })();
 
     // Apply on load from URL param (?cat=yoga-meditation etc.)
     (function() {
@@ -2252,7 +2288,19 @@
         'fitness-adventure':      'Fitness & Adventure',
         'meditation-mindfulness': 'Meditation & Mindfulness',
         'health-healing':         'Health & Healing',
-        'personal-growth':        'Personal Growth'
+        'personal-growth':        'Personal Growth',
+        'relaxation':             'Relaxation',
+        'transformation':         'Transformation',
+        'active-fitness':         'Active & Fitness',
+        'digital-detox':          'Digital Detox',
+        'reconnect':              'Reconnect',
+        'inner-work':             'Inner Work',
+        'portugal':               'Portugal',
+        'bali':                   'Bali',
+        'india':                  'India',
+        'spain':                  'Spain',
+        'france':                 'France',
+        'greece':                 'Greece'
       };
       var cat = new URLSearchParams(window.location.search).get('cat');
       if (cat && catMap[cat]) applyCategory(catMap[cat]);
@@ -2264,6 +2312,15 @@
       card.addEventListener('click', function() {
         var img = this.querySelector('img');
         if (img) applyCategory(img.alt);
+      });
+    });
+
+    // Apply on intent/destination card click (in-page, no navigation)
+    document.querySelectorAll('.intent-card').forEach(function(card) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        var name = this.querySelector('.intent-card__name');
+        if (name) applyCategory(name.textContent.trim());
       });
     });
   </script>

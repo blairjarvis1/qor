@@ -323,6 +323,8 @@
       justify-content: flex-end;
     }
     .intent-card:hover { border-color: var(--sage); box-shadow: var(--shadow-sm); }
+    .intent-card.is-active { border-color: var(--ink); background: rgba(0,0,0,0.03); }
+    a.intent-card { display: flex; text-decoration: none; color: inherit; }
     .intent-card__icon {
       font-size: 24px;
       margin-bottom: 10px;
@@ -1262,72 +1264,72 @@
         <!-- Panel 2: By Intention -->
         <div class="discovery__panel" id="disc-panel-intent">
           <div class="discovery__scroll">
-            <div class="intent-card">
+            <a href="listings-filtered.html?cat=relaxation&tab=intent" class="intent-card">
               <div class="intent-card__icon">🌿</div>
               <div class="intent-card__name">Relaxation</div>
               <div class="intent-card__desc">Slow down and restore your sense of calm</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=transformation&tab=intent" class="intent-card">
               <div class="intent-card__icon">✨</div>
               <div class="intent-card__name">Transformation</div>
               <div class="intent-card__desc">Break old patterns and emerge renewed</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=active-fitness&tab=intent" class="intent-card">
               <div class="intent-card__icon">🏃</div>
               <div class="intent-card__name">Active &amp; Fitness</div>
               <div class="intent-card__desc">Challenge your body in beautiful settings</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=digital-detox&tab=intent" class="intent-card">
               <div class="intent-card__icon">📵</div>
               <div class="intent-card__name">Digital Detox</div>
               <div class="intent-card__desc">Unplug, breathe, and reconnect with yourself</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=reconnect&tab=intent" class="intent-card">
               <div class="intent-card__icon">🤝</div>
               <div class="intent-card__name">Reconnect</div>
               <div class="intent-card__desc">Find community with like-minded souls</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=inner-work&tab=intent" class="intent-card">
               <div class="intent-card__icon">🔮</div>
               <div class="intent-card__name">Inner Work</div>
               <div class="intent-card__desc">Therapy, journalling, and deep self-enquiry</div>
-            </div>
+            </a>
           </div>
         </div>
 
         <!-- Panel 3: By Destination -->
         <div class="discovery__panel" id="disc-panel-destination">
           <div class="discovery__scroll">
-            <div class="intent-card">
+            <a href="listings-filtered.html?cat=portugal&tab=destination" class="intent-card">
               <div class="intent-card__icon"><img src="images/flags/portugal.png" alt="Portugal" style="width:36px;height:auto;border-radius:3px;"></div>
               <div class="intent-card__name">Portugal</div>
               <div class="intent-card__desc">Europe</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=bali&tab=destination" class="intent-card">
               <div class="intent-card__icon"><img src="images/flags/Indonesia.png" alt="Bali" style="width:36px;height:auto;border-radius:3px;"></div>
               <div class="intent-card__name">Bali</div>
               <div class="intent-card__desc">Asia</div>
-            </div>
-            <div class="intent-card">
-              <div class="intent-card__icon"><img src="images/flags/India.png" alt="Bali" style="width:36px;height:auto;border-radius:3px;"></div>
+            </a>
+            <a href="listings-filtered.html?cat=india&tab=destination" class="intent-card">
+              <div class="intent-card__icon"><img src="images/flags/India.png" alt="India" style="width:36px;height:auto;border-radius:3px;"></div>
               <div class="intent-card__name">India</div>
               <div class="intent-card__desc">Asia</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=spain&tab=destination" class="intent-card">
               <div class="intent-card__icon"><img src="images/flags/spain.png" alt="Spain" style="width:36px;height:auto;border-radius:3px;"></div>
               <div class="intent-card__name">Spain</div>
               <div class="intent-card__desc">Europe</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=france&tab=destination" class="intent-card">
               <div class="intent-card__icon"><img src="images/flags/france.png" alt="France" style="width:36px;height:auto;border-radius:3px;"></div>
               <div class="intent-card__name">France</div>
               <div class="intent-card__desc">Europe</div>
-            </div>
-            <div class="intent-card">
+            </a>
+            <a href="listings-filtered.html?cat=greece&tab=destination" class="intent-card">
               <div class="intent-card__icon"><img src="images/flags/greece.png" alt="Greece" style="width:36px;height:auto;border-radius:3px;"></div>
               <div class="intent-card__name">Greece</div>
               <div class="intent-card__desc">Europe</div>
-            </div>
+            </a>
           </div>
         </div>
       </div><!-- /.discovery__tabs-wrap -->

@@ -13,7 +13,7 @@
     /* ── HERO / SEARCH BAR ───────────────────────────────────────── */
     .lr-hero {
       position: relative;
-      background: #F6D087;
+      background: #d4d8d4;
       display: flex;
       align-items: flex-end;
       overflow: hidden;
@@ -34,7 +34,7 @@
     }
     .lr-hero__title-block { flex-shrink: 0; }
     .lr-search-wrap {
-      background: #F6D087;
+      background: #d4d8d4;
       padding: 24px 48px 20px;
       position: sticky;
       top: 60px;
@@ -63,14 +63,13 @@
     #site-header .btn--ghost {
       color: var(--ink) !important;
     }
-    #site-header { background: #F6D087 !important; }
+    #site-header { background: #d4d8d4 !important; }
     #site-header.is-scrolled { background: var(--white) !important; }
 
     /* ── SEARCH PILL (compact) ───────────────────────────────────── */
     .lr-search-bar {
       background: var(--white);
       border-radius: var(--r-pill);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.12), 0 0 0 1px var(--border);
       display: flex;
       align-items: center;
       height: 52px;
@@ -145,6 +144,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 28px;
       margin-bottom: 20px;
       padding: 0 48px;
     }
@@ -174,6 +174,47 @@
     }
     .lr-filter-btn:hover { border-color: var(--ink); }
     .lr-filter-btn--active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+    /* ── SORT DROPDOWN ───────────────────────────────────────────── */
+    .lr-sort-wrap {
+      position: relative;
+    }
+    .lr-sort-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      min-width: 200px;
+      padding: 6px;
+      z-index: 100;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+    .lr-sort-dropdown.is-open { display: block; }
+    .lr-sort-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background var(--dur-fast);
+    }
+    .lr-sort-option:hover { background: var(--parchment); }
+    .lr-sort-option.is-selected { font-weight: 600; }
+    .lr-sort-option.is-selected::after {
+      content: '';
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
 
     /* ── FEATURED CARD ───────────────────────────────────────────── */
     .lr-featured {
@@ -326,7 +367,7 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
-      padding: 0 48px 48px;
+      padding: 24px 48px 48px;
     }
     .lr-card {
       background: var(--white);
@@ -560,6 +601,32 @@
     .card-pgm-title { font-family: var(--serif); font-size: 14px; color: var(--ink); margin-bottom: 7px; line-height: 1.3; }
     .card-pgm-body { font-size: 11px; line-height: 1.6; color: var(--stone); }
 
+    /* ── RESULTS HEADING ───────────────────────────────────────────── */
+    .results-heading { padding: 8px 48px 0; }
+    .results-heading__title {
+      font-family: var(--serif); font-size: 35px; font-weight: 400;
+      color: var(--ink); line-height: 1.2; padding-bottom: 12px;
+    }
+    .results-heading__link {
+      color: var(--ink); text-decoration: none;
+      transition: color 0.18s, border-color 0.18s;
+      border-bottom: 1px solid transparent; padding-bottom: 1px;
+    }
+    .results-heading__link:hover { color: var(--stone); border-bottom-color: var(--stone); }
+    .results-heading__sep { color: var(--stone); margin: 0 2px; }
+    .results-heading__count { font-size: 20px; color: var(--stone); font-family: var(--sans); margin-left: 4px; }
+    .rh-tag { display: inline; white-space: nowrap; }
+    .rh-tag__close {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; margin-left: 6px;
+      background: none; border: none; cursor: pointer;
+      color: var(--stone); font-size: 13px; line-height: 1;
+      vertical-align: middle; padding: 0;
+      opacity: 0.85; transition: opacity 0.15s, color 0.15s;
+      position: relative; top: -3px;
+    }
+    .rh-tag__close:hover { opacity: 1; color: var(--ink); }
+
   </style>
 </head>
 <body>
@@ -678,7 +745,7 @@
       <div class="lr-hero__row">
         <div class="lr-hero__title-block">
           <p class="lr-hero__label">Search results</p>
-          <h1 class="lr-hero__query">Yoga &amp; Meditation · Bali · May 2026</h1>
+          <h1 class="lr-hero__query">Retreats, curated for you</h1>
         </div>
       </div>
     </div>
@@ -718,22 +785,41 @@
     <div class="lr-main__inner">
     </div><!-- /.lr-main__inner -->
 
+    <!-- Results heading -->
+    <div class="results-heading">
+      <h2 class="results-heading__title">
+        <span class="rh-tag"><a href="#" class="results-heading__link" onclick="isolateTag(this); return false;">Yoga &amp; Meditation</a><button class="rh-tag__close" onclick="removeTag(this)" aria-label="Remove">&#x2715;</button></span><span class="results-heading__sep"> · </span><span class="rh-tag"><a href="#" class="results-heading__link" onclick="isolateTag(this); return false;">Bali</a><button class="rh-tag__close" onclick="removeTag(this)" aria-label="Remove">&#x2715;</button></span><span class="results-heading__sep"> · </span><span class="rh-tag"><a href="#" class="results-heading__link" onclick="isolateTag(this); return false;">August 2026</a><button class="rh-tag__close" onclick="removeTag(this)" aria-label="Remove">&#x2715;</button></span><span class="results-heading__sep"> · </span><span class="rh-tag"><a href="#" class="results-heading__link" onclick="isolateTag(this); return false;">1 Guest</a><button class="rh-tag__close" onclick="removeTag(this)" aria-label="Remove">&#x2715;</button></span><span class="results-heading__count" id="results-count"> (21)</span>
+      </h2>
+    </div>
+
     <!-- Results meta -->
     <div class="lr-meta">
-      <div class="lr-meta__count">
-        9 retreats found <span>matching your search</span>
+      <div class="lr-meta__count" id="lr-meta-count">
+        21 retreats found <span>matching your search</span><span id="sort-label-tag" style="display:none;"> (<em id="sort-label-value"></em>)</span>
       </div>
       <div class="lr-filters">
         <button class="lr-filter-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
           Filters
         </button>
-        <button class="lr-filter-btn">Sort: Recommended</button>
+        <div class="lr-sort-wrap">
+          <button class="lr-filter-btn" id="sort-btn" onclick="toggleSortDropdown(event)">
+            <span id="sort-label">Sort: Recommended</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lr-sort-dropdown" id="sort-dropdown">
+            <div class="lr-sort-option is-selected" onclick="selectSort(this, 'Recommended')">Recommended</div>
+            <div class="lr-sort-option" onclick="selectSort(this, 'Price: Low to High')">Price: Low to High</div>
+            <div class="lr-sort-option" onclick="selectSort(this, 'Price: High to Low')">Price: High to Low</div>
+            <div class="lr-sort-option" onclick="selectSort(this, 'Top Rated')">Top Rated</div>
+            <div class="lr-sort-option" onclick="selectSort(this, 'Most Reviewed')">Most Reviewed</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ── FEATURED LISTING ──────────────────────────────────────── -->
-    <a href="pdp.html" class="lr-featured" style="text-decoration: none; color: inherit;">
+    <div id="featured-section"><a href="pdp.html" class="lr-featured" style="text-decoration: none; color: inherit;">
       <div class="lr-featured__image-wrap">
         <img src="images/header_vale-de-moses.jpg" alt="Vale de Moses">
         <div class="lr-featured__badge">✦ &nbsp;Best match</div>
@@ -778,14 +864,14 @@
         </div>
         <div class="lr-featured__cta">View Retreat →</div>
       </div>
-    </a>
+    </a></div>
 
     <!-- ── GRID ──────────────────────────────────────────────────── -->
-    <h2 style="font-family: var(--serif); font-weight: 400; font-size: 22px; color: var(--ink); padding: 0 48px 24px;">Retreats that closely match your search</h2>
+    <h2 id="grid-subheading" style="font-family: var(--serif); font-weight: 400; font-size: 22px; color: var(--ink); padding: 0 48px 24px;">Retreats that closely match your search</h2>
     <div class="lr-grid">
 
-      <!-- Card 1 -->
-      <a href="pdp-enquire.html" class="lr-card" style="text-decoration:none;color:inherit;">
+      <!-- Card 1: rotating -->
+      <div id="rotating-card-1"><a href="pdp-enquire.html" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
           <img src="images/retreats/ananda/ANANDA+hot+oil+2.webp" alt="Mellulah">
           <button class="lr-card__save" aria-label="Save">
@@ -827,7 +913,7 @@
             </div>
           </div>
         </div>
-      </a>
+      </a></div>
 
       <!-- Card 2 -->
       <a href="pdp-flexible.html" class="lr-card" style="text-decoration:none;color:inherit;">
@@ -1266,5 +1352,171 @@
   </script>
 
   <script src="mega-menu.js"></script>
+
+  <script>
+    var cardStateIndex = 0;
+    var currentCount = 21;
+    var countIncrements = [4, 3, 4];
+    var featuredHidden = false;
+
+    var tagCounts = {
+      'Yoga & Meditation': 28, 'Bali': 35, 'August 2026': 31, '1 Guest': 26
+    };
+
+    var cardData = [
+      {
+        href: 'pdp-enquire.html', img: 'images/retreats/ananda/ANANDA+hot+oil+2.webp',
+        alt: 'Ananda in the Himalayas', type: 'Yoga · Mindfulness',
+        title: 'Ananda in the Himalayas, India', location: 'Uttarakhand, India',
+        tags: ['Yoga', 'Mindfulness', '7 nights', 'India'],
+        score: '9.6', reviews: '187', price: '£1,290'
+      },
+      {
+        href: 'pdp-flexible.html', img: 'images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp',
+        alt: 'Four Seasons Bali', type: 'Detox · Wellness',
+        title: 'Four Seasons Bali at Sayan', location: 'Near Ubud, Bali',
+        tags: ['Detox', 'Wellness', '5 nights', 'Bali'],
+        score: '9.4', reviews: '143', price: '£1,650'
+      },
+      {
+        href: 'pdp-venue.html', img: 'images/general/13.jpg',
+        alt: 'London Meditation Centre', type: 'Meditation · Healing',
+        title: 'London Meditation Centre', location: 'London, England',
+        tags: ['Meditation', 'Silence', '4 days', 'England'],
+        score: '9.7', reviews: '209', price: '£980'
+      },
+      {
+        href: 'pdp.html', img: 'images/retreats/elevation-barn/Elevation+Barn+Bali+Jungle+Villa.webp',
+        alt: 'Elevation Barn', type: 'Yoga · Meditation',
+        title: 'Elevation Barn', location: 'Gianyar, Bali',
+        tags: ['Yoga', 'Meditation', '7 nights', 'Bali'],
+        score: '9.8', reviews: '214', price: '£1,850'
+      }
+    ];
+
+    function renderCard(d) {
+      return '<a href="' + d.href + '" class="lr-card" style="text-decoration:none;color:inherit;">'
+        + '<div class="lr-card__image">'
+        + '<img src="' + d.img + '" alt="' + d.alt + '">'
+        + '<button class="lr-card__save" aria-label="Save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>'
+        + '</div>'
+        + '<div class="lr-card__body">'
+        + '<div class="lr-card__type">' + d.type + '</div>'
+        + '<div class="lr-card__title">' + d.title + '</div>'
+        + '<div class="lr-card__location"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ' + d.location + '</div>'
+        + '<div class="lr-card__tags">' + d.tags.map(function(t){ return '<span class="lr-tag">' + t + '</span>'; }).join('') + '</div>'
+        + '<div class="lr-card__footer">'
+        + '<div class="lr-card__rating"><span class="lr-card__stars">★★★★★</span><span class="lr-card__score">' + d.score + '</span><span class="lr-rating-count">(' + d.reviews + ' reviews)</span></div>'
+        + '<div class="card-pgm-tip"><span class="card-pgm-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Our price guarantee</span><div class="card-pgm-box"><div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div><div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div></div></div>'
+        + '<div class="lr-card__price-wrap"><span class="lr-card__from">From</span><span class="lr-card__price">' + d.price + '</span></div>'
+        + '</div></div></a>';
+    }
+
+    function hideFeatured() {
+      if (!featuredHidden) {
+        document.getElementById('featured-section').style.display = 'none';
+        document.getElementById('grid-subheading').style.display = 'none';
+        featuredHidden = true;
+      }
+    }
+
+    function updateCount() {
+      document.getElementById('results-count').textContent = ' (' + currentCount + ')';
+      var metaCount = document.getElementById('lr-meta-count');
+      if (metaCount) {
+        var sortTag = document.getElementById('sort-label-tag');
+        var sortVal = document.getElementById('sort-label-value');
+        var currentSort = sortVal ? sortVal.textContent : '';
+        var sortVisible = sortTag && sortTag.style.display !== 'none';
+        metaCount.innerHTML = currentCount + ' retreats found <span>matching your search</span><span id="sort-label-tag" style="display:' + (sortVisible ? 'inline' : 'none') + ';"> (<em id="sort-label-value">' + currentSort + '</em>)</span>';
+      }
+    }
+
+    function updateCloseButtons() {
+      var allTags = document.querySelectorAll('.rh-tag');
+      var visibleCount = 0;
+      allTags.forEach(function(t) { if (t.style.display !== 'none') visibleCount++; });
+      allTags.forEach(function(t) {
+        var btn = t.querySelector('.rh-tag__close');
+        if (btn) btn.style.display = visibleCount <= 1 ? 'none' : '';
+      });
+      if (visibleCount <= 1) {
+        document.querySelectorAll('.results-heading__sep').forEach(function(s) { s.style.display = 'none'; });
+      }
+    }
+
+    function removeTag(btn) {
+      var allTags = document.querySelectorAll('.rh-tag');
+      var visibleCount = 0;
+      allTags.forEach(function(t) { if (t.style.display !== 'none') visibleCount++; });
+      if (visibleCount <= 1) return;
+
+      var tag = btn.closest('.rh-tag');
+      tag.style.display = 'none';
+      var next = tag.nextElementSibling;
+      if (next && next.classList.contains('results-heading__sep')) {
+        next.style.display = 'none';
+      } else {
+        var prev = tag.previousElementSibling;
+        if (prev && prev.classList.contains('results-heading__sep')) prev.style.display = 'none';
+      }
+
+      hideFeatured();
+      cardStateIndex = (cardStateIndex + 1) % cardData.length;
+      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+
+      var removeIndex = cardStateIndex - 1;
+      currentCount += countIncrements[removeIndex % countIncrements.length];
+      updateCount();
+      updateCloseButtons();
+    }
+
+    function toggleSortDropdown(e) {
+      e.stopPropagation();
+      var dd = document.getElementById('sort-dropdown');
+      dd.classList.toggle('is-open');
+    }
+
+    function selectSort(el, label) {
+      document.querySelectorAll('.lr-sort-option').forEach(function(o) { o.classList.remove('is-selected'); });
+      el.classList.add('is-selected');
+      document.getElementById('sort-label').textContent = 'Sort: ' + label;
+      document.getElementById('sort-dropdown').classList.remove('is-open');
+
+      // Reflow: hide featured, rotate card 1
+      hideFeatured();
+      cardStateIndex = (cardStateIndex + 1) % cardData.length;
+      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+
+      // Update sort label in meta count
+      var isDefault = (label === 'Recommended');
+      var sortTag = document.getElementById('sort-label-tag');
+      var sortVal = document.getElementById('sort-label-value');
+      if (sortTag) sortTag.style.display = isDefault ? 'none' : 'inline';
+      if (sortVal) sortVal.textContent = label;
+      if (isDefault) document.getElementById('sort-label-tag').style.display = 'none';
+    }
+
+    document.addEventListener('click', function(e) {
+      var wrap = document.querySelector('.lr-sort-wrap');
+      if (wrap && !wrap.contains(e.target)) {
+        document.getElementById('sort-dropdown').classList.remove('is-open');
+      }
+    });
+
+    function isolateTag(link) {
+      var clickedTag = link.closest('.rh-tag');
+      document.querySelectorAll('.rh-tag').forEach(function(t) { t.style.display = 'none'; });
+      document.querySelectorAll('.results-heading__sep').forEach(function(s) { s.style.display = 'none'; });
+      clickedTag.style.display = '';
+      var label = link.textContent.trim();
+      currentCount = tagCounts[label] || 24;
+      updateCount();
+      hideFeatured();
+      cardStateIndex = (cardStateIndex + 1) % cardData.length;
+      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+      updateCloseButtons();
+    }
+  </script>
 </body>
 </html>
