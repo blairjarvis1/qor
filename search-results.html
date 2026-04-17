@@ -216,6 +216,182 @@
       background: var(--ink);
     }
 
+    /* ── FILTER MODAL ─────────────────────────────────────────────── */
+    .filter-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 200;
+    }
+    .filter-backdrop.is-open { display: block; }
+    .filter-modal {
+      position: fixed;
+      top: 0;
+      right: -440px;
+      width: 420px;
+      height: 100vh;
+      background: var(--white);
+      z-index: 201;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+    }
+    .filter-modal.is-open { right: 0; }
+    .filter-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .filter-modal__title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .filter-modal__close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink);
+      transition: border-color var(--dur-fast);
+    }
+    .filter-modal__close:hover { border-color: var(--ink); }
+    .filter-modal__body {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .filter-section {
+      border-bottom: 1px solid var(--border);
+    }
+    .filter-section__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .filter-section__title {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .filter-section__chevron {
+      transition: transform 0.25s ease;
+      color: var(--stone);
+    }
+    .filter-section.is-open .filter-section__chevron { transform: rotate(180deg); }
+    .filter-section__body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .filter-section.is-open .filter-section__body { max-height: 400px; }
+    .filter-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 4px 28px 20px;
+    }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      transition: border-color var(--dur-fast), background var(--dur-fast);
+      user-select: none;
+    }
+    .filter-option:hover { border-color: var(--stone); }
+    .filter-option.is-checked {
+      border-color: var(--ink);
+      background: rgba(0,0,0,0.03);
+    }
+    .filter-option__box {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--dur-fast), border-color var(--dur-fast);
+    }
+    .filter-option.is-checked .filter-option__box {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+    .filter-option.is-checked .filter-option__box::after {
+      content: '';
+      display: block;
+      width: 9px;
+      height: 5px;
+      border-left: 2px solid var(--white);
+      border-bottom: 2px solid var(--white);
+      transform: rotate(-45deg) translate(1px, -1px);
+    }
+    .filter-option__label {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .filter-modal__footer {
+      flex-shrink: 0;
+      display: flex;
+      gap: 12px;
+      padding: 20px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .filter-btn-clear {
+      flex: 1;
+      padding: 12px 0;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-pill);
+      background: none;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color var(--dur-fast);
+    }
+    .filter-btn-clear:hover { border-color: var(--ink); }
+    .filter-btn-apply {
+      flex: 2;
+      padding: 12px 0;
+      border: none;
+      border-radius: var(--r-pill);
+      background: var(--ink);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      cursor: pointer;
+      transition: opacity var(--dur-fast);
+    }
+    .filter-btn-apply:hover { opacity: 0.85; }
+
     /* ── FEATURED CARD ───────────────────────────────────────────── */
     .lr-featured {
       display: grid;
@@ -798,7 +974,7 @@
         21 retreats found <span>matching your search</span><span id="sort-label-tag" style="display:none;"> (<em id="sort-label-value"></em>)</span>
       </div>
       <div class="lr-filters">
-        <button class="lr-filter-btn">
+        <button class="lr-filter-btn" id="filter-open-btn" onclick="openFilter()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
           Filters
         </button>
@@ -916,7 +1092,7 @@
       </a></div>
 
       <!-- Card 2 -->
-      <a href="pdp-flexible.html" class="lr-card" style="text-decoration:none;color:inherit;">
+      <div id="rotating-card-2"><a href="pdp-flexible.html" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
           <img src="images/retreats/four-seasons/Four+Seasons+Bali+at+Sayan+meditation.webp" alt="Casa Ana">
           <button class="lr-card__save" aria-label="Save">
@@ -958,10 +1134,10 @@
             </div>
           </div>
         </div>
-      </a>
+      </a></div>
 
       <!-- Card 3 -->
-      <a href="pdp-venue.html" class="lr-card" style="text-decoration:none;color:inherit;">
+      <div id="rotating-card-3"><a href="pdp-venue.html" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
           <img src="images/general/13.jpg" alt="Les Marguerites">
           <button class="lr-card__save" aria-label="Save">
@@ -1003,9 +1179,28 @@
             </div>
           </div>
         </div>
-      </a>
+      </a></div>
 
-      <!-- Card 4 -->
+      <!-- Card 4: rotating (Elevation Barn default) -->
+      <div id="rotating-card-4"><a href="pdp.html" class="lr-card" style="text-decoration:none;color:inherit;">
+        <div class="lr-card__image">
+          <img src="images/retreats/elevation-barn/Elevation+Barn+Bali+Jungle+Villa.webp" alt="Elevation Barn">
+          <button class="lr-card__save" aria-label="Save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
+        <div class="lr-card__body">
+          <div class="lr-card__type">Yoga · Meditation</div>
+          <div class="lr-card__title">Elevation Barn</div>
+          <div class="lr-card__location"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Gianyar, Bali</div>
+          <div class="lr-card__tags"><span class="lr-tag">Yoga</span><span class="lr-tag">Meditation</span><span class="lr-tag">7 nights</span><span class="lr-tag">Bali</span></div>
+          <div class="lr-card__footer">
+            <div class="lr-card__rating"><span class="lr-card__stars">★★★★★</span><span class="lr-card__score">9.8</span><span class="lr-rating-count">(214 reviews)</span></div>
+            <div class="card-pgm-tip"><span class="card-pgm-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Our price guarantee</span><div class="card-pgm-box"><div class="card-pgm-title">Fair Pricing, Thoughtfully Matched</div><div class="card-pgm-body">Our prices reflect those set by each retreat. By booking through Queen of Retreats, you receive the same rate, alongside considered advice and ongoing support.</div></div></div>
+            <div class="lr-card__price-wrap"><span class="lr-card__from">From</span><span class="lr-card__price">£1,850</span></div>
+          </div>
+        </div>
+      </a></div>
+
+      <!-- Card 5 -->
       <a href="#quinta-do-reguengo" class="lr-card" style="text-decoration:none;color:inherit;">
         <div class="lr-card__image">
           <img src="images/retreats/ananda/ANANDA+yoga+2.webp" alt="Retreat">
@@ -1344,6 +1539,78 @@
     </div>
   </footer>
 
+  <!-- ── FILTER MODAL ──────────────────────────────────────────────── -->
+  <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilter()"></div>
+  <div class="filter-modal" id="filter-modal">
+    <div class="filter-modal__header">
+      <div class="filter-modal__title">Filter retreats</div>
+      <button class="filter-modal__close" onclick="closeFilter()" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="filter-modal__body">
+
+      <!-- Section 1: Retreat Type -->
+      <div class="filter-section is-open" id="fs-type">
+        <div class="filter-section__header" onclick="toggleSection('fs-type')">
+          <div class="filter-section__title">Retreat Type</div>
+          <svg class="filter-section__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-section__body">
+          <div class="filter-options">
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Yoga &amp; Meditation"><div class="filter-option__box"></div><span class="filter-option__label">Yoga &amp; Meditation</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Detox &amp; Cleanse"><div class="filter-option__box"></div><span class="filter-option__label">Detox &amp; Cleanse</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Fitness &amp; Adventure"><div class="filter-option__box"></div><span class="filter-option__label">Fitness &amp; Adventure</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Meditation &amp; Mindfulness"><div class="filter-option__box"></div><span class="filter-option__label">Meditation &amp; Mindfulness</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Health &amp; Healing"><div class="filter-option__box"></div><span class="filter-option__label">Health &amp; Healing</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Personal Growth"><div class="filter-option__box"></div><span class="filter-option__label">Personal Growth</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: How You Want to Feel -->
+      <div class="filter-section" id="fs-feel">
+        <div class="filter-section__header" onclick="toggleSection('fs-feel')">
+          <div class="filter-section__title">How You Want to Feel</div>
+          <svg class="filter-section__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-section__body">
+          <div class="filter-options">
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Relaxation"><div class="filter-option__box"></div><span class="filter-option__label">Relaxation</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Transformation"><div class="filter-option__box"></div><span class="filter-option__label">Transformation</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Active &amp; Fitness"><div class="filter-option__box"></div><span class="filter-option__label">Active &amp; Fitness</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Digital Detox"><div class="filter-option__box"></div><span class="filter-option__label">Digital Detox</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Reconnect"><div class="filter-option__box"></div><span class="filter-option__label">Reconnect</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Inner Work"><div class="filter-option__box"></div><span class="filter-option__label">Inner Work</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Destination -->
+      <div class="filter-section" id="fs-dest">
+        <div class="filter-section__header" onclick="toggleSection('fs-dest')">
+          <div class="filter-section__title">Destination</div>
+          <svg class="filter-section__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-section__body">
+          <div class="filter-options">
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Portugal"><div class="filter-option__box"></div><span class="filter-option__label">Portugal</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Bali"><div class="filter-option__box"></div><span class="filter-option__label">Bali</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="India"><div class="filter-option__box"></div><span class="filter-option__label">India</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Spain"><div class="filter-option__box"></div><span class="filter-option__label">Spain</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="France"><div class="filter-option__box"></div><span class="filter-option__label">France</span></div>
+            <div class="filter-option" onclick="toggleOption(this)" data-label="Greece"><div class="filter-option__box"></div><span class="filter-option__label">Greece</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.filter-modal__body -->
+    <div class="filter-modal__footer">
+      <button class="filter-btn-clear" onclick="clearFilter()">Clear all</button>
+      <button class="filter-btn-apply" onclick="applyFilter()">Apply filters</button>
+    </div>
+  </div>
+
   <script>
     const header = document.querySelector('.site-header');
     window.addEventListener('scroll', () => {
@@ -1412,6 +1679,14 @@
         + '</div></div></a>';
     }
 
+    function renderAllCards() {
+      var others = [0, 1, 2, 3].filter(function(i) { return i !== cardStateIndex; });
+      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+      document.getElementById('rotating-card-2').innerHTML = renderCard(cardData[others[0]]);
+      document.getElementById('rotating-card-3').innerHTML = renderCard(cardData[others[1]]);
+      document.getElementById('rotating-card-4').innerHTML = renderCard(cardData[others[2]]);
+    }
+
     function hideFeatured() {
       if (!featuredHidden) {
         document.getElementById('featured-section').style.display = 'none';
@@ -1463,12 +1738,85 @@
 
       hideFeatured();
       cardStateIndex = (cardStateIndex + 1) % cardData.length;
-      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+      renderAllCards();
 
       var removeIndex = cardStateIndex - 1;
       currentCount += countIncrements[removeIndex % countIncrements.length];
       updateCount();
       updateCloseButtons();
+    }
+
+    /* ── FILTER MODAL ──────────────────────────────────────────── */
+    function openFilter() {
+      document.getElementById('filter-modal').classList.add('is-open');
+      document.getElementById('filter-backdrop').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFilter() {
+      document.getElementById('filter-modal').classList.remove('is-open');
+      document.getElementById('filter-backdrop').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    function toggleSection(id) {
+      document.getElementById(id).classList.toggle('is-open');
+    }
+
+    function toggleOption(el) {
+      el.classList.toggle('is-checked');
+    }
+
+    function clearFilter() {
+      document.querySelectorAll('.filter-option').forEach(function(o) {
+        o.classList.remove('is-checked');
+      });
+    }
+
+    function applyFilter() {
+      var selected = [];
+      document.querySelectorAll('.filter-option.is-checked').forEach(function(o) {
+        selected.push(o.getAttribute('data-label'));
+      });
+
+      if (selected.length === 0) {
+        closeFilter();
+        return;
+      }
+
+      // Rebuild results-heading tags
+      var heading = document.querySelector('.results-heading__title');
+      var countEl = document.getElementById('results-count');
+      var countBase = 18 + selected.length * 4;
+
+      var html = '';
+      selected.forEach(function(label, i) {
+        html += '<span class="rh-tag">'
+          + '<a href="#" class="results-heading__link" onclick="isolateTag(this); return false;">' + label + '</a>'
+          + '<button class="rh-tag__close" onclick="removeTag(this)" aria-label="Remove">&#x2715;</button>'
+          + '</span>';
+        if (i < selected.length - 1) {
+          html += '<span class="results-heading__sep"> · </span>';
+        }
+      });
+      html += '<span class="results-heading__count" id="results-count"> (' + countBase + ')</span>';
+      heading.innerHTML = html;
+      currentCount = countBase;
+
+      // Rotate all 4 cards
+      hideFeatured();
+      cardStateIndex = (cardStateIndex + 1) % cardData.length;
+      renderAllCards();
+
+      // Update meta count
+      updateCount();
+      updateCloseButtons();
+
+      // Mark filter button as active
+      var btn = document.getElementById('filter-open-btn');
+      if (btn) btn.classList.add('lr-filter-btn--active');
+
+      closeFilter();
     }
 
     function toggleSortDropdown(e) {
@@ -1483,10 +1831,10 @@
       document.getElementById('sort-label').textContent = 'Sort: ' + label;
       document.getElementById('sort-dropdown').classList.remove('is-open');
 
-      // Reflow: hide featured, rotate card 1
+      // Reflow: hide featured, rotate cards
       hideFeatured();
       cardStateIndex = (cardStateIndex + 1) % cardData.length;
-      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+      renderAllCards();
 
       // Update sort label in meta count
       var isDefault = (label === 'Recommended');
@@ -1514,7 +1862,7 @@
       updateCount();
       hideFeatured();
       cardStateIndex = (cardStateIndex + 1) % cardData.length;
-      document.getElementById('rotating-card-1').innerHTML = renderCard(cardData[cardStateIndex]);
+      renderAllCards();
       updateCloseButtons();
     }
   </script>
