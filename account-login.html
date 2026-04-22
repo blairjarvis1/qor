@@ -65,7 +65,6 @@
       width: 100%;
       max-width: 440px;
       overflow: hidden;
-      box-shadow: var(--shadow-lg);
     }
     .login-card__top {
       padding: var(--s8) var(--s8) var(--s6);
@@ -94,44 +93,10 @@
       line-height: 1.5;
     }
 
-    /* ── Method toggle ───────────────────────────────────────── */
-    .login-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: var(--parchment);
-      border-bottom: 1px solid var(--border);
-    }
-    .login-toggle__btn {
-      padding: var(--s4) var(--s5);
-      font-family: var(--ui);
-      font-size: var(--t-xs);
-      font-weight: 500;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--stone);
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      transition: all var(--dur-fast);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--s2);
-    }
-    .login-toggle__btn:hover { color: var(--ink); }
-    .login-toggle__btn.is-active {
-      color: var(--sage);
-      background: var(--white);
-      border-bottom-color: var(--sage);
-    }
-
-    /* ── Form panels ─────────────────────────────────────────── */
-    .login-panel {
-      display: none;
+    /* ── Form body ───────────────────────────────────────────── */
+    .login-form {
       padding: var(--s7) var(--s8);
     }
-    .login-panel.is-active { display: block; }
 
     /* ── Booking ref split input ──────────────────────────────── */
     .ref-input-row {
@@ -252,24 +217,12 @@
           <p class="login-card__sub">Sign in to manage your bookings,<br>saved retreats, and preferences</p>
         </div>
 
-        <!-- Method toggle -->
-        <div class="login-toggle">
-          <button class="login-toggle__btn is-active" onclick="showPanel('email', this)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Email &amp; password
-          </button>
-          <button class="login-toggle__btn" onclick="showPanel('booking', this)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Booking reference
-          </button>
-        </div>
+        <!-- ── Single form ───────────────────────────────────── -->
+        <div class="login-form">
 
-        <!-- ── Panel: Email & password ──────────────────────── -->
-        <div class="login-panel is-active" id="panel-email">
-
-          <div id="login-error" class="acct-info-box" style="display:none;margin-bottom:var(--s5);padding:var(--s4) var(--s5);background:var(--error-bg);border:1px solid #e8b4b4;border-radius:var(--r-md)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--error)" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span style="font-size:var(--t-sm);color:var(--error)">Incorrect email or password. Please try again.</span>
+          <div id="login-error" style="display:none;margin-bottom:var(--s5);padding:var(--s4) var(--s5);background:var(--error-bg);border:1px solid #e8b4b4;border-radius:var(--r-md);display:none;align-items:center;gap:var(--s3)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--error)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span style="font-size:var(--t-sm);color:var(--error)">Please fill in your email and password, or a booking reference.</span>
           </div>
 
           <div class="form-group" style="margin-bottom:var(--s4)">
@@ -277,7 +230,7 @@
             <input class="form-input" type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
           </div>
 
-          <div class="form-group" style="margin-bottom:var(--s2)">
+          <div class="form-group" style="margin-bottom:var(--s5)">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)">
               <label class="form-label" for="login-password" style="margin-bottom:0">Password</label>
               <a href="#" style="font-size:var(--t-xs);color:var(--sage);font-weight:500" onclick="showForgot(event)">Forgot password?</a>
@@ -285,14 +238,10 @@
             <input class="form-input" type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password">
           </div>
 
-          <div style="margin-bottom:var(--s6)"></div>
-
-          <button class="btn btn--primary btn--full btn--lg" onclick="signIn()">Sign in</button>
-
-          <!-- Forgot password flow (hidden) -->
-          <div id="forgot-form" style="display:none;margin-top:var(--s6);padding:var(--s5);background:var(--parchment);border-radius:var(--r-md);border:1px solid var(--border)">
+          <!-- Forgot password flow -->
+          <div id="forgot-form" style="display:none;margin-top:calc(var(--s3) * -1);margin-bottom:var(--s5);padding:var(--s5);background:var(--parchment);border-radius:var(--r-md);border:1px solid var(--border)">
             <p style="font-size:var(--t-sm);font-weight:500;color:var(--ink);margin-bottom:var(--s2)">Reset your password</p>
-            <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s4);line-height:1.5">Enter the email address on your account and we'll send you a reset link.</p>
+            <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s4);line-height:1.5">Enter the email on your account and we'll send a reset link.</p>
             <div class="form-group" style="margin-bottom:var(--s4)">
               <input class="form-input" type="email" placeholder="your@email.com">
             </div>
@@ -300,23 +249,17 @@
               <button class="btn btn--primary btn--sm" onclick="sendReset()">Send reset link</button>
               <button class="btn btn--ghost btn--sm" onclick="document.getElementById('forgot-form').style.display='none'">Cancel</button>
             </div>
-            <div id="reset-sent" style="display:none;margin-top:var(--s4)">
-              <div style="display:flex;align-items:center;gap:var(--s2);font-size:var(--t-sm);color:var(--success)">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                Check your inbox — reset link sent.
-              </div>
+            <div id="reset-sent" style="display:none;margin-top:var(--s4);display:flex;align-items:center;gap:var(--s2);font-size:var(--t-sm);color:var(--success)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Check your inbox — reset link sent.
             </div>
           </div>
 
-        </div><!-- /panel-email -->
+          <!-- Divider -->
+          <div class="login-divider"><span>or use booking reference</span></div>
 
-        <!-- ── Panel: Booking reference ──────────────────────── -->
-        <div class="login-panel" id="panel-booking">
-
-          <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s6);line-height:1.6">Enter the booking reference from your confirmation email alongside the email address used when booking.</p>
-
-          <div class="form-group" style="margin-bottom:var(--s5)">
-            <label class="form-label">Booking reference</label>
+          <div class="form-group" style="margin-bottom:var(--s6)">
+            <label class="form-label">Booking reference <span style="font-weight:400;color:var(--stone);font-size:var(--t-xs);margin-left:4px">Optional</span></label>
             <div class="ref-input-row">
               <input
                 class="form-input ref-input--prefix"
@@ -339,19 +282,12 @@
                 spellcheck="false"
               >
             </div>
-            <span class="form-hint" style="margin-top:var(--s2)">Found in your booking confirmation email, e.g. QOR-2026 — 4271</span>
-            <span class="form-error-msg" id="ref-error">Please enter a valid booking reference</span>
+            <span class="form-hint" style="margin-top:var(--s2)">Found in your confirmation email, e.g. QOR-2026 — 4271</span>
           </div>
 
-          <div class="form-group" style="margin-bottom:var(--s6)">
-            <label class="form-label" for="ref-email">Email address used when booking</label>
-            <input class="form-input" type="email" id="ref-email" placeholder="your@email.com" autocomplete="email">
-            <span class="form-error-msg" id="ref-email-error">Please enter the email address used for this booking</span>
-          </div>
+          <button class="btn btn--primary btn--full btn--lg" onclick="signIn()">Sign in</button>
 
-          <button class="btn btn--primary btn--full btn--lg" onclick="accessByRef()">Access my booking</button>
-
-        </div><!-- /panel-booking -->
+        </div><!-- /login-form -->
 
         <!-- Footer -->
         <div class="login-card__footer">
@@ -380,26 +316,36 @@
   </div><!-- /login-body -->
 
   <script>
-    function showPanel(id, btn) {
-      document.querySelectorAll('.login-panel').forEach(p => p.classList.remove('is-active'));
-      document.querySelectorAll('.login-toggle__btn').forEach(b => b.classList.remove('is-active'));
-      document.getElementById('panel-' + id).classList.add('is-active');
-      btn.classList.add('is-active');
-      document.getElementById('login-error').style.display = 'none';
-    }
-
     function signIn() {
-      const email = document.getElementById('login-email').value.trim();
+      const email    = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
-      const err = document.getElementById('login-error');
+      const prefix   = document.getElementById('ref-prefix').value.trim();
+      const suffix   = document.getElementById('ref-suffix').value.trim();
+      const err      = document.getElementById('login-error');
 
+      const hasRef = prefix || suffix;
+
+      if (hasRef) {
+        // Booking reference path — both parts required
+        if (!prefix || !suffix) {
+          err.style.display = 'flex';
+          err.querySelector('span').textContent = 'Please enter both parts of your booking reference.';
+          document.getElementById('ref-prefix').classList.toggle('form-input--error', !prefix);
+          document.getElementById('ref-suffix').classList.toggle('form-input--error', !suffix);
+          return;
+        }
+        err.style.display = 'none';
+        window.location.href = 'account-booking-detail.html';
+        return;
+      }
+
+      // Email + password path
       if (!email || !password) {
         err.style.display = 'flex';
         err.querySelector('span').textContent = 'Please enter your email and password.';
         return;
       }
 
-      // Prototype: any credentials go through
       err.style.display = 'none';
       window.location.href = 'account-bookings.html';
     }
@@ -415,53 +361,13 @@
     }
 
     function refInputHandler(input, nextId) {
-      // Auto-advance to suffix field when prefix is full
       if (input.value.length >= input.maxLength) {
         document.getElementById(nextId).focus();
       }
     }
 
-    function accessByRef() {
-      const prefix = document.getElementById('ref-prefix').value.trim();
-      const suffix = document.getElementById('ref-suffix').value.trim();
-      const email  = document.getElementById('ref-email').value.trim();
-      const refErr   = document.getElementById('ref-error');
-      const emailErr = document.getElementById('ref-email-error');
-
-      let valid = true;
-
-      if (!prefix || !suffix) {
-        refErr.classList.add('is-visible');
-        document.getElementById('ref-prefix').classList.add('form-input--error');
-        document.getElementById('ref-suffix').classList.add('form-input--error');
-        valid = false;
-      } else {
-        refErr.classList.remove('is-visible');
-        document.getElementById('ref-prefix').classList.remove('form-input--error');
-        document.getElementById('ref-suffix').classList.remove('form-input--error');
-      }
-
-      if (!email) {
-        emailErr.classList.add('is-visible');
-        document.getElementById('ref-email').classList.add('form-input--error');
-        valid = false;
-      } else {
-        emailErr.classList.remove('is-visible');
-        document.getElementById('ref-email').classList.remove('form-input--error');
-      }
-
-      if (!valid) return;
-
-      // Prototype: go straight to booking detail
-      window.location.href = 'account-booking-detail.html';
-    }
-
-    // Allow Enter key to submit
     document.addEventListener('keydown', e => {
-      if (e.key !== 'Enter') return;
-      const activePanel = document.querySelector('.login-panel.is-active');
-      if (activePanel.id === 'panel-email') signIn();
-      if (activePanel.id === 'panel-booking') accessByRef();
+      if (e.key === 'Enter') signIn();
     });
   </script>
 
