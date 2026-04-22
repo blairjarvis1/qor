@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Queen of Retreats</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    body {
+      background: var(--sand);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .login-header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .login-header__logo {
+      font-family: var(--serif);
+      font-size: 24px;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+    .login-header__back {
+      position: absolute;
+      left: var(--s7);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      transition: color var(--dur-fast);
+    }
+    .login-header__back svg { transition: transform var(--dur-fast); }
+    .login-header__back:hover { color: var(--ink); }
+    .login-header__back:hover svg { transform: translateX(-3px); }
+
+    /* ── Page body ───────────────────────────────────────────── */
+    .login-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s10) var(--s7);
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .login-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      width: 100%;
+      max-width: 440px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .login-card__top {
+      padding: var(--s8) var(--s8) var(--s6);
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .login-card__eyebrow {
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: var(--s3);
+    }
+    .login-card__title {
+      font-family: var(--serif);
+      font-size: var(--t-2xl);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: var(--s2);
+    }
+    .login-card__sub {
+      font-size: var(--t-sm);
+      color: var(--stone);
+      line-height: 1.5;
+    }
+
+    /* ── Method toggle ───────────────────────────────────────── */
+    .login-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--parchment);
+      border-bottom: 1px solid var(--border);
+    }
+    .login-toggle__btn {
+      padding: var(--s4) var(--s5);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all var(--dur-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s2);
+    }
+    .login-toggle__btn:hover { color: var(--ink); }
+    .login-toggle__btn.is-active {
+      color: var(--sage);
+      background: var(--white);
+      border-bottom-color: var(--sage);
+    }
+
+    /* ── Form panels ─────────────────────────────────────────── */
+    .login-panel {
+      display: none;
+      padding: var(--s7) var(--s8);
+    }
+    .login-panel.is-active { display: block; }
+
+    /* ── Booking ref split input ──────────────────────────────── */
+    .ref-input-row {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+    }
+    .ref-input-row__dash {
+      font-size: var(--t-lg);
+      color: var(--mist);
+      font-weight: 300;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 1px;
+    }
+    .ref-input--prefix {
+      flex: 0 0 120px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--ui);
+    }
+    .ref-input--suffix {
+      flex: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--ui);
+    }
+
+    /* ── Divider ─────────────────────────────────────────────── */
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      margin: var(--s6) 0;
+    }
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .login-divider span {
+      font-size: var(--t-xs);
+      color: var(--mist);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    .login-card__footer {
+      padding: var(--s5) var(--s8);
+      border-top: 1px solid var(--border);
+      background: var(--parchment);
+      text-align: center;
+      font-size: var(--t-sm);
+      color: var(--stone);
+    }
+    .login-card__footer a { color: var(--sage); font-weight: 500; }
+    .login-card__footer a:hover { text-decoration: underline; }
+
+    /* ── Trust strip ──────────────────────────────────────────── */
+    .login-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s5);
+      margin-top: var(--s7);
+      flex-wrap: wrap;
+    }
+    .login-trust__item {
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: var(--t-xs);
+      color: var(--stone);
+    }
+    .login-trust__item svg { color: var(--sage-mid); }
+
+    /* Error state */
+    .form-input--error {
+      border-color: var(--error) !important;
+      box-shadow: 0 0 0 3px rgba(176,48,48,0.1) !important;
+    }
+    .form-error-msg {
+      font-size: var(--t-xs);
+      color: var(--error);
+      margin-top: var(--s2);
+      display: none;
+    }
+    .form-error-msg.is-visible { display: block; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ────────────────────────────────────────────────────── -->
+  <header class="login-header" style="position:relative">
+    <a href="index.html" class="login-header__back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to site
+    </a>
+    <a href="index.html" class="login-header__logo">Queen of Retreats</a>
+  </header>
+
+  <!-- ── BODY ──────────────────────────────────────────────────────── -->
+  <div class="login-body">
+    <div>
+
+      <div class="login-card">
+
+        <!-- Top -->
+        <div class="login-card__top">
+          <div class="login-card__eyebrow">My Account</div>
+          <h1 class="login-card__title">Welcome back</h1>
+          <p class="login-card__sub">Sign in to manage your bookings,<br>saved retreats, and preferences</p>
+        </div>
+
+        <!-- Method toggle -->
+        <div class="login-toggle">
+          <button class="login-toggle__btn is-active" onclick="showPanel('email', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email &amp; password
+          </button>
+          <button class="login-toggle__btn" onclick="showPanel('booking', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Booking reference
+          </button>
+        </div>
+
+        <!-- ── Panel: Email & password ──────────────────────── -->
+        <div class="login-panel is-active" id="panel-email">
+
+          <div id="login-error" class="acct-info-box" style="display:none;margin-bottom:var(--s5);padding:var(--s4) var(--s5);background:var(--error-bg);border:1px solid #e8b4b4;border-radius:var(--r-md)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--error)" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span style="font-size:var(--t-sm);color:var(--error)">Incorrect email or password. Please try again.</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--s4)">
+            <label class="form-label" for="login-email">Email address</label>
+            <input class="form-input" type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--s2)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)">
+              <label class="form-label" for="login-password" style="margin-bottom:0">Password</label>
+              <a href="#" style="font-size:var(--t-xs);color:var(--sage);font-weight:500" onclick="showForgot(event)">Forgot password?</a>
+            </div>
+            <input class="form-input" type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password">
+          </div>
+
+          <div style="margin-bottom:var(--s6)"></div>
+
+          <button class="btn btn--primary btn--full btn--lg" onclick="signIn()">Sign in</button>
+
+          <!-- Forgot password flow (hidden) -->
+          <div id="forgot-form" style="display:none;margin-top:var(--s6);padding:var(--s5);background:var(--parchment);border-radius:var(--r-md);border:1px solid var(--border)">
+            <p style="font-size:var(--t-sm);font-weight:500;color:var(--ink);margin-bottom:var(--s2)">Reset your password</p>
+            <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s4);line-height:1.5">Enter the email address on your account and we'll send you a reset link.</p>
+            <div class="form-group" style="margin-bottom:var(--s4)">
+              <input class="form-input" type="email" placeholder="your@email.com">
+            </div>
+            <div style="display:flex;gap:var(--s3)">
+              <button class="btn btn--primary btn--sm" onclick="sendReset()">Send reset link</button>
+              <button class="btn btn--ghost btn--sm" onclick="document.getElementById('forgot-form').style.display='none'">Cancel</button>
+            </div>
+            <div id="reset-sent" style="display:none;margin-top:var(--s4)">
+              <div style="display:flex;align-items:center;gap:var(--s2);font-size:var(--t-sm);color:var(--success)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Check your inbox — reset link sent.
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /panel-email -->
+
+        <!-- ── Panel: Booking reference ──────────────────────── -->
+        <div class="login-panel" id="panel-booking">
+
+          <p style="font-size:var(--t-sm);color:var(--stone);margin-bottom:var(--s6);line-height:1.6">Enter the booking reference from your confirmation email alongside the email address used when booking.</p>
+
+          <div class="form-group" style="margin-bottom:var(--s5)">
+            <label class="form-label">Booking reference</label>
+            <div class="ref-input-row">
+              <input
+                class="form-input ref-input--prefix"
+                type="text"
+                id="ref-prefix"
+                placeholder="QOR-2026"
+                maxlength="8"
+                oninput="refInputHandler(this, 'ref-suffix')"
+                autocomplete="off"
+                spellcheck="false"
+              >
+              <span class="ref-input-row__dash">—</span>
+              <input
+                class="form-input ref-input--suffix"
+                type="text"
+                id="ref-suffix"
+                placeholder="4271"
+                maxlength="6"
+                autocomplete="off"
+                spellcheck="false"
+              >
+            </div>
+            <span class="form-hint" style="margin-top:var(--s2)">Found in your booking confirmation email, e.g. QOR-2026 — 4271</span>
+            <span class="form-error-msg" id="ref-error">Please enter a valid booking reference</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom:var(--s6)">
+            <label class="form-label" for="ref-email">Email address used when booking</label>
+            <input class="form-input" type="email" id="ref-email" placeholder="your@email.com" autocomplete="email">
+            <span class="form-error-msg" id="ref-email-error">Please enter the email address used for this booking</span>
+          </div>
+
+          <button class="btn btn--primary btn--full btn--lg" onclick="accessByRef()">Access my booking</button>
+
+        </div><!-- /panel-booking -->
+
+        <!-- Footer -->
+        <div class="login-card__footer">
+          Don't have an account? <a href="#">Create one — it's free</a>
+        </div>
+
+      </div><!-- /login-card -->
+
+      <!-- Trust indicators -->
+      <div class="login-trust">
+        <div class="login-trust__item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Secure &amp; encrypted
+        </div>
+        <div class="login-trust__item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          PCI-compliant payments
+        </div>
+        <div class="login-trust__item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          GDPR compliant
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /login-body -->
+
+  <script>
+    function showPanel(id, btn) {
+      document.querySelectorAll('.login-panel').forEach(p => p.classList.remove('is-active'));
+      document.querySelectorAll('.login-toggle__btn').forEach(b => b.classList.remove('is-active'));
+      document.getElementById('panel-' + id).classList.add('is-active');
+      btn.classList.add('is-active');
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    function signIn() {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const err = document.getElementById('login-error');
+
+      if (!email || !password) {
+        err.style.display = 'flex';
+        err.querySelector('span').textContent = 'Please enter your email and password.';
+        return;
+      }
+
+      // Prototype: any credentials go through
+      err.style.display = 'none';
+      window.location.href = 'account-bookings.html';
+    }
+
+    function showForgot(e) {
+      e.preventDefault();
+      const f = document.getElementById('forgot-form');
+      f.style.display = f.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function sendReset() {
+      document.getElementById('reset-sent').style.display = 'block';
+    }
+
+    function refInputHandler(input, nextId) {
+      // Auto-advance to suffix field when prefix is full
+      if (input.value.length >= input.maxLength) {
+        document.getElementById(nextId).focus();
+      }
+    }
+
+    function accessByRef() {
+      const prefix = document.getElementById('ref-prefix').value.trim();
+      const suffix = document.getElementById('ref-suffix').value.trim();
+      const email  = document.getElementById('ref-email').value.trim();
+      const refErr   = document.getElementById('ref-error');
+      const emailErr = document.getElementById('ref-email-error');
+
+      let valid = true;
+
+      if (!prefix || !suffix) {
+        refErr.classList.add('is-visible');
+        document.getElementById('ref-prefix').classList.add('form-input--error');
+        document.getElementById('ref-suffix').classList.add('form-input--error');
+        valid = false;
+      } else {
+        refErr.classList.remove('is-visible');
+        document.getElementById('ref-prefix').classList.remove('form-input--error');
+        document.getElementById('ref-suffix').classList.remove('form-input--error');
+      }
+
+      if (!email) {
+        emailErr.classList.add('is-visible');
+        document.getElementById('ref-email').classList.add('form-input--error');
+        valid = false;
+      } else {
+        emailErr.classList.remove('is-visible');
+        document.getElementById('ref-email').classList.remove('form-input--error');
+      }
+
+      if (!valid) return;
+
+      // Prototype: go straight to booking detail
+      window.location.href = 'account-booking-detail.html';
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const activePanel = document.querySelector('.login-panel.is-active');
+      if (activePanel.id === 'panel-email') signIn();
+      if (activePanel.id === 'panel-booking') accessByRef();
+    });
+  </script>
+
+</body>
+</html>
