@@ -53,6 +53,30 @@
       align-items: center;
       gap: 4px;
     }
+    .detail-hero__msg {
+      position: absolute;
+      bottom: var(--s6);
+      right: var(--s6);
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      padding: 10px var(--s5);
+      background: var(--white);
+      border: none;
+      border-radius: var(--r-md);
+      color: var(--ink);
+      font-size: var(--t-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity var(--dur-fast), transform var(--dur-fast);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .detail-hero__msg:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .detail-hero__msg svg { flex-shrink: 0; }
 
     /* Accordion */
     .accordion { margin-bottom: var(--s4); }
@@ -420,6 +444,10 @@
             Frome, Somerset, UK
           </div>
         </div>
+        <button class="detail-hero__msg" onclick="toggleAccordion('acc-support');document.getElementById('acc-support').scrollIntoView({behavior:'smooth',block:'start'})">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Message the host
+        </button>
       </div>
 
       <!-- Booking meta bar -->

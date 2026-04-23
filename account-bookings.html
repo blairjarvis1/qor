@@ -6,6 +6,33 @@
   <title>My Bookings — Queen of Retreats</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="account.css">
+  <style>
+    /* Message host tertiary button */
+    .btn-msg-host {
+      border: none;
+      background: none;
+      color: var(--stone);
+      font-family: var(--ui);
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--dur-fast);
+    }
+    .btn-msg-host:hover { color: var(--ink); }
+
+    /* Enquiry card open/closed toggle */
+    .enquiry-card .msg-thread { display: none; }
+    .enquiry-card.is-open .msg-thread { display: block; }
+    .enquiry-card .enq-open-actions { display: none; }
+    .enquiry-card.is-open .enq-open-actions { display: flex; }
+    .enquiry-card.is-open .enq-closed-actions { display: none; }
+  </style>
 </head>
 <body>
 
@@ -95,7 +122,7 @@
           <div class="acct-stat__label">Upcoming retreats</div>
         </div>
         <div class="acct-stat">
-          <div class="acct-stat__value">1</div>
+          <div class="acct-stat__value">3</div>
           <div class="acct-stat__label">Active enquiries</div>
         </div>
         <div class="acct-stat">
@@ -114,7 +141,7 @@
           Upcoming <span class="acct-tab__count">2</span>
         </button>
         <button class="acct-tab" role="tab" onclick="showTab('enquiries', this)">
-          Enquiries <span class="acct-tab__count">1</span>
+          Enquiries <span class="acct-tab__count">3</span>
         </button>
         <button class="acct-tab" role="tab" onclick="showTab('past', this)">
           Past <span class="acct-tab__count">4</span>
@@ -166,6 +193,11 @@
               Balance of £1,425 due by 14 May 2026
             </div>
             <div class="booking-card__actions">
+              <button class="btn-msg-host" onclick="toggleEnquiry('enq-ananda')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Message host
+              </button>
+              <span style="width:1px;height:20px;background:var(--border);display:inline-block;flex-shrink:0"></span>
               <a href="account-booking-detail.html" class="btn btn--secondary btn--sm">View details</a>
               <button class="btn btn--primary btn--sm">Pay balance</button>
             </div>
@@ -214,6 +246,11 @@
               All set — travel information available 30 days before departure
             </div>
             <div class="booking-card__actions">
+              <button class="btn-msg-host">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Message host
+              </button>
+              <span style="width:1px;height:20px;background:var(--border);display:inline-block;flex-shrink:0"></span>
               <a href="account-booking-detail.html" class="btn btn--secondary btn--sm">View details</a>
               <button class="btn btn--ghost btn--sm">Download invoice</button>
             </div>
@@ -225,8 +262,8 @@
       <!-- ── TAB: ENQUIRIES ─────────────────────────────────────────── -->
       <div id="tab-enquiries" class="tab-panel" role="tabpanel">
 
-        <!-- Enquiry: Ananda — Provider replied -->
-        <article class="enquiry-card">
+        <!-- Enquiry 1: Ananda — open by default -->
+        <article class="enquiry-card is-open" id="enq-ananda">
           <div class="enquiry-card__inner">
             <img class="enquiry-card__img" src="images/retreats/ananda/ananda2.jpg" alt="Ananda in the Himalayas" onerror="this.src='images/general/14.jpg'">
             <div class="enquiry-card__body">
@@ -240,7 +277,6 @@
                 </div>
                 <span class="badge badge--sage">Provider replied</span>
               </div>
-
               <div class="enquiry-card__meta">
                 <div class="booking-card__meta-item">
                   <span class="booking-card__meta-label">Requested dates</span>
@@ -259,8 +295,6 @@
                   <span class="booking-card__meta-value">18 Apr 2026</span>
                 </div>
               </div>
-
-              <!-- Message thread -->
               <div class="msg-thread">
                 <div class="msg-thread__header">
                   <span class="msg-thread__title">Messages with Ananda</span>
@@ -283,7 +317,6 @@
                   <button class="btn btn--primary btn--sm">Send</button>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="enquiry-card__footer">
@@ -292,9 +325,150 @@
               Provider has replied — respond to confirm or request more information
             </div>
             <div class="booking-card__actions">
-              <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
-              <button class="btn btn--secondary btn--sm">Edit enquiry</button>
-              <button class="btn btn--primary btn--sm">Continue to book</button>
+              <div class="enq-closed-actions">
+                <button class="btn btn--secondary btn--sm" onclick="toggleEnquiry('enq-ananda')">View conversation</button>
+              </div>
+              <div class="enq-open-actions" style="gap:var(--s3)">
+                <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
+                <button class="btn btn--secondary btn--sm">Edit enquiry</button>
+                <button class="btn btn--primary btn--sm">Continue to book</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Enquiry 2: Kaliyoga — awaiting response, closed -->
+        <article class="enquiry-card" id="enq-kaliyoga">
+          <div class="enquiry-card__inner">
+            <img class="enquiry-card__img" src="images/general/11.jpg" alt="Kaliyoga">
+            <div class="enquiry-card__body">
+              <div class="enquiry-card__top">
+                <div>
+                  <div class="enquiry-card__title">Kaliyoga</div>
+                  <div class="enquiry-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Andalucía, Spain
+                  </div>
+                </div>
+                <span class="badge badge--neutral">Awaiting response</span>
+              </div>
+              <div class="enquiry-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Requested dates</span>
+                  <span class="booking-card__meta-value">15–22 Jan 2027 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Retreat type</span>
+                  <span class="booking-card__meta-value">Yoga &amp; Detox</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Enquiry ref</span>
+                  <span class="booking-card__meta-value">ENQ-2026-0231</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Submitted</span>
+                  <span class="booking-card__meta-value">21 Apr 2026</span>
+                </div>
+              </div>
+              <div class="msg-thread">
+                <div class="msg-thread__header">
+                  <span class="msg-thread__title">Messages with Kaliyoga</span>
+                </div>
+                <div class="msg-thread__messages">
+                  <div class="msg-row msg-row--outbound">
+                    <span class="msg-sender">You</span>
+                    <div class="msg-bubble msg-bubble--outbound">Hello, I'd love to join the January yoga and detox programme. Could you let me know if there's availability for a solo traveller, and whether you offer airport transfers from Málaga?</div>
+                    <span class="msg-time">21 Apr · 14:05</span>
+                  </div>
+                </div>
+                <div class="msg-compose">
+                  <textarea class="msg-compose__input" rows="1" placeholder="Add a message…"></textarea>
+                  <button class="btn btn--primary btn--sm">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="enquiry-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--stone)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Waiting for Kaliyoga to respond — typically within 2 business days
+            </div>
+            <div class="booking-card__actions">
+              <div class="enq-closed-actions">
+                <button class="btn btn--secondary btn--sm" onclick="toggleEnquiry('enq-kaliyoga')">View conversation</button>
+              </div>
+              <div class="enq-open-actions" style="gap:var(--s3)">
+                <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
+                <button class="btn btn--secondary btn--sm">Edit enquiry</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Enquiry 3: SHA Wellness Clinic — just submitted, closed -->
+        <article class="enquiry-card" id="enq-sha">
+          <div class="enquiry-card__inner">
+            <img class="enquiry-card__img" src="images/general/03.jpg" alt="SHA Wellness Clinic">
+            <div class="enquiry-card__body">
+              <div class="enquiry-card__top">
+                <div>
+                  <div class="enquiry-card__title">SHA Wellness Clinic</div>
+                  <div class="enquiry-card__location">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Alicante, Spain
+                  </div>
+                </div>
+                <span class="badge badge--neutral">Enquiry submitted</span>
+              </div>
+              <div class="enquiry-card__meta">
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Requested dates</span>
+                  <span class="booking-card__meta-value">5–12 Mar 2027 · 7 nights</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Retreat type</span>
+                  <span class="booking-card__meta-value">Health &amp; Medical Wellness</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Enquiry ref</span>
+                  <span class="booking-card__meta-value">ENQ-2026-0247</span>
+                </div>
+                <div class="booking-card__meta-item">
+                  <span class="booking-card__meta-label">Submitted</span>
+                  <span class="booking-card__meta-value">22 Apr 2026</span>
+                </div>
+              </div>
+              <div class="msg-thread">
+                <div class="msg-thread__header">
+                  <span class="msg-thread__title">Messages with SHA Wellness</span>
+                </div>
+                <div class="msg-thread__messages">
+                  <div class="msg-row msg-row--outbound">
+                    <span class="msg-sender">You</span>
+                    <div class="msg-bubble msg-bubble--outbound">I'm interested in the SHA method programme for early March. I have mild hypertension and would like to know if there's a suitable programme, and whether an initial health assessment is included.</div>
+                    <span class="msg-time">22 Apr · 09:48</span>
+                  </div>
+                </div>
+                <div class="msg-compose">
+                  <textarea class="msg-compose__input" rows="1" placeholder="Add a message…"></textarea>
+                  <button class="btn btn--primary btn--sm">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="enquiry-card__footer">
+            <div class="booking-card__next-step">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--stone)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Enquiry sent — SHA Wellness will respond within 3 business days
+            </div>
+            <div class="booking-card__actions">
+              <div class="enq-closed-actions">
+                <button class="btn btn--secondary btn--sm" onclick="toggleEnquiry('enq-sha')">View conversation</button>
+              </div>
+              <div class="enq-open-actions" style="gap:var(--s3)">
+                <button class="btn btn--ghost btn--sm" style="color:var(--error)">Withdraw</button>
+                <button class="btn btn--secondary btn--sm">Edit enquiry</button>
+              </div>
             </div>
           </div>
         </article>
@@ -379,6 +553,15 @@
       document.querySelectorAll('.acct-tab').forEach(t => t.classList.remove('is-active'));
       document.getElementById('tab-' + id).classList.add('is-active');
       btn.classList.add('is-active');
+    }
+    function toggleEnquiry(id) {
+      document.querySelectorAll('.enquiry-card').forEach(card => {
+        if (card.id === id) {
+          card.classList.toggle('is-open');
+        } else {
+          card.classList.remove('is-open');
+        }
+      });
     }
   </script>
 
