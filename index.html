@@ -1504,6 +1504,362 @@
     /* Hidden state before the entrance animation fires */
     .gs-content.is-hidden { opacity: 0; }
 
+    /* ── Mobile-only elements: hidden by default on desktop ─────── */
+    .mob-search-trigger { display: none; }
+    .mob-modal          { display: none; }
+    .mob-hamburger      { display: none; }
+
+    /* ══ MOBILE ≤767px ═══════════════════════════════════════════ */
+    @media (max-width: 767px) {
+
+      /* ── Header: mobile layout ───────────────────────────────── */
+      .site-header__inner {
+        grid-template-columns: 44px 1fr 44px;
+        padding: 0 14px;
+        height: 52px;
+      }
+      .site-header__nav { display: none; }
+      .site-header__actions button { display: none; } /* hide Search button */
+      .site-header__actions .btn--ghost {
+        padding: 6px;
+        gap: 0;
+      }
+      .mob-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; height: 40px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--white);
+        padding: 0;
+        flex-shrink: 0;
+        grid-column: 1;
+      }
+      .site-header.is-scrolled .mob-hamburger { color: var(--ink); }
+      .site-header__logo { font-size: 17px; }
+      .mob-signin-label { display: none; }
+      .hp-hero__scroll { display: none; }
+
+      /* ── Guided flow — mobile overrides ─────────────────────── */
+      .gs-content {
+        left: 0;
+        width: 100%;
+        padding: 72px 20px 100px;
+        justify-content: flex-start;
+        overflow-y: auto;
+      }
+      .gs-options { grid-template-columns: 1fr 1fr; max-width: 100%; }
+      .gs-option__desc { display: none; }
+      .gs-option { padding: 10px; min-height: 44px; }
+      .gs-cards { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+      .gs-question-row { gap: 12px; margin-bottom: 16px; flex-wrap: nowrap; align-items: flex-start; }
+      .gs-question { min-width: 0; }
+      .gs-subtext { margin-bottom: 16px; font-size: 15px; }
+      .gs-label { margin-bottom: 12px; }
+
+      /* ── Hero ────────────────────────────────────────────────── */
+      .hp-hero { min-height: 100svh; }
+      .hp-hero__content {
+        position: absolute;
+        inset: 0;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 52px var(--s5) 180px;
+        text-align: center;
+        width: 100%;
+        max-width: 100%;
+      }
+      .hp-hero__eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        margin-bottom: var(--s4);
+      }
+      .hp-hero__headline {
+        white-space: normal;
+        font-size: clamp(30px, 8vw, 40px);
+        margin-bottom: 0;
+      }
+      .hp-hero__subhead { display: none; }
+      .hp-search { display: none !important; }
+      #dd-morph-bg, .hp-search__dropdown { display: none !important; }
+
+      /* ── Search trigger: fixed to bottom ─────────────────────── */
+      .mob-search-trigger {
+        display: block;
+        position: fixed;
+        bottom: calc(calc(38px + env(safe-area-inset-bottom, 16px)) + 44px + 32px);
+        left: 0; right: 0;
+        padding: 0 20px;
+        z-index: 300;
+        max-width: none;
+        margin: 0;
+      }
+      .mob-search-pill {
+        display: flex;
+        align-items: center;
+        background: var(--white);
+        border-radius: var(--r-pill);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.30), 0 2px 8px rgba(0,0,0,0.12);
+        padding: 10px 8px 10px 20px;
+        gap: 12px;
+        cursor: pointer;
+      }
+      .mob-search-pill__text { flex: 1; min-width: 0; text-align: left; }
+      .mob-search-pill__label { font-size: 11px; font-weight: 600; color: var(--ink); margin-bottom: 2px; letter-spacing: 0.02em; }
+      .mob-search-pill__sub   { font-size: var(--t-sm); color: var(--stone); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .mob-search-pill__btn   { width: 42px; height: 42px; border-radius: 50%; background: var(--sage); border: none; display: flex; align-items: center; justify-content: center; color: var(--white); flex-shrink: 0; cursor: pointer; }
+
+      .hp-hero__explore { position: fixed; bottom: calc(38px + env(safe-area-inset-bottom, 16px)); left: 0; right: 0; text-align: center; z-index: 300; margin-top: 0; }
+
+      /* ── Modal overlay ───────────────────────────────────────── */
+      .mob-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 700;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        pointer-events: none;
+      }
+      .mob-modal.is-open { pointer-events: all; }
+
+      /* Backdrop */
+      .mob-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.52);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        cursor: pointer;
+      }
+      .mob-modal.is-open .mob-modal__backdrop { opacity: 1; }
+
+      /* ── Bottom sheet ─────────────────────────────────────────── */
+      .mob-sheet {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100svh;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(100%);
+        transition: transform 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .mob-modal.is-open .mob-sheet { transform: translateY(0); }
+
+      /* ── Sheet header (close button) ─────────────────────────── */
+      .mob-sheet__header {
+        display: flex;
+        justify-content: flex-end;
+        padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 8px;
+        flex-shrink: 0;
+      }
+      .mob-close-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--sage);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background var(--dur-fast);
+      }
+      .mob-close-btn:hover { background: #4e6349; }
+      .mob-close-btn svg { stroke: var(--white); stroke-width: 2; stroke-linecap: round; }
+
+      /* ── Stacked accordion cards ─────────────────────────────── */
+      .mob-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+        min-height: 0;
+        margin: 0 20px;
+      }
+      .mob-card {
+        background: var(--white);
+        border-radius: 16px;
+        overflow: hidden;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 52px;
+        display: flex;
+        flex-direction: column;
+        transition: flex-grow 0.44s cubic-bezier(0.22, 1, 0.36, 1),
+                    flex-basis 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .mob-card.is-active { flex-grow: 1; flex-shrink: 1; flex-basis: 52px; min-height: 0; }
+      .mob-card__hdr {
+        height: 52px;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .mob-card__hdr:hover { background: rgba(28,28,26,0.03); }
+      .mob-card__label { font-size: 13px; font-weight: 500; color: var(--stone); flex-shrink: 0; }
+      .mob-card.is-active .mob-card__label { font-weight: 600; color: var(--ink); }
+      .mob-card__val { font-size: 13px; font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 55%; text-align: right; }
+      .mob-card__val:empty::after { content: attr(data-placeholder); color: var(--mist); font-weight: 400; }
+      .mob-card__body { display: flex; flex-direction: column; flex: 1; min-height: 0; opacity: 0; pointer-events: none; transition: opacity 0.18s ease; }
+      .mob-card.is-active .mob-card__body { opacity: 1; pointer-events: auto; transition: opacity 0.22s ease 0.2s; }
+      .mob-card__top { flex-shrink: 0; padding-top: 4px; }
+      .mob-card__scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+      .mob-card__scroll::-webkit-scrollbar { width: 3px; }
+      .mob-card__scroll::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 2px; }
+
+      /* ── Footer ──────────────────────────────────────────────── */
+      .mob-sheet__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 16px));
+        background: transparent;
+        flex-shrink: 0;
+      }
+      .mob-modal__clear { font-family: var(--ui); font-size: var(--t-sm); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: none; border: none; color: var(--white); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; padding: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.45); }
+      .mob-modal__search-btn { display: flex; align-items: center; gap: 8px; background: var(--sage); color: var(--white); border: none; border-radius: var(--r-pill); padding: 12px 24px; font-family: var(--ui); font-size: var(--t-sm); font-weight: 500; letter-spacing: 0.06em; cursor: pointer; transition: background var(--dur-fast); }
+      .mob-modal__search-btn:hover { background: #4e6349; }
+
+      /* ── Sub-header row ──────────────────────────────────────── */
+      .mob-subhdr { display: flex; align-items: center; justify-content: space-between; padding: 0 20px 10px; }
+
+      /* ── Shared search input ─────────────────────────────────── */
+      .mob-srch-wrap { display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; margin: 0 20px 10px; transition: border-color var(--dur-fast); }
+      .mob-srch-wrap:focus-within { border-color: var(--ink); }
+      .mob-srch-input { flex: 1; border: none; outline: none; font-family: var(--sans); font-size: var(--t-sm); color: var(--ink); background: transparent; }
+      .mob-srch-input::placeholder { color: var(--stone); }
+
+      /* ── Interest categories ─────────────────────────────────── */
+      .mob-cats { padding: 4px 12px 4px; }
+      .mob-cat { display: flex; align-items: center; gap: 12px; padding: 8px 8px; border-radius: 10px; cursor: pointer; transition: background var(--dur-fast); }
+      .mob-cat:hover    { background: var(--parchment); }
+      .mob-cat.is-selected { background: var(--sage-pale); }
+      .mob-cat__icon { width: 40px; height: 40px; background: var(--cloud); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+      .mob-cat__name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 1px; }
+      .mob-cat__desc { font-size: 11px; color: var(--stone); line-height: 1.3; }
+
+      /* ── Want pills ──────────────────────────────────────────── */
+      .mob-want-pills { display: flex; flex-wrap: wrap; gap: 7px; padding: 4px 20px 12px; }
+
+      /* ── Destination ─────────────────────────────────────────── */
+      .mob-dest-tabs { display: flex; align-items: center; gap: 6px; margin: 0 20px 10px; }
+      .mob-dest-tab-group { display: flex; flex: 1; gap: 6px; }
+      .mob-dest-tab { flex: 1; text-align: center; white-space: nowrap; font-size: 12px; font-weight: 500; color: var(--stone); padding: 7px 4px; border-radius: var(--r-pill); border: 1.5px solid transparent; cursor: pointer; transition: all var(--dur-fast); }
+      .mob-dest-tab.is-active { background: var(--ink); color: var(--white); }
+      .mob-dest-tab:not(.is-active):hover { background: var(--cloud); color: var(--ink); }
+      .mob-dest-notsure { font-size: 12px; font-weight: 500; color: var(--stone); padding: 7px 8px; border-radius: var(--r-pill); border: 1.5px solid var(--border); background: transparent; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all var(--dur-fast); }
+      .mob-dest-notsure:hover { border-color: var(--ink); color: var(--ink); }
+      /* Typeahead (shown when typing) */
+      .mob-dest-typeahead { display: none; }
+      .mob-dest-typeahead.is-visible { display: block; }
+      .mob-dest-typeahead-lbl { padding: 4px 14px 6px; font-family: var(--ui); font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); }
+      /* Two-column popular layout */
+      .mob-dest-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 0 14px 8px; }
+      .mob-dest-cols > div:first-child { border-right: 1px solid var(--border); padding-right: 8px; }
+      .mob-dest-cols > div:last-child { padding-left: 8px; }
+      .mob-dest-col-lbl { font-size: 9px; font-family: var(--ui); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); padding: 8px 4px 6px; }
+      .mob-dest-place { display: flex; align-items: center; gap: 8px; padding: 7px 4px; border-radius: 8px; cursor: pointer; transition: background var(--dur-fast); }
+      .mob-dest-place:hover { background: var(--parchment); }
+      .mob-dest-place__icon { width: 30px; height: 30px; border-radius: 7px; background: var(--cloud); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; overflow: hidden; }
+      .mob-dest-place__icon img { width: 16px; height: 16px; object-fit: cover; display: block; }
+      .mob-dest-place__name { font-size: 12px; font-weight: 500; color: var(--ink); line-height: 1.2; }
+      .mob-dest-place__count { font-size: 10px; color: var(--stone); line-height: 1.2; }
+      /* Distance panel */
+      .mob-dest-distance { padding: 2px 14px 10px; }
+      .mob-dest-dist-lbl { font-size: 9px; font-family: var(--ui); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); margin-bottom: 8px; }
+      .mob-dest-loc-wrap { border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; transition: border-color var(--dur-fast); }
+      .mob-dest-loc-wrap:focus-within { border-color: var(--ink); }
+      .mob-dest-dist-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+      .mob-dist-tile { border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 10px 4px 8px; cursor: pointer; text-align: center; transition: all var(--dur-fast); }
+      .mob-dist-tile:hover { border-color: var(--ink); }
+      .mob-dist-tile.is-selected { border-color: var(--ink); background: var(--ink); color: var(--white); }
+      .mob-dist-tile__icon { font-size: 20px; margin-bottom: 3px; }
+      .mob-dist-tile__name { font-size: 11px; font-weight: 600; color: inherit; line-height: 1.2; }
+      .mob-dist-tile__sub { font-size: 9px; color: var(--stone); margin-top: 1px; line-height: 1.2; }
+      .mob-dist-tile.is-selected .mob-dist-tile__sub { color: rgba(255,255,255,0.65); }
+
+      /* ── Date mode tabs ──────────────────────────────────────── */
+      .mob-date-modes { display: flex; gap: 6px; margin: 0 20px 14px; }
+      .mob-date-mode { flex: 1; text-align: center; font-size: 13px; font-weight: 500; color: var(--stone); padding: 7px 4px; border-radius: var(--r-pill); border: 1.5px solid transparent; cursor: pointer; transition: all var(--dur-fast); }
+      .mob-date-mode.is-active { background: var(--ink); color: var(--white); }
+      .mob-date-mode:not(.is-active):hover { background: var(--cloud); color: var(--ink); }
+
+      /* ── Calendar ────────────────────────────────────────────── */
+      .mob-cal { padding: 0 16px; }
+      .mob-cal__nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+      .mob-cal__nav-title { font-weight: 600; font-size: var(--t-sm); color: var(--ink); flex: 1; text-align: center; }
+      .mob-cal__nav-btn { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--white); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--ink); font-size: 16px; line-height: 1; transition: background var(--dur-fast); flex-shrink: 0; }
+      .mob-cal__nav-btn:hover { background: var(--cloud); }
+      .mob-cal__nav-btn.is-hidden { visibility: hidden; pointer-events: none; }
+      .mob-cal__weekdays { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-size: 10px; font-family: var(--ui); font-weight: 600; letter-spacing: 0.04em; color: var(--stone); padding-bottom: 4px; margin-bottom: 2px; border-bottom: 1px solid var(--border); }
+      .mob-cal__days { display: grid; grid-template-columns: repeat(7,1fr); }
+      .mob-cal__day { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:13px; border-radius:50%; cursor:pointer; transition:background var(--dur-fast),color var(--dur-fast); color:var(--ink); user-select:none; position:relative; }
+      .mob-cal__day.is-empty { pointer-events:none; }
+      .mob-cal__day.is-past  { color:var(--mist); pointer-events:none; }
+      .mob-cal__day.is-today { font-weight:700; }
+      .mob-cal__day:not(.is-past):not(.is-empty):not(.is-start):not(.is-end):hover { background:var(--cloud); }
+      .mob-cal__day.is-start, .mob-cal__day.is-end { background:var(--ink)!important; color:var(--white)!important; font-weight:600; }
+      .mob-cal__day.is-in-range { background:var(--parchment); border-radius:0; }
+      .mob-cal__day.is-start { border-radius:50% 0 0 50%; }
+      .mob-cal__day.is-end   { border-radius:0 50% 50% 0; }
+      .mob-cal__day.is-start.is-end { border-radius:50%; }
+      .mob-cal__footer { display:grid; grid-template-columns:1fr 1px 1fr; border-top:1px solid var(--border); margin:10px 16px 12px; }
+      .mob-cal__foot-sep { background:var(--border); }
+      .mob-cal__foot-col { padding:10px 16px; }
+      .mob-cal__foot-label { font-size:10px; font-family:var(--ui); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--stone); margin-bottom:2px; }
+      .mob-cal__foot-value { font-size:var(--t-sm); font-weight:500; color:var(--ink); }
+      .mob-cal__foot-value.is-placeholder { color:var(--stone); font-weight:400; }
+
+      /* ── Flexible dates ──────────────────────────────────────── */
+      .mob-flex { padding: 0 20px 12px; }
+      .mob-flex__lbl { font-family:var(--ui); font-size:var(--t-xs); font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--stone); margin-bottom:10px; }
+      .mob-flex__durations { display:flex; gap:8px; margin-bottom:18px; }
+      .mob-flex__dur { flex:1; text-align:center; font-size:var(--t-sm); color:var(--charcoal); border:1px solid var(--border); border-radius:var(--r-pill); padding:8px 4px; cursor:pointer; transition:all var(--dur-fast); background:transparent; }
+      .mob-flex__dur:hover { border-color:var(--ink); color:var(--ink); }
+      .mob-flex__dur.is-selected { border-color:var(--ink); background:var(--ink); color:var(--white); }
+      .mob-flex__months-outer { position:relative; }
+      .mob-flex__months-outer::after { content:''; position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(to right,transparent,rgba(255,255,255,0.95)); pointer-events:none; z-index:1; }
+      .mob-flex__months-wrap { overflow-x:auto; scrollbar-width:none; }
+      .mob-flex__months-wrap::-webkit-scrollbar { display:none; }
+      .mob-flex__months { display:flex; gap:8px; width:max-content; padding-bottom:4px; }
+      .mob-flex__month { flex-shrink:0; width:76px; height:76px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; border:1px solid var(--border); border-radius:var(--r-lg); cursor:pointer; transition:all var(--dur-fast); }
+      .mob-flex__month:hover { border-color:var(--ink); }
+      .mob-flex__month.is-selected { border-color:var(--ink); background:var(--ink); color:var(--white); }
+      .mob-flex__month__name { font-weight:600; font-size:var(--t-sm); color:inherit; line-height:1.3; }
+      .mob-flex__month__year { font-size:11px; color:var(--stone); margin-top:2px; }
+      .mob-flex__month.is-selected .mob-flex__month__year { color:rgba(255,255,255,0.65); }
+
+      /* ── Specific month ──────────────────────────────────────── */
+      .mob-month-nav { display:flex; align-items:center; justify-content:center; gap:24px; padding:0 20px 12px; }
+      .mob-month-nav-btn { font-family:var(--sans); font-size:var(--t-sm); font-weight:500; color:var(--stone); background:none; border:none; cursor:pointer; padding:0; transition:color var(--dur-fast); }
+      .mob-month-nav-btn:hover { color:var(--ink); }
+      .mob-month-nav-btn.is-active { color:var(--ink); font-weight:700; }
+      .mob-months-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:0 20px 16px; }
+      .mob-month-tile { text-align:center; padding:10px 4px; border:1px solid var(--border); border-radius:var(--r-lg); cursor:pointer; transition:all var(--dur-fast); }
+      .mob-month-tile:hover { border-color:var(--ink); }
+      .mob-month-tile.is-selected { border-color:var(--ink); background:var(--ink); color:var(--white); }
+      .mob-month-tile.is-past { opacity:0.45; pointer-events:none; }
+      .mob-month-tile__name { font-weight:600; font-size:13px; color:inherit; line-height:1.3; }
+      .mob-month-tile__year { font-size:11px; color:var(--stone); margin-top:1px; }
+      .mob-month-tile.is-selected .mob-month-tile__year { color:rgba(255,255,255,0.65); }
+
+
+    } /* end @media (max-width: 767px) */
+
   </style>
 </head>
 <body>
@@ -1511,6 +1867,11 @@
   <!-- ── NAVIGATION ──────────────────────────────────────────────── -->
   <header class="site-header" id="hp-nav">
     <div class="site-header__inner">
+      <button class="mob-hamburger" aria-label="Menu">
+        <svg width="22" height="18" viewBox="0 0 22 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="0" y1="2" x2="22" y2="2"/><line x1="0" y1="9" x2="22" y2="9"/><line x1="0" y1="16" x2="22" y2="16"/>
+        </svg>
+      </button>
       <nav class="site-header__nav">
 
         <!-- Retreats + Mega Menu -->
@@ -1608,7 +1969,7 @@
         </button>
         <a href="account-login.html" class="btn btn--ghost" style="gap:6px">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Sign In
+          <span class="mob-signin-label">Sign In</span>
         </a>
       </div>
     </div>
@@ -2055,6 +2416,21 @@
         </div><!-- /#dd-dates -->
 
       </div><!-- /.hp-search -->
+
+      <!-- ── MOBILE SEARCH TRIGGER ────────────────────────────── -->
+      <div class="mob-search-trigger">
+        <div class="mob-search-pill" id="mob-trigger-pill">
+          <div class="mob-search-pill__text">
+            <div class="mob-search-pill__label">I'm interested in...</div>
+            <div class="mob-search-pill__sub">Yoga, meditation, detox...</div>
+          </div>
+          <button class="mob-search-pill__btn" aria-label="Open search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+        </div>
+      </div>
 
       <!-- "Wondering where to start?" -->
       <div class="hp-hero__explore">
@@ -3017,8 +3393,16 @@
           </div>`;
       } else if (activeStep.type === 'cards') {
         const h = activeStep.cardHeight || null;
-        const cardStyle = h ? `style="height:${h}px; width:${h}px"` : '';
-        const gridStyle = activeStep.cardCols ? `style="grid-template-columns:repeat(${activeStep.cardCols},auto); justify-content:start"` : '';
+        const isMob = window.innerWidth <= 767;
+        const cardStyle = (h && !isMob) ? `style="height:${h}px; width:${h}px"` : '';
+        let gridStyle = '';
+        if (activeStep.cardCols) {
+          if (isMob) {
+            gridStyle = `style="grid-template-columns:repeat(2,1fr); width:100%"`;
+          } else {
+            gridStyle = `style="grid-template-columns:repeat(${activeStep.cardCols},auto); justify-content:start"`;
+          }
+        }
         optionsHtml = `
           <div class="gs-cards" ${gridStyle}>
             ${activeStep.options.map((opt, i) => `
@@ -3277,5 +3661,724 @@
   </script>
 
   <script src="mega-menu.js"></script>
+
+  <!-- ══ MOBILE SEARCH — bottom sheet overlay ════════════════════ -->
+  <div class="mob-modal" id="mob-modal">
+    <!-- Backdrop: tap to close -->
+    <div class="mob-modal__backdrop" id="mob-modal-backdrop"></div>
+
+    <!-- ── Bottom sheet — stacked accordion ───────────────────── -->
+    <div class="mob-sheet" id="mob-sheet">
+
+      <!-- Close button (top-right, above cards) -->
+      <div class="mob-sheet__header">
+        <button class="mob-close-btn" id="mob-close-btn" aria-label="Close search">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Fixed-height stacked cards -->
+      <div class="mob-stack">
+
+        <!-- Card 1: I'm interested in... -->
+        <div class="mob-card is-active" id="mob-card-interest">
+          <div class="mob-card__hdr" data-mob-sec="interest">
+            <span class="mob-card__label">I'm interested in...</span>
+            <span class="mob-card__val" id="mob-val-interest"></span>
+          </div>
+          <div class="mob-card__body">
+            <div class="mob-card__top">
+              <div class="mob-srch-wrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--stone);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input class="mob-srch-input" id="mob-input-interest" type="text" placeholder="Start typing...">
+              </div>
+              <div class="mob-subhdr" id="mob-interest-subhdr">
+                <div class="dd-section-title" id="mob-cats-title">Popular categories</div>
+                <button class="dd-not-sure" id="mob-interest-not-sure">I'm not sure yet</button>
+              </div>
+            </div>
+            <div class="mob-card__scroll">
+              <div class="mob-cats" id="mob-cats">
+                <div class="mob-cat" data-value="Yoga &amp; Meditation"><div class="mob-cat__icon">🧘</div><div><div class="mob-cat__name">Yoga &amp; Meditation</div><div class="mob-cat__desc">Meditation, silence, breathwork</div></div></div>
+                <div class="mob-cat" data-value="Fitness &amp; Adventure"><div class="mob-cat__icon">🏃</div><div><div class="mob-cat__name">Fitness &amp; Adventure</div><div class="mob-cat__desc">Hiking, surfing, cycling, running</div></div></div>
+                <div class="mob-cat" data-value="Personal Growth &amp; Coaching"><div class="mob-cat__icon">🌸</div><div><div class="mob-cat__name">Personal Growth &amp; Coaching</div><div class="mob-cat__desc">Life coaching, leadership, mentoring</div></div></div>
+                <div class="mob-cat" data-value="Creative &amp; Cultural"><div class="mob-cat__icon">🎨</div><div><div class="mob-cat__name">Creative &amp; Cultural</div><div class="mob-cat__desc">Writing, art, music, photography, acting</div></div></div>
+                <div class="mob-cat" data-value="Health &amp; Healing"><div class="mob-cat__icon">💛</div><div><div class="mob-cat__name">Health &amp; Healing</div><div class="mob-cat__desc">Detox, ayurveda, nutrition, hormone health</div></div></div>
+                <div class="mob-cat" data-value="Emotional &amp; Mental Support"><div class="mob-cat__icon">🧠</div><div><div class="mob-cat__name">Emotional &amp; Mental Support</div><div class="mob-cat__desc">Anxiety, depression, trauma, grief</div></div></div>
+                <div class="mob-cat" data-value="Nature &amp; Outdoors"><div class="mob-cat__icon">🌿</div><div><div class="mob-cat__name">Nature &amp; Outdoors</div><div class="mob-cat__desc">Rewilding, forest bathing, safari, wildlife</div></div></div>
+              </div>
+              <div class="mob-cats" id="mob-interest-results" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: I want to... -->
+        <div class="mob-card" id="mob-card-want">
+          <div class="mob-card__hdr" data-mob-sec="want">
+            <span class="mob-card__label">I want to...</span>
+            <span class="mob-card__val" id="mob-val-want" data-placeholder="Reset, recover, feel better..."></span>
+          </div>
+          <div class="mob-card__body">
+            <div class="mob-card__top">
+              <div class="mob-subhdr">
+                <div class="dd-section-title">Choose your feeling</div>
+                <button class="dd-not-sure" id="mob-want-not-sure">I'm not sure yet</button>
+              </div>
+              <div class="mob-srch-wrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--stone);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input class="mob-srch-input" id="mob-input-want" type="text" placeholder="Start typing...">
+              </div>
+            </div>
+            <div class="mob-card__scroll">
+              <div class="dd-section-title" style="padding:20px 16px 8px;">Popular terms</div>
+              <div class="mob-want-pills" id="mob-want-pills">
+                <div class="dd-want-pill" data-value="Reset">Reset</div>
+                <div class="dd-want-pill" data-value="Recover">Recover</div>
+                <div class="dd-want-pill" data-value="Feel better">Feel better</div>
+                <div class="dd-want-pill" data-value="Restore energy">Restore energy</div>
+                <div class="dd-want-pill" data-value="Heal">Heal</div>
+                <div class="dd-want-pill" data-value="Cope">Cope</div>
+                <div class="dd-want-pill" data-value="Process">Process</div>
+                <div class="dd-want-pill" data-value="Let go">Let go</div>
+                <div class="dd-want-pill" data-value="Find meaning">Find meaning</div>
+                <div class="dd-want-pill" data-value="Connect">Connect</div>
+                <div class="dd-want-pill" data-value="Slow down">Slow down</div>
+                <div class="dd-want-pill" data-value="Be present">Be present</div>
+                <div class="dd-want-pill" data-value="Transform">Transform</div>
+                <div class="dd-want-pill" data-value="Push yourself">Push yourself</div>
+                <div class="dd-want-pill" data-value="Energise">Energise</div>
+                <div class="dd-want-pill" data-value="Feel alive">Feel alive</div>
+                <div class="dd-want-pill" data-value="Build confidence">Build confidence</div>
+                <div class="dd-want-pill" data-value="Change">Change</div>
+                <div class="dd-want-pill" data-value="Grow">Grow</div>
+                <div class="dd-want-pill" data-value="Move forward">Move forward</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Destination -->
+        <div class="mob-card" id="mob-card-dest">
+          <div class="mob-card__hdr" data-mob-sec="dest">
+            <span class="mob-card__label">Destination</span>
+            <span class="mob-card__val" id="mob-val-dest" data-placeholder="Anywhere"></span>
+          </div>
+          <div class="mob-card__body">
+            <div class="mob-card__top">
+              <!-- Tab bar -->
+              <div class="mob-dest-tabs">
+                <div class="mob-dest-tab-group">
+                  <div class="mob-dest-tab is-active" data-dest-tab="popular">Popular Searches</div>
+                  <div class="mob-dest-tab" data-dest-tab="distance">Distance</div>
+                </div>
+                <button class="mob-dest-notsure" id="mob-dest-not-sure">I'm not sure yet</button>
+              </div>
+            </div>
+            <div class="mob-card__scroll">
+              <!-- Typeahead (shown when typing in distance search) -->
+              <div class="mob-dest-typeahead" id="mob-dest-typeahead">
+                <div class="mob-dest-typeahead-lbl">Suggestions</div>
+                <div id="mob-dest-results"></div>
+              </div>
+
+              <!-- Popular Searches panel: 2-column layout -->
+              <div id="mob-dest-popular-panel">
+                <div class="mob-dest-cols">
+                  <!-- Left: Top Destinations -->
+                  <div>
+                    <div class="mob-dest-col-lbl">Top Destinations</div>
+                    <div class="mob-dest-place" data-value="Bali, Indonesia"><div class="mob-dest-place__icon"><img src="images/flags/Indonesia.png" alt=""></div><div><div class="mob-dest-place__name">Bali, Indonesia</div><div class="mob-dest-place__count">142 retreats</div></div></div>
+                    <div class="mob-dest-place" data-value="Portugal"><div class="mob-dest-place__icon"><img src="images/flags/portugal.png" alt=""></div><div><div class="mob-dest-place__name">Portugal</div><div class="mob-dest-place__count">96 retreats</div></div></div>
+                    <div class="mob-dest-place" data-value="Spain"><div class="mob-dest-place__icon"><img src="images/flags/spain.png" alt=""></div><div><div class="mob-dest-place__name">Spain</div><div class="mob-dest-place__count">190 retreats</div></div></div>
+                    <div class="mob-dest-place" data-value="Greece"><div class="mob-dest-place__icon"><img src="images/flags/greece.png" alt=""></div><div><div class="mob-dest-place__name">Greece</div><div class="mob-dest-place__count">264 retreats</div></div></div>
+                    <div class="mob-dest-place" data-value="France"><div class="mob-dest-place__icon"><img src="images/flags/france.png" alt=""></div><div><div class="mob-dest-place__name">France</div><div class="mob-dest-place__count">173 retreats</div></div></div>
+                    <div class="mob-dest-place" data-value="Vietnam"><div class="mob-dest-place__icon"><img src="images/flags/vietnam.png" alt=""></div><div><div class="mob-dest-place__name">Vietnam</div><div class="mob-dest-place__count">39 retreats</div></div></div>
+                  </div>
+                  <!-- Right: Explore by Region -->
+                  <div>
+                    <div class="mob-dest-col-lbl">Explore by Region</div>
+                    <div class="mob-dest-place" data-value="Europe"><div class="mob-dest-place__icon">🌍</div><div><div class="mob-dest-place__name">Europe</div><div class="mob-dest-place__count">All countries</div></div></div>
+                    <div class="mob-dest-place" data-value="Southeast Asia"><div class="mob-dest-place__icon">🌏</div><div><div class="mob-dest-place__name">Southeast Asia</div><div class="mob-dest-place__count">Thailand, Bali &amp; more</div></div></div>
+                    <div class="mob-dest-place" data-value="Caribbean"><div class="mob-dest-place__icon">🏝️</div><div><div class="mob-dest-place__name">Caribbean</div><div class="mob-dest-place__count">61 retreats</div></div></div>
+                    <div class="mob-dest-place" data-value="Central America"><div class="mob-dest-place__icon">🌎</div><div><div class="mob-dest-place__name">Central America</div><div class="mob-dest-place__count">Costa Rica, Mexico...</div></div></div>
+                    <div class="mob-dest-place" data-value="Middle East"><div class="mob-dest-place__icon">🕌</div><div><div class="mob-dest-place__name">Middle East</div><div class="mob-dest-place__count">UAE, Jordan &amp; more</div></div></div>
+                    <div class="mob-dest-place" data-value="Anywhere"><div class="mob-dest-place__icon">✈️</div><div><div class="mob-dest-place__name">Surprise me</div><div class="mob-dest-place__count">I'm open to anywhere</div></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Distance panel -->
+              <div id="mob-dest-distance-panel" style="display:none">
+                <div class="mob-dest-distance">
+                  <div class="mob-dest-dist-lbl">Your Location</div>
+                  <div class="mob-dest-loc-wrap">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--stone);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input class="mob-srch-input" id="mob-input-location" type="text" placeholder="Start typing your country...">
+                  </div>
+                  <div class="mob-dest-dist-lbl">How far would you like to travel?</div>
+                  <div class="mob-dest-dist-grid">
+                    <div class="mob-dist-tile" data-value="Local"><div class="mob-dist-tile__icon">🏡</div><div class="mob-dist-tile__name">Local</div><div class="mob-dist-tile__sub">Within 2 hrs</div></div>
+                    <div class="mob-dist-tile" data-value="Short-haul"><div class="mob-dist-tile__icon">🚂</div><div class="mob-dist-tile__name">Short-haul</div><div class="mob-dist-tile__sub">Up to 4 hrs</div></div>
+                    <div class="mob-dist-tile" data-value="Medium-haul"><div class="mob-dist-tile__icon">✈️</div><div class="mob-dist-tile__name">Medium-haul</div><div class="mob-dist-tile__sub">4–8 hrs</div></div>
+                    <div class="mob-dist-tile" data-value="Long-haul"><div class="mob-dist-tile__icon">🌍</div><div class="mob-dist-tile__name">Long-haul</div><div class="mob-dist-tile__sub">8+ hrs</div></div>
+                    <div class="mob-dist-tile" data-value="Anywhere"><div class="mob-dist-tile__icon">🌐</div><div class="mob-dist-tile__name">Anywhere</div><div class="mob-dist-tile__sub">Open to all</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: When -->
+        <div class="mob-card" id="mob-card-dates">
+          <div class="mob-card__hdr" data-mob-sec="dates">
+            <span class="mob-card__label">When</span>
+            <span class="mob-card__val" id="mob-val-dates" data-placeholder="Anytime"></span>
+          </div>
+          <div class="mob-card__body">
+            <div class="mob-card__top">
+              <div class="mob-date-modes">
+                <div class="mob-date-mode is-active" data-mob-mode="range">Date range</div>
+                <div class="mob-date-mode" data-mob-mode="flexible">Flexible dates</div>
+                <div class="mob-date-mode" data-mob-mode="month">Specific month</div>
+              </div>
+            </div>
+            <div class="mob-card__scroll">
+              <div id="mob-cal-panel">
+                <div class="mob-cal" id="mob-cal"></div>
+                <div class="mob-cal__footer">
+                  <div class="mob-cal__foot-col"><div class="mob-cal__foot-label">Check in</div><div class="mob-cal__foot-value is-placeholder" id="mob-cal-checkin">Add date</div></div>
+                  <div class="mob-cal__foot-sep"></div>
+                  <div class="mob-cal__foot-col"><div class="mob-cal__foot-label">Check out</div><div class="mob-cal__foot-value is-placeholder" id="mob-cal-checkout">Add date</div></div>
+                </div>
+              </div>
+              <div id="mob-flex-panel" style="display:none">
+                <div class="mob-flex">
+                  <div class="mob-flex__lbl">How long would you like to stay?</div>
+                  <div class="mob-flex__durations">
+                    <div class="mob-flex__dur" data-mob-dur="weekend">Weekend</div>
+                    <div class="mob-flex__dur" data-mob-dur="week">Week</div>
+                    <div class="mob-flex__dur" data-mob-dur="month">Month</div>
+                  </div>
+                  <div class="mob-flex__lbl">When do you want to go?</div>
+                  <div class="mob-flex__months-outer"><div class="mob-flex__months-wrap"><div class="mob-flex__months" id="mob-flex-months">
+                    <div class="mob-flex__month" data-value="May 2026"><div class="mob-flex__month__name">May</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="June 2026"><div class="mob-flex__month__name">June</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="July 2026"><div class="mob-flex__month__name">July</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="August 2026"><div class="mob-flex__month__name">Aug</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="September 2026"><div class="mob-flex__month__name">Sept</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="October 2026"><div class="mob-flex__month__name">Oct</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="November 2026"><div class="mob-flex__month__name">Nov</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="December 2026"><div class="mob-flex__month__name">Dec</div><div class="mob-flex__month__year">2026</div></div>
+                    <div class="mob-flex__month" data-value="January 2027"><div class="mob-flex__month__name">Jan</div><div class="mob-flex__month__year">2027</div></div>
+                    <div class="mob-flex__month" data-value="February 2027"><div class="mob-flex__month__name">Feb</div><div class="mob-flex__month__year">2027</div></div>
+                    <div class="mob-flex__month" data-value="March 2027"><div class="mob-flex__month__name">March</div><div class="mob-flex__month__year">2027</div></div>
+                    <div class="mob-flex__month" data-value="April 2027"><div class="mob-flex__month__name">April</div><div class="mob-flex__month__year">2027</div></div>
+                  </div></div></div>
+                </div>
+              </div>
+              <div id="mob-month-panel" style="display:none">
+                <div class="mob-month-nav" id="mob-month-nav">
+                  <button class="mob-month-nav-btn is-active" data-year="2026">2026</button>
+                  <button class="mob-month-nav-btn" data-year="2027">2027</button>
+                  <button class="mob-month-nav-btn" data-year="2028">2028</button>
+                </div>
+                <div class="mob-months-grid" id="mob-months-grid"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.mob-stack -->
+
+      <!-- Transparent footer — floats over backdrop -->
+      <div class="mob-sheet__footer">
+        <button class="mob-modal__clear" id="mob-clear-all">Clear all</button>
+        <button class="mob-modal__search-btn" id="mob-search-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+      </div>
+
+    </div><!-- /.mob-sheet -->
+
+
+  </div><!-- /.mob-modal -->
+
+
+  <script>
+  /* ══ MOBILE SEARCH — bottom sheet ══════════════════════════════ */
+  (function() {
+    const modal    = document.getElementById('mob-modal');
+    const backdrop = document.getElementById('mob-modal-backdrop');
+    const trigger  = document.getElementById('mob-trigger-pill');
+
+    // Mobile state
+    const mState = {
+      activeSection: null,
+      interest: '',
+      want: new Set(),
+      dest: '',
+      dates: {
+        mode: 'range',
+        range: { start: null, end: null },
+        flex:  { dur: null, months: new Set() },
+        month: null
+      },
+      calYear: 2026, calMonth: 3, // April (prototype's current date)
+      hoverDate: null,
+      mobMonthYear: 2026
+    };
+
+    /* ── Open / close ─────────────────────────────────────────── */
+    function mobOpen(section) {
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      const explore = document.querySelector('.hp-hero__explore');
+      if (explore) explore.style.display = 'none';
+      const pill = document.querySelector('.mob-search-trigger');
+      if (pill) pill.style.display = 'none';
+      mobShowSection(section || 'interest');
+    }
+
+    function mobClose() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      const explore = document.querySelector('.hp-hero__explore');
+      if (explore) explore.style.display = '';
+      const pill = document.querySelector('.mob-search-trigger');
+      if (pill) pill.style.display = '';
+      mState.activeSection = null;
+    }
+
+    function mobShowSection(id) {
+      document.querySelectorAll('.mob-card').forEach(c => c.classList.remove('is-active'));
+      const card = document.getElementById('mob-card-' + id);
+      if (card) card.classList.add('is-active');
+      mState.activeSection = id;
+      if (id === 'dates') mobRenderCal();
+    }
+
+    /* ── Card header clicks ───────────────────────────────────── */
+    document.querySelectorAll('.mob-card__hdr[data-mob-sec]').forEach(hdr => {
+      hdr.addEventListener('click', () => {
+        const id = hdr.dataset.mobSec;
+        if (!modal.classList.contains('is-open')) {
+          mobOpen(id);
+        } else {
+          mobShowSection(id);
+        }
+      });
+    });
+
+    /* ── Close button ─────────────────────────────────────────── */
+    document.getElementById('mob-close-btn').addEventListener('click', mobClose);
+
+    trigger.addEventListener('click', () => mobOpen('interest'));
+    backdrop.addEventListener('click', mobClose);
+
+    /* ── Value display helpers ────────────────────────────────── */
+    function showInterest() {
+      document.getElementById('mob-val-interest').textContent = mState.interest || '';
+    }
+    function showWant() {
+      const el  = document.getElementById('mob-val-want');
+      const arr = [...mState.want].filter(v => v !== '__not_sure__');
+      if (mState.want.has('__not_sure__')) {
+        el.textContent = "I'm not sure yet";
+      } else if (arr.length === 0) {
+        el.textContent = '';
+      } else {
+        el.textContent = arr.slice(0, 2).join(', ') + (arr.length > 2 ? ' +' + (arr.length - 2) : '');
+      }
+    }
+    function showDest() {
+      document.getElementById('mob-val-dest').textContent = mState.dest || '';
+    }
+    function showDates() {
+      const el = document.getElementById('mob-val-dates');
+      const d  = mState.dates;
+      const fmt = dt => dt ? dt.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : null;
+      if (d.mode === 'range') {
+        if (d.range.start && d.range.end) {
+          el.textContent = fmt(d.range.start) + ' – ' + fmt(d.range.end);
+        } else if (d.range.start) {
+          el.textContent = fmt(d.range.start) + ' –';
+        } else {
+          el.textContent = '';
+        }
+      } else if (d.mode === 'flexible') {
+        const durEl = document.querySelector('.mob-flex__dur.is-selected');
+        const dur   = durEl ? durEl.dataset.mobDur : null;
+        const months = [...d.flex.months];
+        const parts  = [dur ? dur.charAt(0).toUpperCase() + dur.slice(1) : '', months.map(v => v.split(' ')[0]).join(', ')].filter(Boolean);
+        el.textContent = parts.length ? parts.join(' · ') : '';
+      } else {
+        el.textContent = d.month || '';
+      }
+    }
+
+    /* ── Interest ─────────────────────────────────────────────── */
+    document.querySelectorAll('.mob-cat').forEach(cat => {
+      cat.addEventListener('click', () => {
+        document.querySelectorAll('.mob-cat').forEach(c => c.classList.remove('is-selected'));
+        cat.classList.add('is-selected');
+        document.getElementById('mob-interest-not-sure').classList.remove('is-selected');
+        mState.interest = cat.dataset.value;
+        document.getElementById('mob-input-interest').value = cat.dataset.value;
+        showInterest();
+        setTimeout(() => mobShowSection('want'), 280);
+      });
+    });
+
+    document.getElementById('mob-interest-not-sure').addEventListener('click', () => {
+      const btn = document.getElementById('mob-interest-not-sure');
+      document.querySelectorAll('.mob-cat').forEach(c => c.classList.remove('is-selected'));
+      const already = btn.classList.contains('is-selected');
+      if (!already) {
+        btn.classList.add('is-selected');
+        mState.interest = "I'm not sure yet";
+      } else {
+        btn.classList.remove('is-selected');
+        mState.interest = '';
+      }
+      document.getElementById('mob-input-interest').value = mState.interest;
+      showInterest();
+      if (!already) setTimeout(() => mobShowSection('want'), 280);
+    });
+
+    document.getElementById('mob-input-interest').addEventListener('input', function() {
+      const q        = this.value;
+      const catsList = document.getElementById('mob-cats');
+      const results  = document.getElementById('mob-interest-results');
+      const subhdr   = document.getElementById('mob-interest-subhdr');
+      if (q.length === 0) {
+        catsList.style.display = '';
+        subhdr.style.display   = '';
+        results.style.display  = 'none';
+        results.innerHTML      = '';
+        mState.interest = '';
+        showInterest();
+        return;
+      }
+      catsList.style.display = 'none';
+      subhdr.style.display   = 'none';
+      results.style.display  = '';
+      const hits = searchRetreats(q);
+      results.innerHTML = hits.length === 0
+        ? '<div class="dd-no-results">No results found</div>'
+        : hits.map(r => `
+          <div class="mob-cat" data-value="${r.name}">
+            <div class="mob-cat__icon">${r.emoji}</div>
+            <div><div class="mob-cat__name">${r.name}</div><div class="mob-cat__desc">${r.type}</div></div>
+          </div>`).join('');
+      results.querySelectorAll('.mob-cat').forEach(el => {
+        el.addEventListener('click', () => {
+          mState.interest = el.dataset.value;
+          document.getElementById('mob-input-interest').value = el.dataset.value;
+          showInterest();
+          catsList.style.display = '';
+          subhdr.style.display   = '';
+          results.style.display  = 'none';
+          results.innerHTML      = '';
+          setTimeout(() => mobShowSection('want'), 280);
+        });
+      });
+    });
+
+    /* ── Want ─────────────────────────────────────────────────── */
+    document.querySelectorAll('#mob-want-pills .dd-want-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const v = pill.dataset.value;
+        document.getElementById('mob-want-not-sure').classList.remove('is-selected');
+        mState.want.delete('__not_sure__');
+        if (mState.want.has(v)) { mState.want.delete(v); pill.classList.remove('is-selected'); }
+        else                    { mState.want.add(v);    pill.classList.add('is-selected');    }
+        showWant();
+      });
+    });
+
+    document.getElementById('mob-want-not-sure').addEventListener('click', () => {
+      const btn    = document.getElementById('mob-want-not-sure');
+      const already = btn.classList.contains('is-selected');
+      mState.want.clear();
+      document.querySelectorAll('#mob-want-pills .dd-want-pill').forEach(p => p.classList.remove('is-selected'));
+      if (!already) {
+        btn.classList.add('is-selected');
+        mState.want.add('__not_sure__');
+        showWant();
+        setTimeout(() => mobShowSection('dest'), 280);
+      } else {
+        btn.classList.remove('is-selected');
+        showWant();
+      }
+    });
+
+    document.getElementById('mob-input-want').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('#mob-want-pills .dd-want-pill').forEach(p => {
+        p.style.display = (!q || p.dataset.value.toLowerCase().includes(q)) ? '' : 'none';
+      });
+    });
+
+    /* ── Destination tabs ─────────────────────────────────────── */
+    function mobDestShowTab(tab) {
+      document.querySelectorAll('.mob-dest-tab').forEach(t => t.classList.toggle('is-active', t.dataset.destTab === tab));
+      document.getElementById('mob-dest-popular-panel').style.display  = tab === 'popular'  ? '' : 'none';
+      document.getElementById('mob-dest-distance-panel').style.display = tab === 'distance' ? '' : 'none';
+    }
+    document.querySelectorAll('.mob-dest-tab').forEach(tab => {
+      tab.addEventListener('click', () => mobDestShowTab(tab.dataset.destTab));
+    });
+
+    /* ── Destination popular places ───────────────────────────── */
+    document.querySelectorAll('#mob-dest-popular-panel .mob-dest-place').forEach(place => {
+      place.addEventListener('click', () => {
+        mState.dest = place.dataset.value;
+        showDest();
+        setTimeout(() => mobShowSection('dates'), 280);
+      });
+    });
+
+    document.getElementById('mob-dest-not-sure').addEventListener('click', () => {
+      mState.dest = '';
+      showDest();
+      setTimeout(() => mobShowSection('dates'), 280);
+    });
+
+    /* ── Distance tiles ───────────────────────────────────────── */
+    document.querySelectorAll('.mob-dist-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const already = tile.classList.contains('is-selected');
+        document.querySelectorAll('.mob-dist-tile').forEach(t => t.classList.remove('is-selected'));
+        if (!already) {
+          tile.classList.add('is-selected');
+          mState.dest = tile.dataset.value;
+        } else {
+          mState.dest = '';
+        }
+        showDest();
+        if (!already) setTimeout(() => mobShowSection('dates'), 280);
+      });
+    });
+
+    /* ── Date mode tabs ───────────────────────────────────────── */
+    document.querySelectorAll('.mob-date-mode').forEach(mode => {
+      mode.addEventListener('click', () => {
+        document.querySelectorAll('.mob-date-mode').forEach(m => m.classList.remove('is-active'));
+        mode.classList.add('is-active');
+        const m = mode.dataset.mobMode;
+        mState.dates.mode = m;
+        document.getElementById('mob-cal-panel').style.display   = m === 'range'    ? '' : 'none';
+        document.getElementById('mob-flex-panel').style.display  = m === 'flexible' ? '' : 'none';
+        document.getElementById('mob-month-panel').style.display = m === 'month'    ? '' : 'none';
+        if (m === 'range')  mobRenderCal();
+        if (m === 'month')  mobRenderMonthGrid();
+      });
+    });
+
+    /* ── Calendar ─────────────────────────────────────────────── */
+    const MOB_WD = ['M','T','W','T','F','S','S'];
+    const MOB_MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function mobRenderCal() {
+      const { calYear: yr, calMonth: mo } = mState;
+      const today    = new Date(2026, 3, 9);
+      const firstDow = ((new Date(yr, mo, 1).getDay() + 6) % 7);
+      const daysInM  = new Date(yr, mo + 1, 0).getDate();
+      const curIdx   = yr * 12 + mo;
+      const todIdx   = 2026 * 12 + 3;
+      const canPrev  = curIdx > todIdx;
+
+      let h = '<div class="mob-cal__nav">';
+      h += canPrev ? '<button class="mob-cal__nav-btn" id="mob-cal-prev">&#8249;</button>'
+                   : '<button class="mob-cal__nav-btn is-hidden"></button>';
+      h += `<div class="mob-cal__nav-title">${MOB_MN[mo]} ${yr}</div>`;
+      h += '<button class="mob-cal__nav-btn" id="mob-cal-next">&#8250;</button></div>';
+      h += '<div class="mob-cal__weekdays">' + MOB_WD.map(d => `<div>${d}</div>`).join('') + '</div>';
+      h += '<div class="mob-cal__days">';
+      for (let i = 0; i < firstDow; i++) h += '<div class="mob-cal__day is-empty"></div>';
+      const rs = mState.dates.range.start, re = mState.dates.range.end || mState.hoverDate;
+      for (let d = 1; d <= daysInM; d++) {
+        const date    = new Date(yr, mo, d);
+        const dateStr = `${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        let cls = 'mob-cal__day';
+        if (date < today && date.toDateString() !== today.toDateString()) cls += ' is-past';
+        if (date.toDateString() === today.toDateString()) cls += ' is-today';
+        if (rs && date.toDateString() === rs.toDateString()) cls += ' is-start';
+        if (re && date.toDateString() === re.toDateString()) cls += ' is-end';
+        if (rs && re && date > rs && date < re) cls += ' is-in-range';
+        h += `<div class="${cls}" data-date="${dateStr}">${d}</div>`;
+      }
+      h += '</div>';
+
+      const calEl = document.getElementById('mob-cal');
+      calEl.innerHTML = h;
+
+      const prevBtn = calEl.querySelector('#mob-cal-prev');
+      const nextBtn = calEl.querySelector('#mob-cal-next');
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+        mState.calMonth--;
+        if (mState.calMonth < 0) { mState.calMonth = 11; mState.calYear--; }
+        mobRenderCal();
+      });
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+        mState.calMonth++;
+        if (mState.calMonth > 11) { mState.calMonth = 0; mState.calYear++; }
+        mobRenderCal();
+      });
+
+      calEl.querySelectorAll('.mob-cal__day:not(.is-empty):not(.is-past)').forEach(day => {
+        day.addEventListener('click', () => {
+          const date = new Date(day.dataset.date);
+          if (!mState.dates.range.start || (mState.dates.range.start && mState.dates.range.end)) {
+            mState.dates.range.start = date; mState.dates.range.end = null;
+          } else {
+            if (date >= mState.dates.range.start) mState.dates.range.end = date;
+            else { mState.dates.range.start = date; mState.dates.range.end = null; }
+          }
+          mState.hoverDate = null;
+          mobUpdateCalFooter();
+          mobRenderCal();
+        });
+        day.addEventListener('mouseenter', () => {
+          if (!mState.dates.range.start || mState.dates.range.end) return;
+          const nd = new Date(day.dataset.date);
+          if (!mState.hoverDate || mState.hoverDate.getTime() !== nd.getTime()) {
+            mState.hoverDate = nd; mobRenderCal();
+          }
+        });
+      });
+      calEl.addEventListener('mouseleave', () => {
+        if (!mState.dates.range.start || mState.dates.range.end) return;
+        mState.hoverDate = null; mobRenderCal();
+      });
+    }
+
+    function mobUpdateCalFooter() {
+      const fmt = d => d ? d.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : null;
+      const ci = document.getElementById('mob-cal-checkin');
+      const co = document.getElementById('mob-cal-checkout');
+      ci.textContent = fmt(mState.dates.range.start) || 'Add date';
+      co.textContent = fmt(mState.dates.range.end)   || 'Add date';
+      ci.classList.toggle('is-placeholder', !mState.dates.range.start);
+      co.classList.toggle('is-placeholder', !mState.dates.range.end);
+      showDates();
+    }
+
+    /* ── Flexible dates ───────────────────────────────────────── */
+    document.querySelectorAll('.mob-flex__dur').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const already = btn.classList.contains('is-selected');
+        document.querySelectorAll('.mob-flex__dur').forEach(b => b.classList.remove('is-selected'));
+        mState.dates.flex.dur = already ? null : btn.dataset.mobDur;
+        if (!already) btn.classList.add('is-selected');
+        showDates();
+      });
+    });
+
+    document.querySelectorAll('.mob-flex__month').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const v = tile.dataset.value;
+        if (mState.dates.flex.months.has(v)) { mState.dates.flex.months.delete(v); tile.classList.remove('is-selected'); }
+        else                                  { mState.dates.flex.months.add(v);    tile.classList.add('is-selected');    }
+        showDates();
+      });
+    });
+
+    /* ── Specific month ───────────────────────────────────────── */
+    const MOB_MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function mobRenderMonthGrid() {
+      const grid = document.getElementById('mob-months-grid');
+      if (!grid) return;
+      grid.innerHTML = MOB_MONTH_NAMES.map((m, i) => {
+        const val   = `${m} ${mState.mobMonthYear}`;
+        const isPast = mState.mobMonthYear === 2026 && i < 4;
+        const isSel  = mState.dates.month === val;
+        const cls    = ['mob-month-tile', isPast ? 'is-past' : '', isSel ? 'is-selected' : ''].filter(Boolean).join(' ');
+        return `<div class="${cls}"${isPast ? '' : ` data-value="${val}"`}>
+          <div class="mob-month-tile__name">${m}</div>
+          <div class="mob-month-tile__year">${mState.mobMonthYear}</div>
+        </div>`;
+      }).join('');
+      grid.querySelectorAll('.mob-month-tile:not(.is-past)').forEach(tile => {
+        tile.addEventListener('click', () => {
+          mState.dates.month = tile.dataset.value;
+          showDates();
+          mobRenderMonthGrid();
+        });
+      });
+    }
+
+    document.getElementById('mob-month-nav').addEventListener('click', (e) => {
+      const btn = e.target.closest('.mob-month-nav-btn');
+      if (!btn) return;
+      mState.mobMonthYear = parseInt(btn.dataset.year);
+      document.querySelectorAll('.mob-month-nav-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+      mobRenderMonthGrid();
+    });
+
+    /* ── Clear all ────────────────────────────────────────────── */
+    document.getElementById('mob-clear-all').addEventListener('click', () => {
+      // Interest
+      mState.interest = '';
+      document.getElementById('mob-input-interest').value = '';
+      document.querySelectorAll('.mob-cat').forEach(c => c.classList.remove('is-selected'));
+      document.getElementById('mob-interest-not-sure').classList.remove('is-selected');
+      document.getElementById('mob-cats').style.display        = '';
+      document.getElementById('mob-interest-subhdr').style.display = '';
+      document.getElementById('mob-interest-results').style.display = 'none';
+      document.getElementById('mob-interest-results').innerHTML = '';
+      showInterest();
+      // Want
+      mState.want.clear();
+      document.querySelectorAll('#mob-want-pills .dd-want-pill').forEach(p => p.classList.remove('is-selected'));
+      document.querySelectorAll('#mob-want-pills .dd-want-pill').forEach(p => p.style.display = '');
+      document.getElementById('mob-want-not-sure').classList.remove('is-selected');
+      document.getElementById('mob-input-want').value = '';
+      showWant();
+      // Destination
+      mState.dest = '';
+      document.getElementById('mob-input-dest').value = '';
+      document.getElementById('mob-dest-popular').style.display = '';
+      document.getElementById('mob-dest-typeahead').classList.remove('is-visible');
+      showDest();
+      // Dates
+      mState.dates = { mode: 'range', range: { start: null, end: null }, flex: { dur: null, months: new Set() }, month: null };
+      mState.hoverDate = null;
+      document.querySelectorAll('.mob-flex__dur').forEach(b => b.classList.remove('is-selected'));
+      document.querySelectorAll('.mob-flex__month').forEach(t => t.classList.remove('is-selected'));
+      document.querySelectorAll('.mob-date-mode').forEach(m => m.classList.remove('is-active'));
+      document.querySelector('[data-mob-mode="range"]').classList.add('is-active');
+      document.getElementById('mob-cal-panel').style.display   = '';
+      document.getElementById('mob-flex-panel').style.display  = 'none';
+      document.getElementById('mob-month-panel').style.display = 'none';
+      const ci = document.getElementById('mob-cal-checkin');
+      const co = document.getElementById('mob-cal-checkout');
+      ci.textContent = 'Add date'; ci.classList.add('is-placeholder');
+      co.textContent = 'Add date'; co.classList.add('is-placeholder');
+      showDates();
+      mobRenderCal();
+      mobShowSection('interest');
+    });
+
+    /* ── Search submit ────────────────────────────────────────── */
+    document.getElementById('mob-search-submit').addEventListener('click', () => {
+      window.location.href = 'search-results.html';
+    });
+
+    /* ── Init ─────────────────────────────────────────────────── */
+    mobRenderCal();
+    mobRenderMonthGrid();
+    showWant();
+    showDest();
+    showDates();
+
+  })();
+  </script>
+
 </body>
 </html>
